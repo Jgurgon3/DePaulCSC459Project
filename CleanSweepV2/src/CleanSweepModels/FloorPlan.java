@@ -3,9 +3,7 @@ package CleanSweepModels;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import CleanSweepModels.Floor.FloorTypes;
-
+import CleanSweepModels.FloorTypes;
 
 public class FloorPlan {
 	
@@ -15,7 +13,7 @@ public class FloorPlan {
 	private ChargingStation _chargingStation = new ChargingStation(0,0);
 	private Robot _robot = new Robot(0,0,this);
 	
-	private Map<Point,Object> _data = new HashMap<Point,Object>();
+	private Map<Point, Floor> _data = new HashMap<Point, Floor>();
 	
 	
 	
@@ -31,12 +29,14 @@ public class FloorPlan {
 		{
 			for(int j=0;j<yDim;j++)
 			{
-				this._data.put(new Point(i,j),new Floor(true,FloorTypes.BARE));
+				//TODO: Add N/S/E/W cell openings to reflect what sensor sees in XML file
+	
+                		this._data.put(new Point(i,j), FloorFactory.newFloor(new Point(i,j), FloorTypes.BARE, 0, true, true, true, 						true));
 			}
 		}
 	}
 	
-	public Map<Point,Object> getFloorPlanData()
+	public Map<Point, Floor> getFloorPlanData()
 	{
 		return this._data;
 	}
@@ -66,7 +66,7 @@ public class FloorPlan {
 		Point robotCoor = this.getRobot().getCoordinates();
 		int xRightMax = this.xFloorPlanDim() - robotCoor.getX(); // this should always be > 0
 		int xLeftMax = robotCoor.getX() - 0;
-		int yUpMax = this.yFloorPlanDim() - robotCoor.getY(); // this should always be > 0
+		int yUpMax = this.yFloorPlanDim() - (int)robotCoor.getY(); // this should always be > 0
 		int yDownMax = robotCoor.getY() - 0;
 
 		boolean canMoveFlag = false;
