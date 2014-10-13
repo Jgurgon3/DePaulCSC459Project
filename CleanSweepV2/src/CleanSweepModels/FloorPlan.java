@@ -6,36 +6,44 @@ import java.util.Map;
 import CleanSweepModels.FloorTypes;
 
 public class FloorPlan {
-	
+
 
 	private int _xFloorPlanDim;
 	private int _yFloorPlanDim;
 	private ChargingStation _chargingStation = new ChargingStation(0,0);
 	private Robot _robot = new Robot(0,0,this);
-	
+
+
 	private Map<Point, Floor> _data = new HashMap<Point, Floor>();
-	
-	
-	
+
+
+
 	//public access methods
 	public int xFloorPlanDim() {return this._xFloorPlanDim;}
 	public int yFloorPlanDim() {return this._yFloorPlanDim;}
-	
-	public FloorPlan (int xDim, int yDim)
+
+	public FloorPlan (int xDim, int yDim, FloorTypes ft, int dirt, boolean north, boolean south, boolean east, boolean west)
 	{
+
 		this._xFloorPlanDim = xDim;
 		this._yFloorPlanDim = yDim;
-		for(int i = 0; i < xDim;i++)
-		{
-			for(int j=0;j<yDim;j++)
-			{
-				//TODO: Add N/S/E/W cell openings to reflect what sensor sees in XML file
-	
-                		this._data.put(new Point(i,j), FloorFactory.newFloor(new Point(i,j), FloorTypes.BARE, 0, true, true, true, 						true));
-			}
-		}
+
+		//TODO: Add N/S/E/W cell openings to reflect what sensor sees in XML file
+
+		this._data.put(	new Point(xDim, yDim), 
+				FloorFactory.newFloor(new Point(xDim, yDim), 
+						ft.BARE, 
+						dirt, 
+						north, 
+						south, 
+						east, 
+						west));
+
+
+		//System.out.println("x = " + " " + xDim + " y = " + " " + + yDim + " north = " + " " + north + " south = " + " " + south + " east = " + " " + east + " west = " + " " + west);
+
 	}
-	
+
 	public Map<Point, Floor> getFloorPlanData()
 	{
 		return this._data;
@@ -70,21 +78,21 @@ public class FloorPlan {
 		int yDownMax = robotCoor.getY() - 0;
 
 		boolean canMoveFlag = false;
-		
+
 		if(xCoor < 0)
 			canMoveFlag = Math.abs(xCoor) <= xLeftMax; 
 		else
 			canMoveFlag = xCoor <= xRightMax;
-		
+
 		if(canMoveFlag == false)
 			return canMoveFlag;
-		
+
 		if(yCoor < 0 )
 			canMoveFlag = Math.abs(yCoor) <= yDownMax;
 		else
 			canMoveFlag = yCoor <= yUpMax;
-		
+
 		return canMoveFlag;
 	}
-	
+
 }

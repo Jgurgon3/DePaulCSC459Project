@@ -8,7 +8,7 @@ public class ParserFloorPlan {
 		SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 	    SAXParser parser = parserFactor.newSAXParser();
 	    SAXHandler handler = new SAXHandler();
- 	   parser.parse(ClassLoader.getSystemResourceAsStream("xml/FloorPlan.xml"),handler);
+ 	   parser.parse(ClassLoader.getSystemResourceAsStream("edu/du/agile/xml3x3.xml"),handler);
 	    
 	    //Printing the list of employees obtained from XML
 	    for ( FloorCell fc : handler.floorCellList){
