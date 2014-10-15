@@ -38,6 +38,8 @@ public class FloorPlan {
 						south, 
 						east, 
 						west));
+		
+		
 
 
 		//System.out.println("x = " + " " + xDim + " y = " + " " + + yDim + " north = " + " " + north + " south = " + " " + south + " east = " + " " + east + " west = " + " " + west);
@@ -60,6 +62,7 @@ public class FloorPlan {
 	{
 		return this._robot;
 	}
+	
 	public FloorPlan MoveRobot(int xCoor,int yCoor)
 	{
 		if(canMove(xCoor,yCoor))

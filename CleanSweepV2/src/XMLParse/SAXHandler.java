@@ -1,14 +1,18 @@
 package XMLParse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import CleanSweepModels.Floor;
+import CleanSweepModels.FloorFactory;
 import CleanSweepModels.FloorPlan;
 import CleanSweepModels.FloorTypes;
+import CleanSweepModels.Point;
 import Dijkstra.WeightedGraph;
 public class SAXHandler extends DefaultHandler {
 
@@ -16,7 +20,7 @@ public class SAXHandler extends DefaultHandler {
 	FloorCell floorCell = null;
 	String content = null;
 	FloorPlan fp = null;
-	WeightedGraph t;
+	Floor f = null;
 	@Override
 	//Triggered when the start of tag is found.
 	public void startElement(String uri, String localName, 
@@ -42,10 +46,14 @@ public class SAXHandler extends DefaultHandler {
 					(floorCell.getPathSensor().charAt(1) == '1'), 
 					(floorCell.getPathSensor().charAt(2) == '1'), 
 					(floorCell.getPathSensor().charAt(3) == '1'));
+			
+			
 			break;
 		}
 	}
 
+	
+	
 	@Override
 	public void endElement(String uri, String localName, 
 			String qName) throws SAXException {
