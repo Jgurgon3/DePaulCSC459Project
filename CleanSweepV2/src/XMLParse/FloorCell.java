@@ -1,10 +1,11 @@
 package XMLParse;
 
+import CleanSweepModels.Point;
 import CleanSweepModels.Types.*;
 
 public class FloorCell{
-	 private int xSensor;
-	 private int ySensor;
+	 private int xCoor;
+	 private int yCoor;
 	 private int surfaceSensor;
 	 private String pathSensor;
 	 private int dirtSensor;
@@ -13,26 +14,25 @@ public class FloorCell{
 	 private FloorObstructions _southObstructions;
 	 private FloorObstructions _eastObstructions;
 	 private FloorObstructions _westObstructions;
-	 private Boolean clean;
+	 private boolean cleaned;
 	 
-	    public Boolean getClean() {
-		return clean;
-	}
-	public void setClean(Boolean clean) {
-		this.clean = clean;
-	}
-		public int getXSensor() {
-	        return xSensor;
+	    public Boolean alreadyCleaned() {
+		return cleaned;
 	    }
-	    public void setXSensor( int _xSensor) {
-	        this.xSensor=_xSensor;
+		public void setCleaned(Boolean cleaned) {
+			this.cleaned = cleaned;
+		}
+	    public void setXCoordinates( int _xCoor) {
+	        this.xCoor=_xCoor;
 	    }
 
-	    public int getYSensor() {
-	        return ySensor;
+	    public void setYCoordinates( int _yCoor) {
+	        this.yCoor=_yCoor;
 	    }
-	    public void setYSensor( int _ySensor) {
-	        this.ySensor=_ySensor;
+	    
+	    public Point getCoordinates()
+	    {
+	    	return new Point(this.xCoor,this.yCoor);
 	    }
 	    
 	    public int getSurfaceSensor() {
@@ -100,7 +100,7 @@ public class FloorCell{
 	    
 	  @Override
 	  public String toString() {
-	    return "x:"+ xSensor+"   "+"y:"+ySensor +"   "+"surface:"+surfaceSensor +"   "+"path:"+pathSensor+"   "+"dirt:"+dirtSensor+"   "+"chargingStation:"+chargingStation;
+	    return "x:"+ xCoor+"   "+"y:"+yCoor +"   "+"surface:"+surfaceSensor +"   "+"path:"+pathSensor+"   "+"dirt:"+dirtSensor+"   "+"chargingStation:"+chargingStation;
 	  }	
 	 
 		 

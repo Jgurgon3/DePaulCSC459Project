@@ -50,18 +50,18 @@ public class PowerService {
 					this.power= this.power- movePower-cleanPower;
 					if(printLog)
 						{
-						  String logString = "Cell(" +floorCell.getXSensor() + "," + floorCell.getYSensor() + ")FloorType:" + floorCell.getSurfaceSensor() + " Power after clean:" + power;
+						  String logString = "Cell(" +floorCell.getCoordinates().getX() + "," + floorCell.getCoordinates().getY() + ")FloorType:" + floorCell.getSurfaceSensor() + " Power after clean:" + power;
 						  logString =logString + "(To Clean :" + cleanPower.toString()  + ",To move:" + movePower.toString() + ") ";
 						  System.out.println(logString);
 						}
-					floorCell.setClean(true);
+					floorCell.setCleaned(true);
 			   }
 			else
 			{
-				powerAvailable=false; //not enogh power need not process more
+				powerAvailable=false; //not enough power need not process more
 				if(printLog)
 				{
-				  String logString = "Not enough power for Cell(" +floorCell.getXSensor() + "," + floorCell.getYSensor() + ")FloorType:" + floorCell.getSurfaceSensor() + " Power available:" + power;
+				  String logString = "Not enough power for Cell(" +floorCell.getCoordinates().getX() + "," + floorCell.getCoordinates().getY() + ")FloorType:" + floorCell.getSurfaceSensor() + " Power available:" + power;
 				  logString =logString + "(To Clean :" + cleanPower.toString()  + ",To move:" + movePower.toString() + "Power to Move"+ moveCSPower.toString() + ") ";
 				  System.out.println(logString);
 				}
@@ -82,7 +82,7 @@ public class PowerService {
 		//2 The cell is covered in low-pile carpet.
 		//4 The cell is covered in high-pile carpet.
 
-		if(floorCell.getClean()==true)
+		if(floorCell.alreadyCleaned() == true)
 			return 0.0;  // just move to next cell. 
 		
 		Double powerUnit =0.0;

@@ -31,20 +31,20 @@ public class Robot {
 	{
 		return this._power;
 	}
-	public Robot Move(int xCoor, int yCoor)
+	public Robot Move(Point point)
 	{
 		Point currentCoor = this.getCoordinates();
 		
-		if(canMove(xCoor))
+		if(canMove(point.getX()))
 		{
-			currentCoor.setX(currentCoor.getX() + xCoor);
-			this._power -= Math.abs(xCoor);
+			currentCoor.setX(currentCoor.getX() + point.getX());
+			this._power -= Math.abs(point.getX());
 		}
 
-		if(canMove(yCoor))
+		if(canMove(point.getY()))
 		{
-			currentCoor.setY(currentCoor.getY() + yCoor);
-			this._power -= Math.abs(yCoor);
+			currentCoor.setY(currentCoor.getY() + point.getY());
+			this._power -= Math.abs(point.getY());
 		}
 					
 		return this;
