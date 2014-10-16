@@ -1,5 +1,6 @@
 package XMLParse;
 import java.io.IOException;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -30,6 +31,16 @@ public class ParserFloorPlan {
 
 		}
 		
+		public static List<FloorCell> FloorCelList(String fileName) throws ParserConfigurationException, SAXException, IOException {
+
+			SAXParserFactory parserFactor = SAXParserFactory.newInstance();
+			SAXParser parser = parserFactor.newSAXParser();
+			SAXHandler handler = new SAXHandler();
+//			parser.parse(ClassLoader.getSystemResourceAsStream("XMLParse/xml3x3.xml"),handler);
+			parser.parse(ClassLoader.getSystemResourceAsStream(fileName),handler);	
+			return handler.floorCellList;
+
+		}
 
 		
 	

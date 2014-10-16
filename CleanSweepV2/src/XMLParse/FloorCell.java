@@ -7,8 +7,15 @@ public class FloorCell{
 	 private String pathSensor;
 	 private int dirtSensor;
 	 private int chargingStation;
+	 private Boolean clean;
 	 
-	    public int getXSensor() {
+	    public Boolean getClean() {
+		return clean;
+	}
+	public void setClean(Boolean clean) {
+		this.clean = clean;
+	}
+		public int getXSensor() {
 	        return xSensor;
 	    }
 	    public void setXSensor( int _xSensor) {
