@@ -17,7 +17,7 @@ public class SAXHandler extends DefaultHandler {
 	List<FloorCell> floorCellList = new ArrayList<>();
 	FloorCell floorCell = null;
 	String content = null;
-	FloorPlan fp = new FloorPlan(3,3);
+	FloorPlan _fp = new FloorPlan(3,3);
 	Floor f = null;
 	@Override
 	//Triggered when the start of tag is found.
@@ -40,7 +40,7 @@ public class SAXHandler extends DefaultHandler {
 			floorCell.setEastObstructions(FloorObstructions.values()[Integer.parseInt(Character.toString(attributes.getValue("ps").charAt(1)))]);
 			floorCell.setNorthObstructions(FloorObstructions.values()[Integer.parseInt(Character.toString(attributes.getValue("ps").charAt(2)))]);
 			floorCell.setSouthObstructions(FloorObstructions.values()[Integer.parseInt(Character.toString(attributes.getValue("ps").charAt(3)))]);
-			
+			this._fp.AddCell(floorCell);
 			break;
 		}
 	}

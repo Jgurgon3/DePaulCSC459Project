@@ -14,7 +14,7 @@ import CleanSweepModels.*;
 
 public class ParserFloorPlan {
 
-//	public static void main(String[] args) throws Exception {
+//	
 		
 		public static FloorPlan runParser(String fileName) throws ParserConfigurationException, SAXException, IOException {
 
@@ -24,7 +24,7 @@ public class ParserFloorPlan {
 //			parser.parse(ClassLoader.getSystemResourceAsStream("XMLParse/xml3x3.xml"),handler);
 			parser.parse(ClassLoader.getSystemResourceAsStream(fileName),handler);	
 		
-			return handler.fp;
+			return handler._fp;
 
 		}
 		
@@ -39,22 +39,7 @@ public class ParserFloorPlan {
 
 		}
 
-		
-	
-		
-		
-		
-//		handler.fp.MoveRobot(2, 1);
-//		System.out.println(handler.fp.getRobot().toString()+ " Should be (2, 1)");
-//		handler.fp.MoveRobot(1, -1); // Move the right 1 space and up 1 space
-//		System.out.println(handler.fp.getRobot().toString()+ " Can't Move Here.  Should be (2, 1)");
-//		handler.fp.MoveRobot(-2, 0); // Move the right 1 space and down 1 space
-//		System.out.println(handler.fp.getRobot().toString()+ " Should be (0, 1)");
-//		Floor floor = (Floor)handler.fp.getFloorPlanData().get(new Point(1,2));
-//		System.out.println(floor.toString());
-
-	}
-//}
+}
 
 
 

@@ -14,14 +14,6 @@ public class Home {
     	
     	
     	FloorPlan fp = (XMLParse.ParserFloorPlan.runParser("XMLParse/xml3x3.xml"));
-   
-    	
-    	
-    	
-    	
-    	
-    	
-    	
     	
     	
     	
@@ -31,7 +23,6 @@ public class Home {
         fp.MoveRobot(1, -1); // Move the right 1 space and up 1 space
         System.out.println(fp.getRobot().toString());
         fp.MoveRobot(-2, 0); // Move the right 1 space and down 1 space
-        FloorCell floorCell = (FloorCell)fp.getFloorPlanData().get(new Point(1,2));
         
         
     }
