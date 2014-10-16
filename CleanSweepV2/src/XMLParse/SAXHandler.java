@@ -37,6 +37,7 @@ public class SAXHandler extends DefaultHandler {
 			floorCell.setPathSensor((attributes.getValue("ps").trim()));
 			floorCell.setDirtSensor(Integer.parseInt(attributes.getValue("ds").trim()));
 			floorCell.setChargingStation(Integer.parseInt(attributes.getValue("cs").trim()));
+			floorCell.setClean(false);
 
 			fp = new FloorPlan(floorCell.getXSensor(), 
 					floorCell.getYSensor(), 
