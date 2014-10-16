@@ -9,9 +9,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import CleanSweepModels.*;
-import CleanSweepModels.FloorFactory;
-import CleanSweepModels.FloorPlan;
-import CleanSweepModels.FloorTypes;
+import CleanSweepModels.Types.*;
 import CleanSweepModels.Point;
 import Dijkstra.WeightedGraph;
 public class SAXHandler extends DefaultHandler {
@@ -19,8 +17,8 @@ public class SAXHandler extends DefaultHandler {
 	List<FloorCell> floorCellList = new ArrayList<>();
 	FloorCell floorCell = null;
 	String content = null;
-	FloorPlan fp = null;
-	FloorObj f = null;
+	FloorPlan fp = new FloorPlan(3,3);
+	Floor f = null;
 	@Override
 	//Triggered when the start of tag is found.
 	public void startElement(String uri, String localName, 
@@ -28,7 +26,7 @@ public class SAXHandler extends DefaultHandler {
 					throws SAXException {
 
 		switch(qName){
-		//Create a new Employee object when the start tag is found
+
 		case "cell":
 			floorCell = new FloorCell();
 			floorCell.setXSensor(Integer.parseInt(attributes.getValue("xs").trim()));
@@ -38,16 +36,10 @@ public class SAXHandler extends DefaultHandler {
 			floorCell.setDirtSensor(Integer.parseInt(attributes.getValue("ds").trim()));
 			floorCell.setChargingStation(Integer.parseInt(attributes.getValue("cs").trim()));
 			floorCell.setClean(false);
-
-			fp = new FloorPlan(floorCell.getXSensor(), 
-					floorCell.getYSensor(), 
-					FloorTypes.BARE, 
-					floorCell.getDirtSensor(), 
-					(floorCell.getPathSensor().charAt(0) == '1'), 
-					(floorCell.getPathSensor().charAt(1) == '1'), 
-					(floorCell.getPathSensor().charAt(2) == '1'), 
-					(floorCell.getPathSensor().charAt(3) == '1'));
-			
+			floorCell.setEastObstructions(FloorObstructions.values()[Integer.parseInt(Character.toString(attributes.getValue("ps").charAt(0)))]);
+			floorCell.setEastObstructions(FloorObstructions.values()[Integer.parseInt(Character.toString(attributes.getValue("ps").charAt(1)))]);
+			floorCell.setNorthObstructions(FloorObstructions.values()[Integer.parseInt(Character.toString(attributes.getValue("ps").charAt(2)))]);
+			floorCell.setSouthObstructions(FloorObstructions.values()[Integer.parseInt(Character.toString(attributes.getValue("ps").charAt(3)))]);
 			
 			break;
 		}

@@ -1,5 +1,7 @@
 package XMLParse;
 
+import CleanSweepModels.Types.*;
+
 public class FloorCell{
 	 private int xSensor;
 	 private int ySensor;
@@ -7,6 +9,10 @@ public class FloorCell{
 	 private String pathSensor;
 	 private int dirtSensor;
 	 private int chargingStation;
+	 private FloorObstructions _northObstructions;
+	 private FloorObstructions _southObstructions;
+	 private FloorObstructions _eastObstructions;
+	 private FloorObstructions _westObstructions;
 	 private Boolean clean;
 	 
 	    public Boolean getClean() {
@@ -56,6 +62,40 @@ public class FloorCell{
 	    public void setChargingStation( int _chargingStation) {
 	        this.chargingStation=_chargingStation;
 	    }
+	    public FloorObstructions getNorthObstructions()
+	    {
+	    	return this._northObstructions;
+	    }
+	    public FloorObstructions getSouthObstructions()
+	    {
+	    	return this._southObstructions;
+	    }
+	    public FloorObstructions getEastObstructions()
+	    {
+	    	return this._eastObstructions;
+	    }
+	    public FloorObstructions getWestObstructions()
+	    {
+	    	return this._westObstructions;
+	    }
+
+	    public void setNorthObstructions(FloorObstructions val)
+	    {
+	    	this._northObstructions = val;
+	    }
+	    public void setSouthObstructions(FloorObstructions val)
+	    {
+	    	this._southObstructions = val;
+	    }
+	    public void setEastObstructions(FloorObstructions val)
+	    {
+	    	this._eastObstructions = val;
+	    }
+	    public void setWestObstructions(FloorObstructions val)
+	    {
+	    	this._westObstructions = val;
+	    }
+	    
 
 	    
 	  @Override

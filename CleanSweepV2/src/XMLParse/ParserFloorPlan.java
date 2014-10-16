@@ -28,7 +28,7 @@ public class ParserFloorPlan {
 
 		}
 		
-		public static List<FloorCell> FloorCelList(String fileName) throws ParserConfigurationException, SAXException, IOException {
+		public static List<FloorCell> FloorCellList(String fileName) throws ParserConfigurationException, SAXException, IOException {
 
 			SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 			SAXParser parser = parserFactor.newSAXParser();

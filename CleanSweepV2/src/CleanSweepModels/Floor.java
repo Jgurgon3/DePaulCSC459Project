@@ -1,7 +1,9 @@
 package CleanSweepModels;
 
+import CleanSweepModels.Types.*;
 
-public class FloorObj {
+
+public class Floor {
 	private final Point _location;
 	private final FloorTypes _surface;
 	private boolean _containsDirt;
@@ -12,7 +14,7 @@ public class FloorObj {
 	private boolean _visited = false;
 	private int _unitsOfDirt;
 
-	FloorObj(Point location, FloorTypes surface, int unitsOfDirt, boolean northOpen,
+	Floor(Point location, FloorTypes surface, int unitsOfDirt, boolean northOpen,
 			boolean eastOpen, boolean southOpen, boolean westOpen) {
 
 		_location = location;

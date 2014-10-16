@@ -19,7 +19,7 @@ public class PowerServiceTest {
 
 	@Test
 	public void test() throws ParserConfigurationException, SAXException, IOException {
-	List<FloorCell> floorCellFlist=	ParserFloorPlan.FloorCelList("XMLParse/xml3x3.xml") ;
+	List<FloorCell> floorCellFlist=	ParserFloorPlan.FloorCellList("XMLParse/xml3x3.xml") ;
 	PowerService powerService =  new PowerService(floorCellFlist, 50.0, null);
 	powerService.Process();
 	}

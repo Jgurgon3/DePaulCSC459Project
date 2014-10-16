@@ -1,9 +1,11 @@
 package CleanSweepModels;
 
+import CleanSweepModels.Types.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import CleanSweepModels.FloorTypes;
+
+import XMLParse.FloorCell;
 
 public class FloorPlan {
 
@@ -14,7 +16,7 @@ public class FloorPlan {
 	private Robot _robot = new Robot(0,0,this);
 
 
-	private Map<Point, FloorObj> _data = new HashMap<Point, FloorObj>();
+	private Map<Point, FloorCell> _data = new HashMap<Point, FloorCell>();
 
 
 
@@ -22,31 +24,24 @@ public class FloorPlan {
 	public int xFloorPlanDim() {return this._xFloorPlanDim;}
 	public int yFloorPlanDim() {return this._yFloorPlanDim;}
 
-	public FloorPlan (int xDim, int yDim, FloorTypes ft, int dirt, boolean north, boolean south, boolean east, boolean west)
+	public FloorPlan (int xDim, int yDim)
 	{
 
+		// This sets the initial size
 		this._xFloorPlanDim = xDim;
-		this._yFloorPlanDim = yDim;
-
-		//TODO: Add N/S/E/W cell openings to reflect what sensor sees in XML file
-
-		this._data.put(	new Point(xDim, yDim), 
-				FloorFactory.newFloor(new Point(xDim, yDim), 
-						ft.BARE, 
-						dirt, 
-						north, 
-						south, 
-						east, 
-						west));
-		
-		
-
-
-		//System.out.println("x = " + " " + xDim + " y = " + " " + + yDim + " north = " + " " + north + " south = " + " " + south + " east = " + " " + east + " west = " + " " + west);
+		this._yFloorPlanDim = yDim;		
 
 	}
-
-	public Map<Point, FloorObj> getFloorPlanData()
+	
+	public void AddCell(FloorCell fc)
+	{
+		Point cellCoordinates = new Point(fc.getXSensor(), fc.getYSensor());
+		
+		this._data.put(cellCoordinates,fc);
+	
+	}
+	
+	public Map<Point, FloorCell> getFloorPlanData()
 	{
 		return this._data;
 	}
