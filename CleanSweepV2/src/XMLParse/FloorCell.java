@@ -110,8 +110,8 @@ public class FloorCell{
 	  public static Predicate<FloorCell> FindByCordinate(Point searchPoint) {
 	        return p -> (p.getCoordinates().getX()==searchPoint.getX() &&   p.getCoordinates().getY()==searchPoint.getY());
 	    } 
-	  public static List<FloorCell> filterFloorCell (List<FloorCell> employees, Predicate<FloorCell> predicate) {
-		  List<FloorCell> lst =employees.stream().filter( predicate ).collect(Collectors.<FloorCell>toList()); 
+	  public static List<FloorCell> filterFloorCell (List<FloorCell> floorcells, Predicate<FloorCell> predicate) {
+		  List<FloorCell> lst =floorcells.stream().filter( predicate ).collect(Collectors.<FloorCell>toList()); 
 	        return lst;
 	    }
 }
