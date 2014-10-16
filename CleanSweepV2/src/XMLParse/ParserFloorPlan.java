@@ -9,11 +9,8 @@ import javax.xml.ws.handler.HandlerResolver;
 
 import org.xml.sax.SAXException;
 
-import CleanSweepModels.Floor;
-import CleanSweepModels.FloorPlan;
-import CleanSweepModels.Point;
-import Dijkstra.Dijkstra;
-import Dijkstra.WeightedGraph;
+import CleanSweepModels.*;
+
 
 public class ParserFloorPlan {
 

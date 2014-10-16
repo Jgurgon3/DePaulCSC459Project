@@ -8,7 +8,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import CleanSweepModels.Floor;
+import CleanSweepModels.*;
 import CleanSweepModels.FloorFactory;
 import CleanSweepModels.FloorPlan;
 import CleanSweepModels.FloorTypes;
@@ -20,7 +20,7 @@ public class SAXHandler extends DefaultHandler {
 	FloorCell floorCell = null;
 	String content = null;
 	FloorPlan fp = null;
-	Floor f = null;
+	FloorObj f = null;
 	@Override
 	//Triggered when the start of tag is found.
 	public void startElement(String uri, String localName, 

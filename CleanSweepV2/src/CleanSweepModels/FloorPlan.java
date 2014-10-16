@@ -14,7 +14,7 @@ public class FloorPlan {
 	private Robot _robot = new Robot(0,0,this);
 
 
-	private Map<Point, Floor> _data = new HashMap<Point, Floor>();
+	private Map<Point, FloorObj> _data = new HashMap<Point, FloorObj>();
 
 
 
@@ -46,7 +46,7 @@ public class FloorPlan {
 
 	}
 
-	public Map<Point, Floor> getFloorPlanData()
+	public Map<Point, FloorObj> getFloorPlanData()
 	{
 		return this._data;
 	}

@@ -1,7 +1,7 @@
 package CleanSweepModels;
 
 
-class FloorObj implements Floor{
+public class FloorObj {
 	private final Point _location;
 	private final FloorTypes _surface;
 	private boolean _containsDirt;
