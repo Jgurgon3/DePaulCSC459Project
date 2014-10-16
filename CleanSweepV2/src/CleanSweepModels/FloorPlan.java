@@ -60,49 +60,33 @@ public class FloorPlan {
 		return this._robot;
 	}
 	
-	public FloorPlan MoveRobot(int xCoor,int yCoor)
+	public FloorPlan MoveRobot()
 	{
 		List<FloorCell> xMovePossiblities = this.getXMovePossiblities();
-				
-		boolean allNeighborCellsCleaned = true;
-		
+						
 		if(xMovePossiblities.isEmpty() == false)
 		{
 			for (final FloorCell cell : xMovePossiblities) 
 			{
-		          if(cell.alreadyCleaned() == false) // cells that haven't been cleaned
-		          {
-		        	  this.getRobot().Move(cell.getCoordinates());
-		        	  allNeighborCellsCleaned = false;
-		        	  break;
-		          }
+				this.getRobot().Move(cell.getCoordinates()).toString();
+				break;
 	
 			}
-			if(allNeighborCellsCleaned)
-			{
-				this.getRobot().Move(xMovePossiblities.get(0).getCoordinates()); // this is arbitrary, we are just choosing 1 way
-			}
+			this.MoveRobot();
 		}
 		
-		List<FloorCell> yMovePossiblities = this.getYMovePossiblities();
-//		allNeighborCellsCleaned = true; // reset the flag
+//		List<FloorCell> yMovePossiblities = this.getYMovePossiblities();
 //		
 //		if(yMovePossiblities.isEmpty() == false)
 //		{
-//			for (final FloorCell cell : yMovePossiblities) {
-//		          if(cell.alreadyCleaned() == false) // cells that haven't been cleaned
-//		          {
-//		        	  this.getRobot().Move(cell.getCoordinates());
-//		        	  allNeighborCellsCleaned = false;
-//		        	  break;
-//		          }
+//			for (final FloorCell cell : yMovePossiblities) 
+//			{
+//				this.getRobot().Move(cell.getCoordinates());
+//				break;
 //	
 //			}
-//			if(allNeighborCellsCleaned)
-//			{
-//				this.getRobot().Move(yMovePossiblities.get(0).getCoordinates()); // this is arbitrary, we are just choosing 1 way
-//			}
 //		}
+
 		
 		
 		return this;
@@ -146,16 +130,18 @@ public class FloorPlan {
 		List<FloorCell> possibleCells = new ArrayList<>();
 		
 		FloorCell fc = this.getCellByPoint(this.getRobot().getCoordinates());
-		
-		if(fc.getEastObstructions() == FloorObstructions.OPEN)
+		if(fc != null)
 		{
-			FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX()+1,0));
-			possibleCells.add(possibleCell);
-		}
-		else if(fc.getWestObstructions() == FloorObstructions.OPEN)
-		{
-			FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX()-1,0));
-			possibleCells.add(possibleCell);
+			if(fc.getEastObstructions() == FloorObstructions.OPEN)
+			{
+				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX()+1,0));
+				possibleCells.add(possibleCell);
+			}
+			else if(fc.getWestObstructions() == FloorObstructions.OPEN)
+			{
+				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX()-1,0));
+				possibleCells.add(possibleCell);
+			}
 		}
 		
 		return possibleCells;

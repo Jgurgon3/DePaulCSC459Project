@@ -17,12 +17,7 @@ public class Home {
     	
     	
     	
-        System.out.println("Initial: " + fp.getRobot().toString());
-        fp.MoveRobot(2, 1); // Move the right 2 space and up 1 space
-        System.out.println(fp.getRobot().toString());
-        fp.MoveRobot(1, -1); // Move the right 1 space and up 1 space
-        System.out.println(fp.getRobot().toString());
-        fp.MoveRobot(-2, 0); // Move the right 1 space and down 1 space
+        fp.MoveRobot();
         
         
     }
