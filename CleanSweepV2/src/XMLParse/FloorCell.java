@@ -1,5 +1,9 @@
 package XMLParse;
 
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import CleanSweepModels.Point;
 import CleanSweepModels.Types.*;
 
@@ -103,5 +107,11 @@ public class FloorCell{
 	    return "x:"+ xCoor+"   "+"y:"+yCoor +"   "+"surface:"+surfaceSensor +"   "+"path:"+pathSensor+"   "+"dirt:"+dirtSensor+"   "+"chargingStation:"+chargingStation;
 	  }	
 	 
-		 
+	  public static Predicate<FloorCell> FindByCordinate(Point searchPoint) {
+	        return p -> (p.getCoordinates().getX()==searchPoint.getX() &&   p.getCoordinates().getY()==searchPoint.getY());
+	    } 
+	  public static List<FloorCell> filterFloorCell (List<FloorCell> employees, Predicate<FloorCell> predicate) {
+		  List<FloorCell> lst =employees.stream().filter( predicate ).collect(Collectors.<FloorCell>toList()); 
+	        return lst;
+	    }
 }
