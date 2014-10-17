@@ -37,13 +37,13 @@ public class Robot {
 		
 		if(canMove(point.getX()))
 		{
-			currentCoor.setX(currentCoor.getX() + point.getX());
+			currentCoor.setX(point.getX());
 			this._power -= Math.abs(point.getX());
 		}
 
 		if(canMove(point.getY()))
 		{
-			currentCoor.setY(currentCoor.getY() + point.getY());
+			currentCoor.setY(point.getY());
 			this._power -= Math.abs(point.getY());
 		}
 					

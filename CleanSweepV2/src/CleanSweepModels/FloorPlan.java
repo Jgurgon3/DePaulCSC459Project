@@ -76,6 +76,7 @@ public class FloorPlan {
 			}
 			this.MoveRobot();
 		}
+		
 
 		
 //		List<FloorCell> yMovePossiblities = this.getYMovePossiblities();
