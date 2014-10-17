@@ -18,7 +18,7 @@ public class SAXHandler extends DefaultHandler {
 	FloorCell floorCell = null;
 	String content = null;
 	FloorPlan _fp = new FloorPlan(3,3);
-	Floor f = null;
+	
 	@Override
 	//Triggered when the start of tag is found.
 	public void startElement(String uri, String localName, 

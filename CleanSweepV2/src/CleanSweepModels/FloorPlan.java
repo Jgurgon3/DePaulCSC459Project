@@ -63,13 +63,15 @@ public class FloorPlan {
 	public FloorPlan MoveRobot()
 	{
 		
-		List<FloorCell> xMovePossiblities = this.getXMovePossiblities();
+		List<FloorCell> movePossiblities = this.getMovePossiblities();
 						
-		if(xMovePossiblities.isEmpty() == false)
+		if(movePossiblities.isEmpty() == false)
 		{
-			for (final FloorCell cell : xMovePossiblities) 
+			for (final FloorCell cell : movePossiblities) 
 			{
 				this.getRobot().Move(cell.getCoordinates());
+				cell.setCleaned(true);
+				this.AddCell(cell);
 				System.out.println(this.getRobot().toString());
 				break;
 	
@@ -98,38 +100,10 @@ public class FloorPlan {
 	private FloorCell getCellByPoint(Point point)
 	{
 		FloorCell fc = this._data.get(point);
-		if(fc == null)
-		{
-			// this means that it is out of bounds
-		}
 		return fc;
 	}
-//	private boolean isMoveWithinBounds(Point point)
-//	{
-//		Point robotCoor = this.getRobot().getCoordinates();
-//		int xRightMax = this.xFloorPlanDim() - robotCoor.getX(); // this should always be > 0
-//		int xLeftMax = robotCoor.getX() - 0;
-//		int yUpMax = this.yFloorPlanDim() - (int)robotCoor.getY(); // this should always be > 0
-//		int yDownMax = robotCoor.getY() - 0;
-//
-//		boolean canMoveFlag = false;
-//
-//		if(point.getX() < 0)
-//			canMoveFlag = Math.abs(point.getX()) <= xLeftMax; 
-//		else
-//			canMoveFlag = point.getX() <= xRightMax;
-//
-//		if(canMoveFlag == false)
-//			return canMoveFlag;
-//
-//		if(point.getY() < 0 )
-//			canMoveFlag = Math.abs(point.getY()) <= yDownMax;
-//		else
-//			canMoveFlag = point.getY() <= yUpMax;
-//
-//		return canMoveFlag;
-//	}
-	private List<FloorCell> getXMovePossiblities()
+
+	private List<FloorCell> getMovePossiblities()
 	{
 		List<FloorCell> possibleCells = new ArrayList<>();
 		
@@ -138,34 +112,37 @@ public class FloorPlan {
 		{
 			if(fc.getEastObstructions() == FloorObstructions.OPEN)
 			{
-				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX()+1,0));
-				possibleCells.add(possibleCell);
+				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX()+1,this.getRobot().getCoordinates().getY()));
+				if(fc != null)
+				{
+					possibleCells.add(possibleCell);
+				}
+				
+			}
+			else if(fc.getNorthObstructions() == FloorObstructions.OPEN)
+			{
+				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX(),this.getRobot().getCoordinates().getY()+1));
+				if(fc != null)
+				{
+					possibleCells.add(possibleCell);
+				}
 			}
 			else if(fc.getWestObstructions() == FloorObstructions.OPEN)
 			{
-				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX()-1,0));
-				possibleCells.add(possibleCell);
+				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX()-1,this.getRobot().getCoordinates().getY()));
+				if(fc != null)
+				{
+					possibleCells.add(possibleCell);
+				}
 			}
-		}
-		
-		return possibleCells;
-		
-	}
-	private List<FloorCell> getYMovePossiblities()
-	{
-		List<FloorCell> possibleCells = new ArrayList<>();
-		
-		FloorCell fc = this.getCellByPoint(this.getRobot().getCoordinates());
-		
-		if(fc.getNorthObstructions() == FloorObstructions.OPEN)
-		{
-			FloorCell possibleCell = this.getCellByPoint(new Point(0,this.getRobot().getCoordinates().getY()+1));
-			possibleCells.add(possibleCell);
-		}
-		else if(fc.getSouthObstructions() == FloorObstructions.OPEN)
-		{
-			FloorCell possibleCell = this.getCellByPoint(new Point(0,this.getRobot().getCoordinates().getY()-1));
-			possibleCells.add(possibleCell);
+			else if(fc.getSouthObstructions() == FloorObstructions.OPEN)
+			{
+				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX(),this.getRobot().getCoordinates().getY()-1));
+				if(fc != null)
+				{
+					possibleCells.add(possibleCell);
+				}
+			}
 		}
 		
 		return possibleCells;
