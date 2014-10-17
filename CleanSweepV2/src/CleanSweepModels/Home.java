@@ -16,7 +16,7 @@ public class Home {
     	FloorPlan fp = (XMLParse.ParserFloorPlan.runParser("XMLParse/xml3x3.xml"));
     	
     	
-    	
+    	System.out.println(fp.getRobot().toString());
         fp.MoveRobot();
         
         

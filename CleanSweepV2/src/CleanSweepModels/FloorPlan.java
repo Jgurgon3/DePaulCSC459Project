@@ -62,18 +62,21 @@ public class FloorPlan {
 	
 	public FloorPlan MoveRobot()
 	{
+		
 		List<FloorCell> xMovePossiblities = this.getXMovePossiblities();
 						
 		if(xMovePossiblities.isEmpty() == false)
 		{
 			for (final FloorCell cell : xMovePossiblities) 
 			{
-				this.getRobot().Move(cell.getCoordinates()).toString();
+				this.getRobot().Move(cell.getCoordinates());
+				System.out.println(this.getRobot().toString());
 				break;
 	
 			}
 			this.MoveRobot();
 		}
+
 		
 //		List<FloorCell> yMovePossiblities = this.getYMovePossiblities();
 //		
