@@ -16,6 +16,7 @@ public class FloorPlan {
 	private int _yFloorPlanDim;
 	private ChargingStation _chargingStation = new ChargingStation(0,0);
 	private Robot _robot = new Robot(0,0,this);
+	
 
 
 	private Map<Point, FloorCell> _data = new HashMap<Point, FloorCell>();
@@ -42,7 +43,7 @@ public class FloorPlan {
 		this._data.put(cellCoordinates,fc);
 	
 	}
-	
+
 	public Map<Point, FloorCell> getFloorPlanData()
 	{
 		return this._data;
@@ -60,40 +61,37 @@ public class FloorPlan {
 		return this._robot;
 	}
 	
-	public FloorPlan MoveRobot()
+	public FloorPlan MoveRobot(ArrayList<Point> _breadCrumb)
 	{
 		
 		List<FloorCell> movePossiblities = this.getMovePossiblities();
 						
 		if(movePossiblities.isEmpty() == false)
 		{
+			//ArrayList<Point> _breadCrumb = new ArrayList<Point>();
 			for (final FloorCell cell : movePossiblities) 
 			{
-				this.getRobot().Move(cell.getCoordinates());
-				cell.setCleaned(true);
-				this.AddCell(cell);
-				System.out.println(this.getRobot().toString());
-				break;
-	
+				if(!_breadCrumb.contains(cell.getCoordinates()))
+				{
+					_breadCrumb.add(new Point(this.getRobot().getCoordinates().getX(),this.getRobot().getCoordinates().getY()));
+					this.getRobot().Move(cell.getCoordinates());
+					cell.setCleaned(true);
+					this.AddCell(cell); // this updates the cells attributes.
+					System.out.println(this.getRobot().toString());
+					this.MoveRobot(_breadCrumb);
+				}
+				else
+				{
+					break;
+				}
+				
 			}
-			this.MoveRobot();
+			for(final Point point : _breadCrumb)
+			{
+				this.getRobot().Move(point);
+			}
+			
 		}
-		
-
-		
-//		List<FloorCell> yMovePossiblities = this.getYMovePossiblities();
-//		
-//		if(yMovePossiblities.isEmpty() == false)
-//		{
-//			for (final FloorCell cell : yMovePossiblities) 
-//			{
-//				this.getRobot().Move(cell.getCoordinates());
-//				break;
-//	
-//			}
-//		}
-
-		
 		
 		return this;
 	}
@@ -119,7 +117,7 @@ public class FloorPlan {
 				}
 				
 			}
-			else if(fc.getNorthObstructions() == FloorObstructions.OPEN)
+			if(fc.getNorthObstructions() == FloorObstructions.OPEN)
 			{
 				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX(),this.getRobot().getCoordinates().getY()+1));
 				if(fc != null)
@@ -127,7 +125,7 @@ public class FloorPlan {
 					possibleCells.add(possibleCell);
 				}
 			}
-			else if(fc.getWestObstructions() == FloorObstructions.OPEN)
+			if(fc.getWestObstructions() == FloorObstructions.OPEN)
 			{
 				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX()-1,this.getRobot().getCoordinates().getY()));
 				if(fc != null)
@@ -135,7 +133,7 @@ public class FloorPlan {
 					possibleCells.add(possibleCell);
 				}
 			}
-			else if(fc.getSouthObstructions() == FloorObstructions.OPEN)
+			if(fc.getSouthObstructions() == FloorObstructions.OPEN)
 			{
 				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX(),this.getRobot().getCoordinates().getY()-1));
 				if(fc != null)

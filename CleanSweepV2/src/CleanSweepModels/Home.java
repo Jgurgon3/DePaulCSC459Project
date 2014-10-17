@@ -1,6 +1,7 @@
 package CleanSweepModels;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,7 +18,7 @@ public class Home {
     	
     	
     	System.out.println(fp.getRobot().toString());
-        fp.MoveRobot();
+        fp.MoveRobot(new ArrayList<Point>());
         
         
     }
