@@ -4,8 +4,10 @@ import CleanSweepModels.Types.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import XMLParse.FloorCell;
 
@@ -60,7 +62,17 @@ public class FloorPlan {
 	{
 		return this._robot;
 	}
-	
+	private boolean floorPlanIsCleaned()
+	{
+		for (FloorCell cell : this.getFloorPlanData().values()) {
+			if(!cell.alreadyCleaned())
+			{
+				return false;
+			}
+		}
+		return true;
+
+	}
 	public FloorPlan MoveRobot(ArrayList<Point> _breadCrumb)
 	{
 		
@@ -71,25 +83,39 @@ public class FloorPlan {
 			//ArrayList<Point> _breadCrumb = new ArrayList<Point>();
 			for (final FloorCell cell : movePossiblities) 
 			{
-				if(!_breadCrumb.contains(cell.getCoordinates()))
+				if(!_breadCrumb.contains(cell.getCoordinates()) && ! this.floorPlanIsCleaned())
 				{
-					_breadCrumb.add(new Point(this.getRobot().getCoordinates().getX(),this.getRobot().getCoordinates().getY()));
-					this.getRobot().Move(cell.getCoordinates());
-					cell.setCleaned(true);
-					this.AddCell(cell); // this updates the cells attributes.
-					System.out.println(this.getRobot().toString());
-					this.MoveRobot(_breadCrumb);
+					Point currentRobotCoor = new Point(this.getRobot().getCoordinates().getX(),this.getRobot().getCoordinates().getY());
+					if(this.getRobot().Move(cell.getCoordinates()))
+					{
+						_breadCrumb.add(currentRobotCoor);
+						cell.setCleaned(true);
+						this.AddCell(cell); // this updates the cells attributes.
+						System.out.println(this.getRobot().toString());
+						this.MoveRobot(_breadCrumb);
+					}
+					else
+					{
+						System.out.println("Robot is out of power");
+						break;
+						
+						// Return to charger, robot needs power
+					}
 				}
 				else
 				{
-					break;
+					continue; // continue looping
 				}
 				
 			}
-			for(final Point point : _breadCrumb)
+			for(int i = _breadCrumb.size() -1; i > 0; i--)
 			{
-				this.getRobot().Move(point);
+				Point point = _breadCrumb.get(i);
+				this.getRobot().Move(point); // send the robot back on the path it came on
+				System.out.println(this.getRobot().toString());
 			}
+			_breadCrumb.clear();
+
 			
 		}
 		

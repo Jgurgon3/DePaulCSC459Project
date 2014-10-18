@@ -31,26 +31,29 @@ public class Robot {
 	{
 		return this._power;
 	}
-	public Robot Move(Point point)
+	public boolean Move(Point point)
 	{
 		Point currentCoor = this.getCoordinates();
 		
 		if (!_floorPlan.getFloorPlanData().containsKey(point))
 			throw new IllegalArgumentException("Attempted move to point outside floorplan");
 		
+		boolean moved = false;
 		if(canMove(point.getX()))
 		{
 			currentCoor.setX(point.getX());
-			this._power -= Math.abs(point.getX());
+			moved = true;
 		}
 
 		if(canMove(point.getY()))
 		{
 			currentCoor.setY(point.getY());
-			this._power -= Math.abs(point.getY());
+			moved = true;
 		}
+		
+		this._power -= 1;
 					
-		return this;
+		return moved;
 	}
 	public Robot(int xCoor,int yCoor,FloorPlan fp)
 	{
@@ -93,8 +96,7 @@ public class Robot {
 	}
 	public String toString()
 	{
-		return ("X coordinate of Robot: " + Integer.toString(this.getCoordinates().getX()) 
-				+ " --- " + "Y Coordinate of Robot: " + Integer.toString(this.getCoordinates().getY()) + " " + this.getReturnToChargerFlag());
+		return ("Coordinates of Robot: (" + Integer.toString(this.getCoordinates().getX()) + "," + Integer.toString(this.getCoordinates().getY()) + ")\nRobot power: " + this.getPower());
 	}
 
 
