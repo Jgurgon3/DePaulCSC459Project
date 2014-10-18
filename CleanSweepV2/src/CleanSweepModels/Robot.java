@@ -35,6 +35,9 @@ public class Robot {
 	{
 		Point currentCoor = this.getCoordinates();
 		
+		if (!_floorPlan.getFloorPlanData().containsKey(point))
+			throw new IllegalArgumentException("Attempted move to point outside floorplan");
+		
 		if(canMove(point.getX()))
 		{
 			currentCoor.setX(point.getX());
