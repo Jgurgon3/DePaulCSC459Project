@@ -16,8 +16,8 @@ public class FloorPlan {
 
 	private int _xFloorPlanDim;
 	private int _yFloorPlanDim;
-	private ChargingStation _chargingStation = new ChargingStation(0,0);
-	private Robot _robot = new Robot(0,0,this);
+	private ChargingStation _chargingStation;
+	private Robot _robot;
 	
 
 
@@ -50,6 +50,12 @@ public class FloorPlan {
 	{
 		return this._data;
 	}
+
+	public void setRobot(int xCoor, int yCoor)
+	{
+		this._robot = new Robot(xCoor,yCoor,this);
+	}
+
 	public ChargingStation getChargingStation()
 	{
 		return this._chargingStation;
@@ -58,6 +64,7 @@ public class FloorPlan {
 	{
 		this._chargingStation = new ChargingStation(xCoor,yCoor);
 	}
+	
 	public Robot getRobot()
 	{
 		return this._robot;
@@ -97,6 +104,7 @@ public class FloorPlan {
 					else
 					{
 						System.out.println("Robot is out of power");
+						this.returnToCharger(_breadCrumb);
 						break;
 						
 						// Return to charger, robot needs power
@@ -108,18 +116,22 @@ public class FloorPlan {
 				}
 				
 			}
-			for(int i = _breadCrumb.size() -1; i > 0; i--)
-			{
-				Point point = _breadCrumb.get(i);
-				this.getRobot().Move(point); // send the robot back on the path it came on
-				System.out.println(this.getRobot().toString());
-			}
-			_breadCrumb.clear();
+			this.returnToCharger(_breadCrumb);
 
 			
 		}
 		
 		return this;
+	}
+	private void returnToCharger(ArrayList<Point> _breadCrumb)
+	{
+		for(int i = _breadCrumb.size() -1; i > 0; i--)
+		{
+			Point point = _breadCrumb.get(i);
+			this.getRobot().Move(point); // send the robot back on the path it came on
+			System.out.println(this.getRobot().toString());
+		}
+		_breadCrumb.clear();
 	}
 	private FloorCell getCellByPoint(Point point)
 	{

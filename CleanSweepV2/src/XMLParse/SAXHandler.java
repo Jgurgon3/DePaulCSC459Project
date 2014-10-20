@@ -34,12 +34,20 @@ public class SAXHandler extends DefaultHandler {
 			floorCell.setSurfaceSensor(Integer.parseInt(attributes.getValue("ss").trim()));
 			floorCell.setPathSensor((attributes.getValue("ps").trim()));
 			floorCell.setDirtSensor(Integer.parseInt(attributes.getValue("ds").trim()));
+			if(Integer.parseInt(attributes.getValue("cs").trim()) == 1)
+			{
+				int xCoor = Integer.parseInt(attributes.getValue("xs").trim());
+				int yCoor = Integer.parseInt(attributes.getValue("ys").trim());
+				this._fp.setRobot(xCoor, yCoor);
+				this._fp.setChargingStation(xCoor, yCoor);
+			}
 			floorCell.setChargingStation(Integer.parseInt(attributes.getValue("cs").trim()));
 			floorCell.setCleaned(false);
 			floorCell.setEastObstructions(FloorObstructions.values()[Integer.parseInt(Character.toString(attributes.getValue("ps").charAt(0)))]);
 			floorCell.setWestObstructions(FloorObstructions.values()[Integer.parseInt(Character.toString(attributes.getValue("ps").charAt(1)))]);
 			floorCell.setNorthObstructions(FloorObstructions.values()[Integer.parseInt(Character.toString(attributes.getValue("ps").charAt(2)))]);
 			floorCell.setSouthObstructions(FloorObstructions.values()[Integer.parseInt(Character.toString(attributes.getValue("ps").charAt(3)))]);
+			
 			this._fp.AddCell(floorCell);
 			break;
 		}
