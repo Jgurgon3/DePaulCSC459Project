@@ -4,10 +4,8 @@ import CleanSweepModels.Types.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.lang.StringBuilder;
 
 import XMLParse.FloorCell;
@@ -104,7 +102,7 @@ public class FloorPlan {
 							}
 							this.AddCell(cell); // this updates the cells attributes.
 							System.out.println(this.toString());
-							this.MoveRobot(_breadCrumb);
+							this.MoveRobot(_breadCrumb); // continue recursively
 						}
 						else
 						{
@@ -139,7 +137,7 @@ public class FloorPlan {
 	}
 	private FloorCell getCellByPoint(Point point)
 	{
-		FloorCell fc = this._data.get(point);
+		FloorCell fc = this.getFloorPlanData().get(point);
 		return fc;
 	}
 
