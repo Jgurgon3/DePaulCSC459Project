@@ -10,8 +10,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import CleanSweepModels.*;
 import CleanSweepModels.Types.*;
-import CleanSweepModels.Point;
-import Dijkstra.WeightedGraph;
+
 public class SAXHandler extends DefaultHandler {
 
 	List<FloorCell> floorCellList = new ArrayList<>();
