@@ -1,5 +1,7 @@
 package CleanSweepModels;
 
+import XMLParse.FloorCell;
+
 public class Robot {
 	
 	private Point _coordinates;
@@ -31,6 +33,19 @@ public class Robot {
 	{
 		return this._power;
 	}
+
+	public boolean CanClean()
+	{
+		return this.hasEnoughPower();
+	}
+	public void Clean(FloorCell fc)
+	{
+		if(this.getCoordinates().equals(fc.getCoordinates())) // only clean cells that we are currently at
+		{
+			fc.Clean();
+			this._power -= 1;	
+		}
+	}
 	public boolean Move(Point point)
 	{
 		Point currentCoor = this.getCoordinates();
@@ -39,13 +54,13 @@ public class Robot {
 			throw new IllegalArgumentException("Attempted move to point outside floorplan");
 		
 		boolean moved = false;
-		if(canMove(point.getX()))
+		if(hasEnoughPower())
 		{
 			currentCoor.setX(point.getX());
 			moved = true;
 		}
 
-		if(canMove(point.getY()))
+		if(hasEnoughPower())
 		{
 			currentCoor.setY(point.getY());
 			moved = true;
@@ -60,7 +75,7 @@ public class Robot {
 		this.setFloorPlan(fp);
 		this._coordinates = new Point(xCoor,yCoor);
 	}
-	private boolean canMove(int distance)
+	private boolean hasEnoughPower()
 	{
 		if(this.getReturnToChargerFlag())
 		{
@@ -68,7 +83,7 @@ public class Robot {
 		}
 		else
 		{
-			int forecastedPowerLeft = this.getPower()-Math.abs(distance);
+			int forecastedPowerLeft = this.getPower()-1;
 			if(forecastedPowerLeft >= this.getChargingStationDistance()){
 				this.setReturnToChargerFlag(false);
 				return true;

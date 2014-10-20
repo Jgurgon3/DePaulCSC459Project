@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.lang.StringBuilder;
 
 import XMLParse.FloorCell;
 
@@ -96,14 +97,18 @@ public class FloorPlan {
 					if(this.getRobot().Move(cell.getCoordinates()))
 					{
 						_breadCrumb.add(currentRobotCoor);
-						cell.setCleaned(true);
+						while(this.getRobot().CanClean() && !cell.alreadyCleaned())
+						{
+							 this.getRobot().Clean(cell);
+						}
 						this.AddCell(cell); // this updates the cells attributes.
-						System.out.println(this.getRobot().toString());
+						System.out.println(this.toString());
 						this.MoveRobot(_breadCrumb);
 					}
 					else
 					{
 						System.out.println("Robot is out of power");
+						System.out.println(this.toString());
 						this.returnToCharger(_breadCrumb);
 						break;
 						
@@ -112,8 +117,10 @@ public class FloorPlan {
 				}
 				else
 				{
+					System.out.println(this.toString());
 					continue; // continue looping
 				}
+				
 				
 			}
 			this.returnToCharger(_breadCrumb);
@@ -129,7 +136,7 @@ public class FloorPlan {
 		{
 			Point point = _breadCrumb.get(i);
 			this.getRobot().Move(point); // send the robot back on the path it came on
-			System.out.println(this.getRobot().toString());
+			//System.out.println(this.toString());
 		}
 		_breadCrumb.clear();
 	}
@@ -183,6 +190,37 @@ public class FloorPlan {
 		
 		return possibleCells;
 		
+	}
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		for(int x=0;x<this._xFloorPlanDim;x++)
+		{
+			for(int y=0;y<this._yFloorPlanDim;y++)
+			{
+				FloorCell _tmpFC = this.getCellByPoint(new Point(x,y));
+				if(this.getRobot().getCoordinates().equals(_tmpFC.getCoordinates()))
+				{
+					sb.append("Robot   ");
+				}
+				else
+				{
+					if(_tmpFC.getDirtUnits() == 0)
+					{
+						sb.append("Clean   ");
+					}
+					else
+					{
+						sb.append("Dirty   ");
+					}
+				}
+				
+			}
+			sb.append("\n");
+		}
+		
+		
+		return sb.toString();
 	}
 
 }

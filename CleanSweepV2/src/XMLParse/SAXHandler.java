@@ -17,7 +17,7 @@ public class SAXHandler extends DefaultHandler {
 	List<FloorCell> floorCellList = new ArrayList<>();
 	FloorCell floorCell = null;
 	String content = null;
-	FloorPlan _fp = new FloorPlan(3,3);
+	FloorPlan _fp = new FloorPlan(3,3); // this may change
 	
 	@Override
 	//Triggered when the start of tag is found.
@@ -33,7 +33,7 @@ public class SAXHandler extends DefaultHandler {
 			floorCell.setYCoordinates(Integer.parseInt(attributes.getValue("ys").trim()));
 			floorCell.setSurfaceSensor(Integer.parseInt(attributes.getValue("ss").trim()));
 			floorCell.setPathSensor((attributes.getValue("ps").trim()));
-			floorCell.setDirtSensor(Integer.parseInt(attributes.getValue("ds").trim()));
+			floorCell.setDirtUnits(Integer.parseInt(attributes.getValue("ds").trim()));
 			if(Integer.parseInt(attributes.getValue("cs").trim()) == 1)
 			{
 				int xCoor = Integer.parseInt(attributes.getValue("xs").trim());

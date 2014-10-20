@@ -12,16 +12,17 @@ public class FloorCell{
 	 private int yCoor;
 	 private int surfaceSensor;
 	 private String pathSensor;
-	 private int dirtSensor;
+	 private int dirtUnits;
 	 private int chargingStation;
 	 private FloorObstructions _northObstructions;
 	 private FloorObstructions _southObstructions;
 	 private FloorObstructions _eastObstructions;
 	 private FloorObstructions _westObstructions;
-	 private boolean cleaned;
+	 private boolean cleaned = false;
 	 
-	    public Boolean alreadyCleaned() {
-		return cleaned;
+	    public Boolean alreadyCleaned() 
+	    {
+	    	return cleaned;
 	    }
 		public void setCleaned(Boolean cleaned) {
 			this.cleaned = cleaned;
@@ -53,11 +54,11 @@ public class FloorCell{
 	        this.pathSensor=_pathSensor;
 	    }
 
-	    public int getDirtSensor() {
-	        return dirtSensor;
+	    public int getDirtUnits() {
+	        return dirtUnits;
 	    }
-	    public void setDirtSensor( int _dirtSensor) {
-	        this.dirtSensor=_dirtSensor;
+	    public void setDirtUnits( int _dirtUnits) {
+	        this.dirtUnits=_dirtUnits;
 	    }
 
 	    public int getChargingStation() {
@@ -99,12 +100,24 @@ public class FloorCell{
 	    {
 	    	this._westObstructions = val;
 	    }
+	    public void Clean()
+	    {
+	    	if(this.getDirtUnits() == 0)
+	    		this.setCleaned(true);
+	    	else
+	    	{
+	    		this.setDirtUnits(this.getDirtUnits()-1);
+	    		if(this.getDirtUnits() == 0)
+		    		this.setCleaned(true);
+	    	}	    	
+	    	
+	    }
 	    
 
 	    
 	  @Override
 	  public String toString() {
-	    return "x:"+ xCoor+"   "+"y:"+yCoor +"   "+"surface:"+surfaceSensor +"   "+"path:"+pathSensor+"   "+"dirt:"+dirtSensor+"   "+"chargingStation:"+chargingStation;
+	    return "x:"+ xCoor+"   "+"y:"+yCoor +"   "+"surface:"+surfaceSensor +"   "+"path:"+pathSensor+"   "+"dirt:"+dirtUnits+"   "+"chargingStation:"+chargingStation;
 	  }	
 	 
 	  public static Predicate<FloorCell> FindByCordinate(Point searchPoint) {
