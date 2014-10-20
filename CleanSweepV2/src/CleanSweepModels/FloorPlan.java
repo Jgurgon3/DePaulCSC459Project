@@ -88,39 +88,37 @@ public class FloorPlan {
 						
 		if(movePossiblities.isEmpty() == false)
 		{
-			//ArrayList<Point> _breadCrumb = new ArrayList<Point>();
 			for (final FloorCell cell : movePossiblities) 
 			{
-				if(!_breadCrumb.contains(cell.getCoordinates()) && ! this.floorPlanIsCleaned())
+				if(!_breadCrumb.contains(cell.getCoordinates()))
 				{
-					Point currentRobotCoor = new Point(this.getRobot().getCoordinates().getX(),this.getRobot().getCoordinates().getY());
-					if(this.getRobot().Move(cell.getCoordinates()))
+					if(this.floorPlanIsCleaned() == false) // continue moving and cleaning
 					{
-						_breadCrumb.add(currentRobotCoor);
-						while(this.getRobot().CanClean() && !cell.alreadyCleaned())
+						Point currentRobotCoor = new Point(this.getRobot().getCoordinates().getX(),this.getRobot().getCoordinates().getY());
+						if(this.getRobot().Move(cell.getCoordinates()))
 						{
-							 this.getRobot().Clean(cell);
+							_breadCrumb.add(currentRobotCoor);
+							while(this.getRobot().CanClean() && !cell.alreadyCleaned())
+							{
+								 this.getRobot().Clean(cell);
+							}
+							this.AddCell(cell); // this updates the cells attributes.
+							System.out.println(this.toString());
+							this.MoveRobot(_breadCrumb);
 						}
-						this.AddCell(cell); // this updates the cells attributes.
-						System.out.println(this.toString());
-						this.MoveRobot(_breadCrumb);
+						else
+						{
+							// Return to charger, robot needs power
+							System.out.println(this.toString());
+							this.returnToCharger(_breadCrumb);
+							break;
+						}
 					}
 					else
 					{
-						System.out.println("Robot is out of power");
-						System.out.println(this.toString());
 						this.returnToCharger(_breadCrumb);
-						break;
-						
-						// Return to charger, robot needs power
 					}
 				}
-				else
-				{
-					System.out.println(this.toString());
-					continue; // continue looping
-				}
-				
 				
 			}
 			this.returnToCharger(_breadCrumb);
@@ -136,7 +134,6 @@ public class FloorPlan {
 		{
 			Point point = _breadCrumb.get(i);
 			this.getRobot().Move(point); // send the robot back on the path it came on
-			//System.out.println(this.toString());
 		}
 		_breadCrumb.clear();
 	}
@@ -199,6 +196,10 @@ public class FloorPlan {
 			for(int y=0;y<this._yFloorPlanDim;y++)
 			{
 				FloorCell _tmpFC = this.getCellByPoint(new Point(x,y));
+				if(_tmpFC.getCoordinates().equals(this.getChargingStation().getCoordinates()))
+				{
+					sb.append("+");
+				}
 				if(this.getRobot().getCoordinates().equals(_tmpFC.getCoordinates()))
 				{
 					sb.append("Robot   ");

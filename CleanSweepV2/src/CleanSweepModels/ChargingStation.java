@@ -11,5 +11,9 @@ public class ChargingStation {
 	{
 		return this._coordinates;
 	}
+	public String toString()
+	{
+		return ("Coordinates of Charging Station: (" + Integer.toString(this.getCoordinates().getX()) + "," + Integer.toString(this.getCoordinates().getY())+")");
+	}
 
 }
