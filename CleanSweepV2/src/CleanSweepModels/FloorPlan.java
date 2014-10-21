@@ -137,7 +137,7 @@ public class FloorPlan {
 		}
 		_breadCrumb.clear();
 	}
-	private FloorCell getCellByPoint(Point point)
+	public FloorCell getCellByPoint(Point point)
 	{
 		FloorCell fc = this._data.get(point);
 		return fc;

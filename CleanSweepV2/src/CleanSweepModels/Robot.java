@@ -1,5 +1,9 @@
 package CleanSweepModels;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import XMLParse.FloorCell;
 
 public class Robot {
@@ -8,6 +12,7 @@ public class Robot {
 	private int _power = 50;
 	private boolean _returnToChargerFlag = false;
 	private FloorPlan _floorPlan;
+	private HashMap<Point, FloorCell> _memory = new HashMap<Point, FloorCell>();
 
 	public Point getCoordinates()
 	{
@@ -67,14 +72,47 @@ public class Robot {
 		}
 		
 		this._power -= 1;
-					
+		
+		if (moved) 
+			_memory.put(point, _floorPlan.getCellByPoint(point));
+		
 		return moved;
 	}
 	public Robot(int xCoor,int yCoor,FloorPlan fp)
 	{
+		
+		Point p = new Point(xCoor, yCoor);
+		
 		this.setFloorPlan(fp);
-		this._coordinates = new Point(xCoor,yCoor);
+	
+		if  (fp.getCellByPoint(p) == null) {
+
+			throw new IllegalArgumentException("Attempt to instantiate robot at invalid point");
+			
+		}
+		
+		this._coordinates = p;
+		_memory.put(new Point(xCoor, yCoor), fp.getCellByPoint(p));
 	}
+	public Map<Point, FloorCell> getMemory() {
+		return _memory;
+	}
+	public void dumpMemory() {
+
+	    Iterator<Point> iterator = _memory.keySet().iterator();  
+	    
+	    if (!iterator.hasNext())
+	    	System.out.println("Clean sweep memory is empty");
+	    
+	    while (iterator.hasNext()) {  
+	       Point key = iterator.next();  
+	       FloorCell value = _memory.get(key);  
+	       
+	       String s= value.toString();  
+	       System.out.println(s);
+	    }  
+	}
+
 	private boolean hasEnoughPower()
 	{
 		if(this.getReturnToChargerFlag())
