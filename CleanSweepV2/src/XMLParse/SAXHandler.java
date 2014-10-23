@@ -1,7 +1,6 @@
 package XMLParse;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.xml.sax.Attributes;

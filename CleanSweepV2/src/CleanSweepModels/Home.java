@@ -2,7 +2,6 @@ package CleanSweepModels;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 

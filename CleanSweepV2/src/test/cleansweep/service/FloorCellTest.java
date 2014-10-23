@@ -4,19 +4,16 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Test;
 import org.xml.sax.SAXException;
-
-import cleansweep.service.PowerService;
 import CleanSweepModels.Point;
-import CleanSweepModels.Robot;
 import XMLParse.FloorCell;
-import XMLParse.ParserFloorPlan;
+
 
 public class FloorCellTest {
 
@@ -25,7 +22,7 @@ public class FloorCellTest {
 		
 	List<FloorCell>floorCellList= populateCell();
 	Point p = new Point(0, 0); 
-	@SuppressWarnings("unchecked")
+	
 	List<FloorCell> floorCellFlistresult = (List<FloorCell>) FloorCell.filterFloorCell(floorCellList,FloorCell.FindByCordinate(p) );
 	assertEquals(0, floorCellFlistresult.get(0).getCoordinates().getX());
 	assertEquals(0, floorCellFlistresult.get(0).getCoordinates().getY());
@@ -36,7 +33,7 @@ public class FloorCellTest {
 		
 	List<FloorCell>floorCellList= populateCell();
 	Point p = new Point(1, 0); 
-	@SuppressWarnings("unchecked")
+	
 	List<FloorCell> floorCellFlistresult = (List<FloorCell>) FloorCell.filterFloorCell(floorCellList,FloorCell.FindByCordinate(p) );
 	assertEquals(1, floorCellFlistresult.get(0).getCoordinates().getX());
 	assertEquals(0, floorCellFlistresult.get(0).getCoordinates().getY());

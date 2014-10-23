@@ -12,9 +12,9 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import cleansweep.service.PowerService;
-import CleanSweepModels.Robot;
+
 import XMLParse.FloorCell;
-import XMLParse.ParserFloorPlan;
+
 
 public class PowerServiceTest {
 

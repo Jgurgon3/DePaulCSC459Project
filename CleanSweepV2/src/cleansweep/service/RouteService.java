@@ -3,8 +3,7 @@ package cleansweep.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import CleanSweepModels.Point;
-import CleanSweepModels.Types.FloorObstructions;
+
 import XMLParse.FloorCell;
 
 

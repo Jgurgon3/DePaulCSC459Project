@@ -1,16 +1,14 @@
 package CleanSweepModels;
 
-import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import XMLParse.FloorCell;
+
 import junit.framework.TestCase;
 
 public class RobotTest extends TestCase {
