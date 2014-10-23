@@ -1,5 +1,7 @@
 package XMLParse;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -126,5 +128,15 @@ public class FloorCell{
 	  public static List<FloorCell> filterFloorCell (List<FloorCell> floorcells, Predicate<FloorCell> predicate) {
 		  List<FloorCell> lst =floorcells.stream().filter( predicate ).collect(Collectors.<FloorCell>toList()); 
 	        return lst;
+	    }
+	  
+	  public static FloorCell FindFloorCell (List<FloorCell> floorList,Point p ) {
+			List<FloorCell> floorCellFlistresult = (List<FloorCell>) FloorCell.filterFloorCell(floorList,FloorCell.FindByCordinate(p) );
+			if(floorCellFlistresult!=null && floorCellFlistresult.size()>0)
+			{
+				return floorCellFlistresult.get(0);
+				}
+			else
+				return null;
 	    }
 }
