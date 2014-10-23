@@ -39,7 +39,9 @@ public class RobotLog {
 		
 		_log.add(now + " - " + type + " - " + action);
 	}
-	
+	public void clearLog() {
+		_log.clear();
+	}
 	public void dumpLog() {
 		for (String s : _log) {
 			System.out.println(s);
