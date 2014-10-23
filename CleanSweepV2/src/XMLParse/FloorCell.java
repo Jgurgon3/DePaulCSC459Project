@@ -10,7 +10,7 @@ import CleanSweepModels.Types.*;
 public class FloorCell{
 	 private int xCoor;
 	 private int yCoor;
-	 private int surfaceSensor;
+	 private FloorTypes _floorType;
 	 private String pathSensor;
 	 private int dirtUnits;
 	 private int chargingStation;
@@ -40,11 +40,11 @@ public class FloorCell{
 	    	return new Point(this.xCoor,this.yCoor);
 	    }
 	    
-	    public int getSurfaceSensor() {
-	        return surfaceSensor;
+	    public FloorTypes getFloorType() {
+	        return _floorType;
 	    }
-	    public void setSurfaceSensor( int _surfaceSensor) {
-	        this.surfaceSensor=_surfaceSensor;
+	    public void setFloorType( FloorTypes _floorType) {
+	        this._floorType=_floorType;
 	    }
 
 	    public String getPathSensor() {
@@ -117,7 +117,7 @@ public class FloorCell{
 	    
 	  @Override
 	  public String toString() {
-	    return "x:"+ xCoor+"   "+"y:"+yCoor +"   "+"surface:"+surfaceSensor +"   "+"path:"+pathSensor+"   "+"dirt:"+dirtUnits+"   "+"chargingStation:"+chargingStation;
+	    return "x:"+ xCoor+"   "+"y:"+yCoor +"   "+"surface:"+this._floorType.name() +"   "+"path:"+pathSensor+"   "+"dirt:"+dirtUnits+"   "+"chargingStation:"+chargingStation;
 	  }	
 	 
 	  public static Predicate<FloorCell> FindByCordinate(Point searchPoint) {

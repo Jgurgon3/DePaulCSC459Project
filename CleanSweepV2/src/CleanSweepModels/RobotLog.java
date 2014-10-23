@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class RobotLog {
 	
-	public enum LogTypes {
+	public enum LogActivityTypes {
 	    MOVE ("MOVE"),
 	    WAKEUP ("WAKE UP"),
 	    OUTOFPOWER ("OUT OF POWER"),
@@ -17,7 +17,7 @@ public class RobotLog {
 
 	    private final String name;       
 
-	    private LogTypes(String s) {
+	    private LogActivityTypes(String s) {
 	        name = s;
 	    }
 
@@ -34,7 +34,7 @@ public class RobotLog {
 	public RobotLog() {
 		
 	}
-	public void addLog(LogTypes type, String action) {
+	public void addLog(LogActivityTypes type, String action) {
 		String now = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
 		
 		_log.add(now + " - " + type + " - " + action);

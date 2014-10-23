@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import CleanSweepModels.RobotLog.LogTypes;
+import CleanSweepModels.RobotLog.LogActivityTypes;
 import XMLParse.FloorCell;
 
 public class Robot {
@@ -35,7 +35,7 @@ public class Robot {
 	private void setReturnToChargerFlag(boolean bool)
 	{
 		if (bool)
-			_log.addLog(LogTypes.RETURNTOCHARGER, "Returning to charger station");
+			_log.addLog(LogActivityTypes.RETURNTOCHARGER, "Returning to charger station");
 		this._returnToChargerFlag = bool;
 	}
 	public int getPower()
@@ -52,8 +52,8 @@ public class Robot {
 		if(this.getCoordinates().equals(fc.getCoordinates())) // only clean cells that we are currently at
 		{
 			fc.Clean();
-			this._power -= 1;	
-			_log.addLog(LogTypes.CLEANED, "Cleaned unit of dirt at: " + fc.getCoordinates().toString());
+			this._power -= (1 * fc.getFloorType().getValue());	
+			_log.addLog(LogActivityTypes.CLEANED, "Cleaned unit of dirt at: " + fc.getCoordinates().toString() + " with floor type " + fc.getFloorType().name());
 		}
 	}
 	public boolean Move(Point point)
@@ -80,10 +80,10 @@ public class Robot {
 		
 		if (moved)  {
 			_memory.put(point, _floorPlan.getCellByPoint(point));
-			_log.addLog(LogTypes.MOVE, "Robot moved to cell cell: " + point.toString());
+			_log.addLog(LogActivityTypes.MOVE, "Robot moved to cell: " + point.toString());
 		}
 		else
-			_log.addLog(LogTypes.NOTENOUGHPOWER, "Can't move to: " + point.toString() + " and get back to charging station.");
+			_log.addLog(LogActivityTypes.NOTENOUGHPOWER, "Can't move to: " + point.toString() + " and get back to charging station.");
 		
 		return moved;
 	}
@@ -102,7 +102,7 @@ public class Robot {
 		
 		this._coordinates = p;
 		_memory.put(new Point(xCoor, yCoor), fp.getCellByPoint(p));
-		_log.addLog(LogTypes.WAKEUP, "Robot started at cell: " + p.toString());
+		_log.addLog(LogActivityTypes.WAKEUP, "Robot started at cell: " + p.toString());
 	}
 	public Map<Point, FloorCell> getMemory() {
 		return _memory;

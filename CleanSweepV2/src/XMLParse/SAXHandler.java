@@ -29,10 +29,9 @@ public class SAXHandler extends DefaultHandler {
 			floorCell = new FloorCell();
 			floorCell.setXCoordinates(Integer.parseInt(attributes.getValue("xs").trim()));
 			floorCell.setYCoordinates(Integer.parseInt(attributes.getValue("ys").trim()));
-			floorCell.setSurfaceSensor(Integer.parseInt(attributes.getValue("ss").trim()));
+			floorCell.setFloorType(FloorTypes.values()[Integer.parseInt(attributes.getValue("ss").trim())-1]);
 			floorCell.setPathSensor((attributes.getValue("ps").trim()));
 			floorCell.setDirtUnits(Integer.parseInt(attributes.getValue("ds").trim()));
-			
 			floorCell.setChargingStation(Integer.parseInt(attributes.getValue("cs").trim()));
 			floorCell.setCleaned(false);
 			floorCell.setEastObstructions(FloorObstructions.values()[Integer.parseInt(Character.toString(attributes.getValue("ps").charAt(0)))]);
