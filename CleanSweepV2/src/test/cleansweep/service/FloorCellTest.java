@@ -4,13 +4,13 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Test;
 import org.xml.sax.SAXException;
+
 import CleanSweepModels.Point;
 import XMLParse.FloorCell;
 
@@ -37,6 +37,19 @@ public class FloorCellTest {
 	List<FloorCell> floorCellFlistresult = (List<FloorCell>) FloorCell.filterFloorCell(floorCellList,FloorCell.FindByCordinate(p) );
 	assertEquals(1, floorCellFlistresult.get(0).getCoordinates().getX());
 	assertEquals(0, floorCellFlistresult.get(0).getCoordinates().getY());
+
+	}
+	
+	@Test
+	public void FindFloorCellByPoint() throws ParserConfigurationException, SAXException, IOException {
+		
+	List<FloorCell>floorCellList= populateCell();
+	Point p = new Point(1, 0); 
+	
+	@SuppressWarnings("unchecked")
+	FloorCell result = (FloorCell) FloorCell.FindFloorCell(floorCellList,p );
+	assertEquals(1, result.getCoordinates().getX());
+	assertEquals(0, result.getCoordinates().getY());
 
 	}
 	
