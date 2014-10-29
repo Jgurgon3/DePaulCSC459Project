@@ -60,6 +60,10 @@ public class Robot {
 	{
 		Point currentCoor = this.getCoordinates();
 		
+	//	if (Math.abs(currentCoor.getX() - point.getX()) > 1 || Math.abs(currentCoor.getY() - point.getY()) > 1)
+	//		throw new IllegalArgumentException("Attempted to move two cells at once");
+	//	if (Math.abs(currentCoor.getX() - point.getX()) + Math.abs(currentCoor.getY() - point.getY()) > 1)
+	//		throw new IllegalArgumentException("Attempted to move two cells at once (diagonally)");
 		if (!_floorPlan.getFloorPlanData().containsKey(point))
 			throw new IllegalArgumentException("Attempted move to point outside floorplan");
 		
