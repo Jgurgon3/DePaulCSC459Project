@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import CleanSweepModels.RobotLog.LogActivityTypes;
+import CleanSweepModels.Types.FloorTypes;
 import XMLParse.FloorCell;
 
 public class Robot {
@@ -189,5 +190,83 @@ public class Robot {
 				+ "\nDirt collected: " + Integer.toString(this._dirtCollected));
 	}
 
-
+	public Double getPowerForCellClean(FloorCell floorCell)
+		{
+			//1 unit battery for cleaning bare floor 
+			//2 unit battery for cleaning low pile carpet floor 
+			//3 unit battery for cleaning high pile carpet floor 
+			
+			//1 The cell is bare floor.
+			//2 The cell is covered in low-pile carpet.
+			//4 The cell is covered in high-pile carpet.
+	
+			if(floorCell.alreadyCleaned() == true)
+				return 0.0;  //No power required to clean, just move to next cell. May be way back to cleaning after charge
+			
+			Double powerUnit =0.0;
+			FloorTypes floorTypes =floorCell.getFloorType();
+			switch(floorTypes)
+			{
+			case BARE:
+				powerUnit=1.0;
+				break;
+			case LOW:
+				powerUnit=2.0;
+				break;
+	
+			case HIGH:
+				powerUnit=3.0;
+				break;
+		
+			}
+			return powerUnit;
+		}
+		
+		public Double getPowerForCellMoving(FloorCell floorCell ,FloorCell prevCell )
+		{
+			// 1 unit of power for moving between bare floors to bare floor 
+			//1.5 unit of power for moving between bare floor to low pile carpet floor
+			//2 unit of power for moving between bare floor to high pile carpet floor
+			//2.5 unit of power for) moving between low pile carpet floor to high pile carpet floor 
+			//3 unit of power for moving between high pile carpet floor to high pile carpet floor
+			if(prevCell==null)
+				return 0.0; // When we are at cell zero we need not move , just celan it
+			else
+			{
+			Double powerUnitPrev =0.0;
+			Double powerUnitCurrent =0.0;
+			
+			FloorTypes floorTypes =prevCell.getFloorType();
+			switch(floorTypes)
+			{
+			case BARE:
+				powerUnitPrev=.5;
+				break;
+			case LOW:
+				powerUnitPrev=1.0;
+				break;
+	
+			case HIGH:
+				powerUnitPrev=1.5;
+				break;
+			}
+			FloorTypes floorTypes2 =floorCell.getFloorType();
+			switch(floorTypes2)
+			{
+			case BARE:
+				powerUnitCurrent=.5;
+				break;
+			case LOW:
+				powerUnitCurrent=1.0;
+				break;
+	
+			case HIGH:
+				powerUnitCurrent=1.5;
+				break;
+		
+			}
+			
+			return powerUnitPrev + powerUnitCurrent;
+			}
+		}
 }
