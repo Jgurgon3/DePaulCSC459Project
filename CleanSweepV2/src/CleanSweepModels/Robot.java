@@ -11,7 +11,7 @@ import XMLParse.FloorCell;
 public class Robot {
 	
 	private Point _coordinates;
-	private int _power = 50;
+	private double _power = 50;
 	private int _dirtCollected = 0;
 	private boolean _returnToChargerFlag = false;
 	private FloorPlan _floorPlan;
@@ -36,13 +36,13 @@ public class Robot {
 	{
 		return this._dirtCollected;
 	}
-	public void addToBreadCrumbPowerNeeded()
+	public void addToBreadCrumbPowerNeeded(Point point)
 	{
-		this._breadcrumbPowerNeeded++;
+		this._breadcrumbPowerNeeded += this.calculatePowerToMove(point);
 	}
-	public void subtractFromBreadCrumbPowerNeeded()
+	public void subtractFromBreadCrumbPowerNeeded(Point point)
 	{
-		this._breadcrumbPowerNeeded--;
+		this._breadcrumbPowerNeeded -= this.calculatePowerToMove(point);
 	}
 	public int getBreadCrumbPowerNeeded()
 	{
@@ -62,14 +62,14 @@ public class Robot {
 			_log.addLog(LogActivityTypes.RETURNTOCHARGER, "Returning to charger station");
 		this._returnToChargerFlag = bool;
 	}
-	public int getPower()
+	public double getPower()
 	{
 		return this._power;
 	}
 
-	public boolean CanClean()
+	public boolean CanClean(Point point)
 	{
-		return this.hasEnoughPower() && canStoreMoreDirt();
+		return this.hasEnoughPower(point) && canStoreMoreDirt();
 	}
 	public void Clean(FloorCell fc)
 	{
@@ -81,9 +81,9 @@ public class Robot {
 			_log.addLog(LogActivityTypes.CLEANED, "Cleaned unit of dirt at: " + fc.getCoordinates().toString() + " with floor type " + fc.getFloorType().name());
 		}
 	}
-	public boolean CanMove()
+	public boolean CanMove(Point point)
 	{
-		if(hasEnoughPower() ||  this.getReturnToChargerFlag())
+		if(hasEnoughPower(point) ||  this.getReturnToChargerFlag())
 		{
 			return true;
 		}
@@ -103,12 +103,18 @@ public class Robot {
 		currentCoor.setX(point.getX());
 		currentCoor.setY(point.getY());
 		logMove(point);
-		this._power -= 1;
+		
+		this._power -= calculatePowerToMove(point);
 	}
 	private void logMove(Point point)
 	{
 		_memory.put(point, _floorPlan.getCellByPoint(point));
 		_log.addLog(LogActivityTypes.MOVE, "Robot moved to cell: " + point.toString());
+	}
+	private double calculatePowerToMove(Point point)
+	{
+		return (this.getFloorPlan().getCellByPoint(this.getCoordinates()).getFloorType().getValue() 
+				+ this.getFloorPlan().getCellByPoint(point).getFloorType().getValue())/2;
 	}
 	public Robot(int xCoor,int yCoor,FloorPlan fp)
 	{
@@ -150,7 +156,7 @@ public class Robot {
 		_log.dumpLog();
 	}
 
-	private boolean hasEnoughPower()
+	private boolean hasEnoughPower(Point point)
 	{
 		if(this.getReturnToChargerFlag())
 		{
@@ -158,7 +164,7 @@ public class Robot {
 		}
 		else
 		{
-			int forecastedPowerLeft = this.getPower()-1;
+			double forecastedPowerLeft = this.getPower() - calculatePowerToMove(point);
 			if(forecastedPowerLeft > this.getBreadCrumbPowerNeeded()){
 				this.setReturnToChargerFlag(false);
 				return true;
@@ -205,6 +211,7 @@ public class Robot {
 			
 			Double powerUnit =0.0;
 			FloorTypes floorTypes =floorCell.getFloorType();
+			
 			switch(floorTypes)
 			{
 			case BARE:

@@ -107,13 +107,13 @@ public class FloorPlan {
 					if(this.floorPlanIsCleaned() == false && this.getRobot().getReturnToChargerFlag() == false) // continue moving and cleaning
 					{
 						Point currentRobotCoor = new Point(this.getRobot().getCoordinates().getX(),this.getRobot().getCoordinates().getY());
-						if(this.getRobot().CanMove())
+						if(this.getRobot().CanMove(cell.getCoordinates()))
 						{
 							_breadCrumb.add(currentRobotCoor);
 							this.getRobot().Move(cell.getCoordinates());
 							
-							this.getRobot().addToBreadCrumbPowerNeeded();
-							while(this.getRobot().CanClean() && !cell.alreadyCleaned())
+							this.getRobot().addToBreadCrumbPowerNeeded(cell.getCoordinates());
+							while(this.getRobot().CanClean(cell.getCoordinates()) && !cell.alreadyCleaned())
 							{
 								 this.getRobot().Clean(cell);
 							}
@@ -157,7 +157,7 @@ public class FloorPlan {
 		for(int i = _breadCrumb.size() -1; i >= 0; i--)
 		{
 			Point point = _breadCrumb.get(i);
-			this.getRobot().subtractFromBreadCrumbPowerNeeded();
+			this.getRobot().subtractFromBreadCrumbPowerNeeded(point);
 			System.out.println(this.toString());
 			this.getRobot().Move(point); // send the robot back on the path it came on
 		}
