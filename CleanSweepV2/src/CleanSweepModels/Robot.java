@@ -11,10 +11,13 @@ public class Robot {
 	
 	private Point _coordinates;
 	private int _power = 50;
+	private int _dirtCollected = 0;
 	private boolean _returnToChargerFlag = false;
 	private FloorPlan _floorPlan;
 	private HashMap<Point, FloorCell> _memory = new HashMap<Point, FloorCell>();
 	private RobotLog _log = new RobotLog();
+	private int _breadcrumbPowerNeeded = 0;
+	private final int maxAllowableDirt = 50;
 	
 	public Point getCoordinates()
 	{
@@ -23,6 +26,26 @@ public class Robot {
 	private FloorPlan getFloorPlan()
 	{
 		return this._floorPlan;
+	}
+	public void addToDirtCollected()
+	{
+		this._dirtCollected++;
+	}
+	public int getDirtCollected()
+	{
+		return this._dirtCollected;
+	}
+	public void addToBreadCrumbPowerNeeded()
+	{
+		this._breadcrumbPowerNeeded++;
+	}
+	public void subtractFromBreadCrumbPowerNeeded()
+	{
+		this._breadcrumbPowerNeeded--;
+	}
+	public int getBreadCrumbPowerNeeded()
+	{
+		return this._breadcrumbPowerNeeded;
 	}
 	private void setFloorPlan(FloorPlan fp)
 	{
@@ -45,7 +68,7 @@ public class Robot {
 
 	public boolean CanClean()
 	{
-		return this.hasEnoughPower();
+		return this.hasEnoughPower() && canStoreMoreDirt();
 	}
 	public void Clean(FloorCell fc)
 	{
@@ -53,10 +76,21 @@ public class Robot {
 		{
 			fc.Clean();
 			this._power -= (1 * fc.getFloorType().getValue());	
+			this.addToDirtCollected();
 			_log.addLog(LogActivityTypes.CLEANED, "Cleaned unit of dirt at: " + fc.getCoordinates().toString() + " with floor type " + fc.getFloorType().name());
 		}
 	}
-	public boolean Move(Point point)
+	public boolean CanMove()
+	{
+		if(hasEnoughPower() ||  this.getReturnToChargerFlag())
+		{
+			return true;
+		}
+		else
+			return false;
+		
+	}
+	public void Move(Point point)
 	{
 		Point currentCoor = this.getCoordinates();
 		
@@ -64,32 +98,16 @@ public class Robot {
 	//		throw new IllegalArgumentException("Attempted to move two cells at once");
 	//	if (Math.abs(currentCoor.getX() - point.getX()) + Math.abs(currentCoor.getY() - point.getY()) > 1)
 	//		throw new IllegalArgumentException("Attempted to move two cells at once (diagonally)");
-		if (!_floorPlan.getFloorPlanData().containsKey(point))
-			throw new IllegalArgumentException("Attempted move to point outside floorplan");
 		
-		boolean moved = false;
-		if(hasEnoughPower())
-		{
-			currentCoor.setX(point.getX());
-			moved = true;
-		}
-
-		if(hasEnoughPower())
-		{
-			currentCoor.setY(point.getY());
-			moved = true;
-		}
-		
+		currentCoor.setX(point.getX());
+		currentCoor.setY(point.getY());
+		logMove(point);
 		this._power -= 1;
-		
-		if (moved)  {
-			_memory.put(point, _floorPlan.getCellByPoint(point));
-			_log.addLog(LogActivityTypes.MOVE, "Robot moved to cell: " + point.toString());
-		}
-		else
-			_log.addLog(LogActivityTypes.NOTENOUGHPOWER, "Can't move to: " + point.toString() + " and get back to charging station.");
-		
-		return moved;
+	}
+	private void logMove(Point point)
+	{
+		_memory.put(point, _floorPlan.getCellByPoint(point));
+		_log.addLog(LogActivityTypes.MOVE, "Robot moved to cell: " + point.toString());
 	}
 	public Robot(int xCoor,int yCoor,FloorPlan fp)
 	{
@@ -140,7 +158,7 @@ public class Robot {
 		else
 		{
 			int forecastedPowerLeft = this.getPower()-1;
-			if(forecastedPowerLeft >= this.getChargingStationDistance()){
+			if(forecastedPowerLeft > this.getBreadCrumbPowerNeeded()){
 				this.setReturnToChargerFlag(false);
 				return true;
 			}
@@ -151,24 +169,24 @@ public class Robot {
 			}
 		}
 	}
-	
-	private int getChargingStationDistance()
+	private boolean canStoreMoreDirt()
 	{
-		ChargingStation charger = this.getFloorPlan().getChargingStation();
-		Point chargerCoor = charger.getCoordinates();
-		int xChargerCoor = chargerCoor.getX();
-		int yChargerCoor = chargerCoor.getY();
-		
-		int xRobotCoor = this.getCoordinates().getX();
-		int yRobotCoor = this.getCoordinates().getY();
-		
-		int necessaryCharginUnitsToReturnToCharger = Math.abs(xRobotCoor - xChargerCoor) + Math.abs(yRobotCoor - yChargerCoor);
-		return necessaryCharginUnitsToReturnToCharger;
-		
+		if(this.getDirtCollected() < this.maxAllowableDirt)
+		{
+			return true;
+		}
+		else
+		{
+			this.setReturnToChargerFlag(true);
+			return false;
+		}
 	}
+	
 	public String toString()
 	{
-		return ("Coordinates of Robot: (" + Integer.toString(this.getCoordinates().getX()) + "," + Integer.toString(this.getCoordinates().getY()) + ")\nRobot power: " + this.getPower());
+		return ("Coordinates of Robot: (" + Integer.toString(this.getCoordinates().getX()) + "," 
+				+ Integer.toString(this.getCoordinates().getY()) + ")\nRobot power: " + this.getPower()
+				+ "\nDirt collected: " + Integer.toString(this._dirtCollected));
 	}
 
 

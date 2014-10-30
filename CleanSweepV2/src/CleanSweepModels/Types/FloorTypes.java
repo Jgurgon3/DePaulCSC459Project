@@ -8,4 +8,17 @@ public enum FloorTypes {
     private final int value;
     FloorTypes(int value) { this.value = value; }
     public int getValue() { return value; }
+    
+    public static FloorTypes setValue(String x) {
+    	int intX = Integer.parseInt(x);
+        switch(intX) {
+        case 1:
+            return BARE;
+        case 2:
+            return LOW;
+        case 3:
+        	return HIGH;
+        }
+        return null;
+    }
 }

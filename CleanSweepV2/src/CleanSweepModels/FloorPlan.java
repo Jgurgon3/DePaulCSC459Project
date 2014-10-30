@@ -12,9 +12,6 @@ import XMLParse.FloorCell;
 
 public class FloorPlan {
 
-
-	private int _xFloorPlanDim;
-	private int _yFloorPlanDim;
 	private ChargingStation _chargingStation;
 	private Robot _robot;
 	
@@ -25,16 +22,33 @@ public class FloorPlan {
 
 
 	//public access methods
-	public int xFloorPlanDim() {return this._xFloorPlanDim;}
-	public int yFloorPlanDim() {return this._yFloorPlanDim;}
-
-	public FloorPlan (int xDim, int yDim)
+	public int xFloorPlanDim() 
 	{
+		int xPrevMax = 0;
+		for(Map.Entry<Point, FloorCell> row : this._data.entrySet())
+		{
+			if(row.getKey().getX() > xPrevMax)
+			{
+				xPrevMax = row.getKey().getX();
+			}
+		}
+		return xPrevMax+1;
+	}
+	public int yFloorPlanDim() 
+	{
+		int yPrevMax = 0;
+		for(Map.Entry<Point, FloorCell> row : this._data.entrySet())
+		{
+			if(row.getKey().getY() > yPrevMax)
+			{
+				yPrevMax = row.getKey().getY();
+			}
+		}
+		return yPrevMax+1;
+	}
 
-		// This sets the initial size
-		this._xFloorPlanDim = xDim;
-		this._yFloorPlanDim = yDim;		
-
+	public FloorPlan ()
+	{
 	}
 	
 	public void AddCell(FloorCell fc)
@@ -42,8 +56,8 @@ public class FloorPlan {
 		Point cellCoordinates = new Point(fc.getCoordinates().getX(), fc.getCoordinates().getY());
 		
 		this._data.put(cellCoordinates,fc);
-	
 	}
+	
 
 	public Map<Point, FloorCell> getFloorPlanData()
 	{
@@ -59,9 +73,9 @@ public class FloorPlan {
 	{
 		return this._chargingStation;
 	}
-	public void setChargingStation(int xCoor, int yCoor)
+	public void setChargingStation()
 	{
-		this._chargingStation = new ChargingStation(xCoor,yCoor);
+		this._chargingStation = new ChargingStation(0,0);
 	}
 	
 	public Robot getRobot()
@@ -90,24 +104,35 @@ public class FloorPlan {
 			{
 				if(!_breadCrumb.contains(cell.getCoordinates()))
 				{
-					if(this.floorPlanIsCleaned() == false) // continue moving and cleaning
+					if(this.floorPlanIsCleaned() == false && this.getRobot().getReturnToChargerFlag() == false) // continue moving and cleaning
 					{
 						Point currentRobotCoor = new Point(this.getRobot().getCoordinates().getX(),this.getRobot().getCoordinates().getY());
-						if(this.getRobot().Move(cell.getCoordinates()))
+						if(this.getRobot().CanMove())
 						{
 							_breadCrumb.add(currentRobotCoor);
+							this.getRobot().Move(cell.getCoordinates());
+							
+							this.getRobot().addToBreadCrumbPowerNeeded();
 							while(this.getRobot().CanClean() && !cell.alreadyCleaned())
 							{
 								 this.getRobot().Clean(cell);
 							}
 							this.AddCell(cell); // this updates the cells attributes.
 							System.out.println(this.toString());
-							this.MoveRobot(_breadCrumb); // continue recursively
+							if(this.getRobot().getReturnToChargerFlag() == false)
+							{
+								this.MoveRobot(_breadCrumb); // continue recursively
+							}
+							else
+							{
+								this.returnToCharger(_breadCrumb);
+								break;
+							}
+							
 						}
 						else
 						{
 							// Return to charger, robot needs power
-							System.out.println(this.toString());
 							this.returnToCharger(_breadCrumb);
 							break;
 						}
@@ -115,11 +140,12 @@ public class FloorPlan {
 					else
 					{
 						this.returnToCharger(_breadCrumb);
+						break;
 					}
 				}
 				
 			}
-			this.returnToCharger(_breadCrumb);
+			//this.returnToCharger(_breadCrumb);
 
 			
 		}
@@ -128,9 +154,11 @@ public class FloorPlan {
 	}
 	private void returnToCharger(ArrayList<Point> _breadCrumb)
 	{
-		for(int i = _breadCrumb.size() -1; i > 0; i--)
+		for(int i = _breadCrumb.size() -1; i >= 0; i--)
 		{
 			Point point = _breadCrumb.get(i);
+			this.getRobot().subtractFromBreadCrumbPowerNeeded();
+			System.out.println(this.toString());
 			this.getRobot().Move(point); // send the robot back on the path it came on
 		}
 		_breadCrumb.clear();
@@ -189,32 +217,40 @@ public class FloorPlan {
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
-		for(int x=0;x<this._xFloorPlanDim;x++)
+		for(int x=0;x<this.xFloorPlanDim()-1;x++)
 		{
-			for(int y=0;y<this._yFloorPlanDim;y++)
+			for(int y=0;y<this.yFloorPlanDim()-1;y++)
 			{
 				FloorCell _tmpFC = this.getCellByPoint(new Point(x,y));
-				if(_tmpFC.getCoordinates().equals(this.getChargingStation().getCoordinates()))
+				if(_tmpFC != null)
 				{
-					sb.append("+");
-				}
-				if(this.getRobot().getCoordinates().equals(_tmpFC.getCoordinates()))
-				{
-					sb.append("Robot   ");
-				}
-				else
-				{
-					if(_tmpFC.getDirtUnits() == 0)
+					if(_tmpFC.getCoordinates().equals(this.getChargingStation().getCoordinates()))
 					{
-						sb.append("Clean   ");
+						sb.append("+");
+					}
+					if(this.getRobot().getCoordinates().equals(_tmpFC.getCoordinates()))
+					{
+						sb.append("Robot   ");
 					}
 					else
 					{
-						sb.append("Dirty   ");
+						if(_tmpFC.getDirtUnits() == 0)
+						{
+							sb.append("Clean   ");
+						}
+						else
+						{
+							sb.append("Dirty   ");
+						}
 					}
+				}
+				else
+				{
+					sb.append("Close   ");
 				}
 				
 			}
+				
 			sb.append("\n");
 		}
 		

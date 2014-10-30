@@ -20,23 +20,22 @@ public class ParserFloorPlan {
 			SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 			SAXParser parser = parserFactor.newSAXParser();
 			SAXHandler handler = new SAXHandler();
-//			parser.parse(ClassLoader.getSystemResourceAsStream("XMLParse/xml3x3.xml"),handler);
 			parser.parse(ClassLoader.getSystemResourceAsStream(fileName),handler);	
-		
+						
 			return handler._fp;
+			
 
 		}
 		
-		public static List<FloorCell> FloorCellList(String fileName) throws ParserConfigurationException, SAXException, IOException {
-
-			SAXParserFactory parserFactor = SAXParserFactory.newInstance();
-			SAXParser parser = parserFactor.newSAXParser();
-			SAXHandler handler = new SAXHandler();
-//			parser.parse(ClassLoader.getSystemResourceAsStream("XMLParse/xml3x3.xml"),handler);
-			parser.parse(ClassLoader.getSystemResourceAsStream(fileName),handler);	
-			return handler.floorCellList;
-
-		}
+//		public static List<FloorCell> FloorCellList(String fileName) throws ParserConfigurationException, SAXException, IOException {
+//
+//			SAXParserFactory parserFactor = SAXParserFactory.newInstance();
+//			SAXParser parser = parserFactor.newSAXParser();
+//			SAXHandler handler = new SAXHandler();
+//			parser.parse(ClassLoader.getSystemResourceAsStream(fileName),handler);	
+//			return handler.floorCellList;
+//
+//		}
 
 }
 

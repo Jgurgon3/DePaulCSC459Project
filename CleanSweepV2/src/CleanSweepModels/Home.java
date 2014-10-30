@@ -10,16 +10,16 @@ import org.xml.sax.SAXException;
 public class Home {
 
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-  
-    	FloorPlan fp = (XMLParse.ParserFloorPlan.runParser("XMLParse/xml3x3.xml"));
+    	
+    	FloorPlan fp = (XMLParse.ParserFloorPlan.runParser("XMLParse/BigXML.xml"));
     	
     	
     	System.out.println(fp.getRobot().toString());
     	System.out.println(fp.toString());
     	
         fp.MoveRobot(new ArrayList<Point>());
+        System.out.println(fp.toString());
         System.out.println(fp.getRobot().toString());
-        System.out.println("Floor is clean");
         fp.getRobot().dumpLog();
         
     }
