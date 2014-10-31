@@ -16,21 +16,21 @@ public class RobotTest extends TestCase {
 			throws ParserConfigurationException, SAXException, IOException {
 
 		FloorPlan fp = (XMLParse.ParserFloorPlan
-				.runParser("XMLParse/xml3x3.xml"));
+				.runParser("src/XMLParse/xml3x3.xml"));
 
 		assertSame(fp.getRobot().getCoordinates().getX(), 0);
 		assertSame(fp.getRobot().getCoordinates().getY(), 0);
 
 		assertFalse(fp.getRobot().getReturnToChargerFlag());
 
-		assertSame(fp.getRobot().getPower(), 50);
+		assertEquals(fp.getRobot().getPower(), 50.0);
 
 	}
 
 	public void testMovement() throws ParserConfigurationException,
 			SAXException, IOException {
 		FloorPlan fp = (XMLParse.ParserFloorPlan
-				.runParser("XMLParse/xml3x3.xml"));
+				.runParser("src/XMLParse/xml3x3.xml"));
 
 		// test east
 		fp.getRobot().Move(new Point(1, 0));
@@ -71,7 +71,7 @@ public class RobotTest extends TestCase {
 			fail();
 		} catch (IllegalArgumentException e) {
 		}
-/*
+
 		// test northeast
 		try {
 			fp.getRobot().Move(new Point(1,1));
@@ -94,13 +94,13 @@ public class RobotTest extends TestCase {
 			}
 		 assertSame(fp.getRobot().getCoordinates().getX(), 1);
 		 assertSame(fp.getRobot().getCoordinates().getY(), 1);
-*/
+
 	} 
 
 	public void testMemory() throws ParserConfigurationException, SAXException,
 			IOException {
 		FloorPlan fp = (XMLParse.ParserFloorPlan
-				.runParser("XMLParse/xml3x3.xml"));
+				.runParser("src/XMLParse/xml3x3.xml"));
 
 		assertSame(fp.getRobot().getMemory().size(), 1);
 

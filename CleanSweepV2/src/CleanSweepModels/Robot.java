@@ -95,10 +95,10 @@ public class Robot {
 	{
 		Point currentCoor = this.getCoordinates();
 		
-	//	if (Math.abs(currentCoor.getX() - point.getX()) > 1 || Math.abs(currentCoor.getY() - point.getY()) > 1)
-	//		throw new IllegalArgumentException("Attempted to move two cells at once");
-	//	if (Math.abs(currentCoor.getX() - point.getX()) + Math.abs(currentCoor.getY() - point.getY()) > 1)
-	//		throw new IllegalArgumentException("Attempted to move two cells at once (diagonally)");
+		if (Math.abs(currentCoor.getX() - point.getX()) > 1 || Math.abs(currentCoor.getY() - point.getY()) > 1)
+			throw new IllegalArgumentException("Attempted to move two cells at once");
+		if (Math.abs(currentCoor.getX() - point.getX()) + Math.abs(currentCoor.getY() - point.getY()) > 1)
+			throw new IllegalArgumentException("Attempted to move two cells at once (diagonally)");
 		
 		currentCoor.setX(point.getX());
 		currentCoor.setY(point.getY());
