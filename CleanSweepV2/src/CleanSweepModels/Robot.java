@@ -210,18 +210,18 @@ public class Robot {
 				return 0.0;  //No power required to clean, just move to next cell. May be way back to cleaning after charge
 			
 			Double powerUnit =0.0;
-			FloorTypes floorTypes =floorCell.getFloorType();
+			int floorTypes =floorCell.getFloorType().getValue();
 			
 			switch(floorTypes)
 			{
-			case BARE:
+			case 1:
 				powerUnit=1.0;
 				break;
-			case LOW:
+			case 2:
 				powerUnit=2.0;
 				break;
 	
-			case HIGH:
+			case 3:
 				powerUnit=3.0;
 				break;
 		
@@ -243,31 +243,31 @@ public class Robot {
 			Double powerUnitPrev =0.0;
 			Double powerUnitCurrent =0.0;
 			
-			FloorTypes floorTypes =prevCell.getFloorType();
+			int floorTypes =prevCell.getFloorType().getValue();
 			switch(floorTypes)
 			{
-			case BARE:
+			case 1:
 				powerUnitPrev=.5;
 				break;
-			case LOW:
+			case 2:
 				powerUnitPrev=1.0;
 				break;
 	
-			case HIGH:
+			case 3:
 				powerUnitPrev=1.5;
 				break;
 			}
-			FloorTypes floorTypes2 =floorCell.getFloorType();
+			int floorTypes2 =floorCell.getFloorType().getValue();;
 			switch(floorTypes2)
 			{
-			case BARE:
+			case 1:
 				powerUnitCurrent=.5;
 				break;
-			case LOW:
+			case 2:
 				powerUnitCurrent=1.0;
 				break;
 	
-			case HIGH:
+			case 3:
 				powerUnitCurrent=1.5;
 				break;
 		

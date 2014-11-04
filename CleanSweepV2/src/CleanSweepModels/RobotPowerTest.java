@@ -64,7 +64,72 @@ public class RobotPowerTest {
 	double powerToMove= robot.getPowerForCellMoving(fc1, fc2);
 	assertEquals(1, powerToMove,0);
 	}
-	
+
+	@Test
+	public void testMoveBetweenBareToLowPile() throws ParserConfigurationException, SAXException, IOException  {
+	initRobot();	
+    FloorCell fc1 = robot.getMemory().get(new Point(0, 0));
+	fc1.setFloorType(FloorTypes.BARE);
+	int size=  robot.getMemory().size();
+	System.out.println(size);
+	FloorCell fc2 =new FloorCell();
+	fc2.setFloorType(FloorTypes.LOW);
+	double powerToMove= robot.getPowerForCellMoving(fc1, fc2);
+	assertEquals(1.5, powerToMove,0);
+	}
+
+	@Test
+	public void testMoveBetweenBareToHighPile() throws ParserConfigurationException, SAXException, IOException  {
+	initRobot();	
+    FloorCell fc1 = robot.getMemory().get(new Point(0, 0));
+	fc1.setFloorType(FloorTypes.BARE);
+	int size=  robot.getMemory().size();
+	System.out.println(size);
+	FloorCell fc2 =new FloorCell();
+	fc2.setFloorType(FloorTypes.HIGH);
+	double powerToMove= robot.getPowerForCellMoving(fc1, fc2);
+	assertEquals(2, powerToMove,0);
+	}
+
+	@Test
+	public void testMoveBetweenLoTolowPile() throws ParserConfigurationException, SAXException, IOException  {
+	initRobot();	
+    FloorCell fc1 = robot.getMemory().get(new Point(0, 0));
+	fc1.setFloorType(FloorTypes.LOW);
+	int size=  robot.getMemory().size();
+	System.out.println(size);
+	FloorCell fc2 =new FloorCell();
+	fc2.setFloorType(FloorTypes.LOW);
+	double powerToMove= robot.getPowerForCellMoving(fc1, fc2);
+	assertEquals(2, powerToMove,0);
+	}
+
+	@Test
+	public void testMoveBetweenLowToHighPile() throws ParserConfigurationException, SAXException, IOException  {
+	initRobot();	
+    FloorCell fc1 = robot.getMemory().get(new Point(0, 0));
+	fc1.setFloorType(FloorTypes.LOW);
+	int size=  robot.getMemory().size();
+	System.out.println(size);
+	FloorCell fc2 =new FloorCell();
+	fc2.setFloorType(FloorTypes.HIGH);
+	double powerToMove= robot.getPowerForCellMoving(fc1, fc2);
+	assertEquals(2.5, powerToMove,0);
+	}
+
+	@Test
+	public void testMoveBetweenHighToHighPile() throws ParserConfigurationException, SAXException, IOException  {
+	initRobot();	
+    FloorCell fc1 = robot.getMemory().get(new Point(0, 0));
+	fc1.setFloorType(FloorTypes.HIGH);
+	int size=  robot.getMemory().size();
+	System.out.println(size);
+	FloorCell fc2 =new FloorCell();
+	fc2.setFloorType(FloorTypes.HIGH);
+	double powerToMove= robot.getPowerForCellMoving(fc1, fc2);
+	assertEquals(3, powerToMove,0);
+	}
+
 	private void initRobot()throws ParserConfigurationException, SAXException,IOException 
 	{
 		if(robot==null)
