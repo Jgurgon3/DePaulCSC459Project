@@ -111,7 +111,7 @@ public class Robot {
 		_memory.put(point, _floorPlan.getCellByPoint(point));
 		_log.addLog(LogActivityTypes.MOVE, "Robot moved to cell: " + point.toString());
 	}
-	private double calculatePowerToMove(Point point)
+	public double calculatePowerToMove(Point point)
 	{
 		return (this.getFloorPlan().getCellByPoint(this.getCoordinates()).getFloorType().getValue() 
 				+ this.getFloorPlan().getCellByPoint(point).getFloorType().getValue())/2;
@@ -176,7 +176,7 @@ public class Robot {
 			}
 		}
 	}
-	private boolean canStoreMoreDirt()
+	public boolean canStoreMoreDirt()
 	{
 		if(this.getDirtCollected() < this.maxAllowableDirt)
 		{
