@@ -121,16 +121,20 @@ public class Robot {
 	public void Move(FloorCell fc,boolean AddToBreadCrumb)
 	{
 		Point currentCoor = this.getCoordinates();
-		if(AddToBreadCrumb)
+		if(AddToBreadCrumb && fc.alreadyCleaned() == false)
 		{	
 			// this means we are moving forward
 			this.addBreadCrumb(this.getFloorPlan().getCellByPoint(currentCoor));
 			this._power -= calculatePowerToMove(fc.getCoordinates());
-		}			
+		}
 		else
 		{
-			this.subtractFromBreadCrumbPowerNeeded(fc.getCoordinates());
+			
 			this._power -= 1;
+			if(AddToBreadCrumb == false)
+			{
+				this.subtractFromBreadCrumbPowerNeeded(fc.getCoordinates());
+			}
 		}
 		currentCoor.setX(fc.getCoordinates().getX());
 		currentCoor.setY(fc.getCoordinates().getY());

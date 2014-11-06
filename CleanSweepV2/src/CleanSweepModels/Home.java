@@ -32,10 +32,7 @@ public class Home {
 		while(fp.floorPlanIsCleaned() == false)
     	{
     		fp.MoveRobot();
-    		if(fp.getFoundDirtyCell() == false)
-    		{
-    			
-    		}
+
     	}
 		System.out.println(fp.toString());
 		System.out.println("Floor is clean");

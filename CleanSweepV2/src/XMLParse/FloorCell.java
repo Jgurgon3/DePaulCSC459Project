@@ -162,7 +162,7 @@ public class FloorCell implements Comparable<FloorCell> {
             	{
             		if(fc.getVisitedTime() > this.getVisitedTime())
             		{
-            			return 1;
+            			return -1;
             		}
             		else if(fc.getVisitedTime() < this.getVisitedTime())
             		{

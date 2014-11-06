@@ -110,6 +110,11 @@ public class FloorPlan {
 	}
 	public void MoveRobot()
 	{
+		if(this.floorPlanIsCleaned())
+		{
+			this.returnToCharger();
+			return;
+		}
 		List<FloorCell> movePossiblities = this.getMovePossiblities(this.getCellByPoint(this.getRobot().getCoordinates()));
 		this.setFoundDirtyCell(false);
 		for (final FloorCell cell : movePossiblities) 
@@ -138,8 +143,7 @@ public class FloorPlan {
 			}
 			
 		}
-		if(this.floorPlanIsCleaned())
-			this.returnToCharger();
+
 	}
 
 	private void returnToCharger()
