@@ -17,6 +17,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import CleanSweepModels.Types.FloorTypes;
 import XMLParse.FloorCell;
 
 class DrawPanel extends JPanel 
@@ -46,6 +47,7 @@ class DrawPanel extends JPanel
 	        }
 			
 		}
+
 	}
 	@Override    
     public void paint(Graphics g)
@@ -70,13 +72,21 @@ class DrawPanel extends JPanel
 		{
 			for(int x=0;x<=this._fp.xFloorPlanDim()-1;x++)
 			{
+
 				FloorCell _tmpFC = this._fp.getCellByPoint(new Point(x,y));
 				if(_tmpFC != null)
 				{
+					int alpha;					
+					if(_tmpFC.getFloorType() == FloorTypes.BARE)
+						alpha = 50;
+					else if(_tmpFC.getFloorType() == FloorTypes.LOW)
+						alpha = 100;
+					else
+						alpha = 200;
 					if(_tmpFC.getCoordinates().equals(this._fp.getChargingStation().getCoordinates()))
 					{
 						//charger
-		        		g2d.setColor(new Color(255,255,0));
+		        		g2d.setColor(new Color(21,0,255));
 		        		g2d.fillRect(intialPosition + (x * squareWidth), intialPosition + (y * squareWidth), squareWidth, squareWidth);
 
 		        		
@@ -92,13 +102,14 @@ class DrawPanel extends JPanel
 						if(_tmpFC.getDirtUnits() == 0)
 						{
 							//clean cell
-							g2d.setColor(new Color(0,255,0));
+							g2d.setColor(new Color(0,255,0,alpha));
 							g2d.fillRect(intialPosition + (x * squareWidth), intialPosition + (y * squareWidth), squareWidth, squareWidth);
 						}
 						else
 						{
 							//dirty
-							g2d.setColor(new Color(255,0,0));
+		
+							g2d.setColor(new Color(255,0,0,alpha));
 							g2d.fillRect(intialPosition + (x * squareWidth), intialPosition + (y * squareWidth), squareWidth, squareWidth);
 						}
 					}
