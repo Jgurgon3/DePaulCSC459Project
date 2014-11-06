@@ -60,7 +60,8 @@ class DrawPanel extends JPanel
         Image image = null;
         try
         {
-        	image = ImageIO.read(new File("Robot.png"));
+        	//image = ImageIO.read(new File("Robot.png"));
+        	image = ImageIO.read(getClass().getResource("/CleanSweepModels/Robot.png"));
         }
         catch(IOException e)
         {
