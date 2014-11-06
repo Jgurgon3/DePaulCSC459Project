@@ -1,7 +1,8 @@
-package CleanSweepModels;
+package test.cleansweep;
 
 
 import java.io.IOException;
+
 
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -9,6 +10,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 
+
+import CleanSweepModels.FloorPlan;
 import junit.framework.TestCase;
 
 public class RobotTest extends TestCase {
