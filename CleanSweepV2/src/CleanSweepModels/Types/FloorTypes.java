@@ -3,7 +3,7 @@ package CleanSweepModels.Types;
 public enum FloorTypes {
     BARE (1),
     LOW (2),
-    HIGH (3);
+    HIGH (4);
     
     private final int value;
     FloorTypes(int value) { this.value = value; }
@@ -16,7 +16,7 @@ public enum FloorTypes {
             return BARE;
         case 2:
             return LOW;
-        case 3:
+        case 4:
         	return HIGH;
         }
         return null;

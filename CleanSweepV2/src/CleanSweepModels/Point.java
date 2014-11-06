@@ -8,7 +8,11 @@ public class Point {
         this._x = x;
         this._y = y;
     }
-
+    
+    public Point Clone()
+    {
+    	return new Point(this.getX(),this.getX());
+    }
     public int getX() {
         return _x;
     }

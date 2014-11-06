@@ -1,5 +1,6 @@
 package CleanSweepModels;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -13,12 +14,14 @@ public class Robot {
 	private Point _coordinates;
 	private double _power = 50;
 	private int _dirtCollected = 0;
+	private int _totalDirtCollected = 0;
 	private boolean _returnToChargerFlag = false;
 	private FloorPlan _floorPlan;
 	private HashMap<Point, FloorCell> _memory = new HashMap<Point, FloorCell>();
 	private RobotLog _log = new RobotLog();
 	private int _breadcrumbPowerNeeded = 0;
 	private final int maxAllowableDirt = 50;
+	private ArrayList<FloorCell> _breadCrumb = new ArrayList<FloorCell>();
 	
 	public Point getCoordinates()
 	{
@@ -28,6 +31,15 @@ public class Robot {
 	{
 		return this._floorPlan;
 	}
+	private void addBreadCrumb(FloorCell fc)
+	{
+		this._breadCrumb.add(fc);
+			addToBreadCrumbPowerNeeded(fc.getCoordinates());
+	}
+	public ArrayList<FloorCell> getBreadCrumb()
+	{
+		return this._breadCrumb;
+	}
 	public void addToDirtCollected()
 	{
 		this._dirtCollected++;
@@ -36,7 +48,11 @@ public class Robot {
 	{
 		return this._dirtCollected;
 	}
-	public void addToBreadCrumbPowerNeeded(Point point)
+	public void resetBreadCrumbPowerNeeded()
+	{
+		this._breadcrumbPowerNeeded = 0;
+	}
+	private void addToBreadCrumbPowerNeeded(Point point)
 	{
 		this._breadcrumbPowerNeeded += this.calculatePowerToMove(point);
 	}
@@ -66,7 +82,20 @@ public class Robot {
 	{
 		return this._power;
 	}
+	
+	public void ChargeAndEmpty()
+	{
+		this._power = 50.0;
+		this._totalDirtCollected += this._dirtCollected;
+		this._dirtCollected = 0;
+		this.setReturnToChargerFlag(false);
+		this._breadCrumb.clear();
+	}
 
+	private void addChargerToBreadCrumb()
+	{
+		this.addBreadCrumb(this.getFloorPlan().getCellByPoint(new Point(0,0)));
+	}
 	public boolean CanClean(Point point)
 	{
 		return this.hasEnoughPower(point) && canStoreMoreDirt();
@@ -75,15 +104,14 @@ public class Robot {
 	{
 		if(this.getCoordinates().equals(fc.getCoordinates())) // only clean cells that we are currently at
 		{
-			fc.Clean();
-			this._power -= (1 * fc.getFloorType().getValue());	
+			fc.Clean();	
 			this.addToDirtCollected();
 			_log.addLog(LogActivityTypes.CLEANED, "Cleaned unit of dirt at: " + fc.getCoordinates().toString() + " with floor type " + fc.getFloorType().name());
 		}
 	}
-	public boolean CanMove(Point point)
+	public boolean CanMove(FloorCell fc)
 	{
-		if(hasEnoughPower(point) ||  this.getReturnToChargerFlag())
+		if(!this.getReturnToChargerFlag() && hasEnoughPower(fc.getCoordinates()))
 		{
 			return true;
 		}
@@ -91,25 +119,25 @@ public class Robot {
 			return false;
 		
 	}
-	public void Move(Point point)
+	public void Move(FloorCell fc,boolean AddToBreadCrumb)
 	{
 		Point currentCoor = this.getCoordinates();
+		if(AddToBreadCrumb) // this means we are moving forward
+			this.addBreadCrumb(this.getFloorPlan().getCellByPoint(currentCoor));
+		else
+			this.subtractFromBreadCrumbPowerNeeded(fc.getCoordinates());
+		currentCoor.setX(fc.getCoordinates().getX());
+		currentCoor.setY(fc.getCoordinates().getY());
+		this._power -= calculatePowerToMove(fc.getCoordinates());
 		
-	//	if (Math.abs(currentCoor.getX() - point.getX()) > 1 || Math.abs(currentCoor.getY() - point.getY()) > 1)
-	//		throw new IllegalArgumentException("Attempted to move two cells at once");
-	//	if (Math.abs(currentCoor.getX() - point.getX()) + Math.abs(currentCoor.getY() - point.getY()) > 1)
-	//		throw new IllegalArgumentException("Attempted to move two cells at once (diagonally)");
+		logMove(fc);
 		
-		currentCoor.setX(point.getX());
-		currentCoor.setY(point.getY());
-		logMove(point);
 		
-		this._power -= calculatePowerToMove(point);
 	}
-	private void logMove(Point point)
+	private void logMove(FloorCell fc)
 	{
-		_memory.put(point, _floorPlan.getCellByPoint(point));
-		_log.addLog(LogActivityTypes.MOVE, "Robot moved to cell: " + point.toString());
+		_memory.put(fc.getCoordinates(), fc);
+		_log.addLog(LogActivityTypes.MOVE, "Robot moved to cell: " + fc.getCoordinates().toString());
 	}
 	private double calculatePowerToMove(Point point)
 	{
@@ -130,6 +158,12 @@ public class Robot {
 		}
 		
 		this._coordinates = p;
+		this.addChargerToBreadCrumb();
+		while(this.CanClean(p) && !this.getFloorPlan().getCellByPoint(p).alreadyCleaned())
+		{
+			this.Clean(this.getFloorPlan().getCellByPoint(p));
+			this.getFloorPlan().AddCell(this.getFloorPlan().getCellByPoint(p)); // this updates the cells attributes.
+		}	
 		_memory.put(new Point(xCoor, yCoor), fp.getCellByPoint(p));
 		_log.addLog(LogActivityTypes.WAKEUP, "Robot started at cell: " + p.toString());
 	}
@@ -155,25 +189,18 @@ public class Robot {
 	public void dumpLog() {
 		_log.dumpLog();
 	}
-
 	private boolean hasEnoughPower(Point point)
 	{
-		if(this.getReturnToChargerFlag())
-		{
-			return false;
+		double powerToMove = calculatePowerToMove(point);
+		double forecastedPowerLeft = this.getPower() - powerToMove;
+		if(forecastedPowerLeft > this.getBreadCrumbPowerNeeded()){
+			this.setReturnToChargerFlag(false);
+			return true;
 		}
 		else
 		{
-			double forecastedPowerLeft = this.getPower() - calculatePowerToMove(point);
-			if(forecastedPowerLeft > this.getBreadCrumbPowerNeeded()){
-				this.setReturnToChargerFlag(false);
-				return true;
-			}
-			else
-			{
-				this.setReturnToChargerFlag(true);
-				return false;
-			}
+			this.setReturnToChargerFlag(true);
+			return false;
 		}
 	}
 	private boolean canStoreMoreDirt()
@@ -193,7 +220,7 @@ public class Robot {
 	{
 		return ("Coordinates of Robot: (" + Integer.toString(this.getCoordinates().getX()) + "," 
 				+ Integer.toString(this.getCoordinates().getY()) + ")\nRobot power: " + this.getPower()
-				+ "\nDirt collected: " + Integer.toString(this._dirtCollected));
+				+ "\nDirt collected: " + Integer.toString(this._totalDirtCollected));
 	}
 
 	public Double getPowerForCellClean(FloorCell floorCell)

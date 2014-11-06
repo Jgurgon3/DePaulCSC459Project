@@ -3,9 +3,12 @@ package CleanSweepModels;
 import CleanSweepModels.Types.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.lang.StringBuilder;
 
 import XMLParse.FloorCell;
@@ -14,6 +17,9 @@ public class FloorPlan {
 
 	private ChargingStation _chargingStation;
 	private Robot _robot;
+	private FloorCell _prevCell = null;
+	private ArrayList<ArrayList<FloorCell>> _prevBreadCrumbs = new ArrayList<ArrayList<FloorCell>>();
+	
 	
 
 
@@ -58,7 +64,27 @@ public class FloorPlan {
 		this._data.put(cellCoordinates,fc);
 	}
 	
-
+	private boolean isPreviousCell(FloorCell fc)
+	{
+		return fc.equals(this.getPreviousCell());
+	}
+	
+	private void setPreviousCell(FloorCell fc)
+	{
+		this._prevCell = fc;
+	}
+	private FloorCell getPreviousCell()
+	{
+		return this._prevCell;
+	}
+	public void addPreviousBreadCrumb(ArrayList<FloorCell> lFc)
+	{
+		this._prevBreadCrumbs.add(lFc);
+	}
+	public ArrayList<ArrayList<FloorCell>> getPreviousBreadCrumb()
+	{
+		return this._prevBreadCrumbs;
+	}
 	public Map<Point, FloorCell> getFloorPlanData()
 	{
 		return this._data;
@@ -82,7 +108,7 @@ public class FloorPlan {
 	{
 		return this._robot;
 	}
-	private boolean floorPlanIsCleaned()
+	public boolean floorPlanIsCleaned()
 	{
 		for (FloorCell cell : this.getFloorPlanData().values()) {
 			if(!cell.alreadyCleaned())
@@ -93,75 +119,58 @@ public class FloorPlan {
 		return true;
 
 	}
-	public FloorPlan MoveRobot(ArrayList<Point> _breadCrumb)
+	public void MoveRobot()
 	{
-		
-		List<FloorCell> movePossiblities = this.getMovePossiblities();
-						
-		if(movePossiblities.isEmpty() == false)
+		List<FloorCell> movePossiblities = this.getMovePossiblities(this.getCellByPoint(this.getRobot().getCoordinates()));
+		for (final FloorCell cell : movePossiblities) 
 		{
-			for (final FloorCell cell : movePossiblities) 
-			{
-				if(!_breadCrumb.contains(cell.getCoordinates()))
-				{
-					if(this.floorPlanIsCleaned() == false && this.getRobot().getReturnToChargerFlag() == false) // continue moving and cleaning
+			if(this.getRobot().CanMove(cell))
+			{			
+				//if(this.isPreviousCell(cell) == false || movePossiblities.size() == 1)
+				//{
+					int x = 10;	
+					if(this.getRobot().getCoordinates().equals(new Point(1,8)))
 					{
-						Point currentRobotCoor = new Point(this.getRobot().getCoordinates().getX(),this.getRobot().getCoordinates().getY());
-						if(this.getRobot().CanMove(cell.getCoordinates()))
-						{
-							_breadCrumb.add(currentRobotCoor);
-							this.getRobot().Move(cell.getCoordinates());
-							
-							this.getRobot().addToBreadCrumbPowerNeeded(cell.getCoordinates());
-							while(this.getRobot().CanClean(cell.getCoordinates()) && !cell.alreadyCleaned())
-							{
-								 this.getRobot().Clean(cell);
-							}
-							this.AddCell(cell); // this updates the cells attributes.
-							System.out.println(this.toString());
-							if(this.getRobot().getReturnToChargerFlag() == false)
-							{
-								this.MoveRobot(_breadCrumb); // continue recursively
-							}
-							else
-							{
-								this.returnToCharger(_breadCrumb);
-								break;
-							}
-							
-						}
-						else
-						{
-							// Return to charger, robot needs power
-							this.returnToCharger(_breadCrumb);
-							break;
-						}
+						x++;
 					}
-					else
+					//this.setPreviousCell(this.getCellByPoint(this.getRobot().getCoordinates()));
+					this.getRobot().Move(cell,true);
+					cell.setVisited();
+					while(!cell.alreadyCleaned())
 					{
-						this.returnToCharger(_breadCrumb);
-						break;
+						this.getRobot().Clean(cell);
+						this.AddCell(cell); // this updates the cells attributes.
+					}										
+					System.out.println(this.toString());
+					if(this.getRobot().getReturnToChargerFlag())
+					{
+						this.returnToCharger();
 					}
-				}
-				
+					break;
+				//}
 			}
-			//this.returnToCharger(_breadCrumb);
-
+			else
+			{
+				this.returnToCharger();
+				break;
+			}
 			
 		}
-		
-		return this;
+		if(this.floorPlanIsCleaned())
+			this.returnToCharger();
 	}
-	private void returnToCharger(ArrayList<Point> _breadCrumb)
+
+	private void returnToCharger()
 	{
-		for(int i = _breadCrumb.size() -1; i >= 0; i--)
+		for(int i = this.getRobot().getBreadCrumb().size()-1; i>=0;i--)
 		{
-			Point point = _breadCrumb.get(i);
-			this.getRobot().subtractFromBreadCrumbPowerNeeded(point);
+			this.getRobot().Move(this.getRobot().getBreadCrumb().get(i),false);
 			System.out.println(this.toString());
-			this.getRobot().Move(point); // send the robot back on the path it came on
 		}
-		_breadCrumb.clear();
+		this.getRobot().resetBreadCrumbPowerNeeded();
+		this.getRobot().ChargeAndEmpty();
+		
+		
 	}
 	public FloorCell getCellByPoint(Point point)
 	{
@@ -169,13 +178,20 @@ public class FloorPlan {
 		return fc;
 	}
 
-	private List<FloorCell> getMovePossiblities()
+	private ArrayList<FloorCell> getMovePossiblities(FloorCell fc)
 	{
-		List<FloorCell> possibleCells = new ArrayList<>();
+		ArrayList<FloorCell> possibleCells = new ArrayList<>();
 		
-		FloorCell fc = this.getCellByPoint(this.getRobot().getCoordinates());
 		if(fc != null)
 		{
+			if(fc.getWestObstructions() == FloorObstructions.OPEN)
+			{
+				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX()-1,this.getRobot().getCoordinates().getY()));
+				if(fc != null)
+				{
+					possibleCells.add(possibleCell);
+				}
+			}
 			if(fc.getEastObstructions() == FloorObstructions.OPEN)
 			{
 				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX()+1,this.getRobot().getCoordinates().getY()));
@@ -193,14 +209,7 @@ public class FloorPlan {
 					possibleCells.add(possibleCell);
 				}
 			}
-			if(fc.getWestObstructions() == FloorObstructions.OPEN)
-			{
-				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX()-1,this.getRobot().getCoordinates().getY()));
-				if(fc != null)
-				{
-					possibleCells.add(possibleCell);
-				}
-			}
+			
 			if(fc.getSouthObstructions() == FloorObstructions.OPEN)
 			{
 				FloorCell possibleCell = this.getCellByPoint(new Point(this.getRobot().getCoordinates().getX(),this.getRobot().getCoordinates().getY()-1));
@@ -211,15 +220,19 @@ public class FloorPlan {
 			}
 		}
 		
+		long seed = System.nanoTime();
+		Collections.shuffle(possibleCells, new Random(seed));
+		Collections.sort(possibleCells);
+		
 		return possibleCells;
 		
 	}
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
-		for(int x=0;x<this.xFloorPlanDim()-1;x++)
+		for(int y=this.yFloorPlanDim()-1;y>=0;y--)
 		{
-			for(int y=0;y<this.yFloorPlanDim()-1;y++)
+			for(int x=0;x<=this.xFloorPlanDim()-1;x++)
 			{
 				FloorCell _tmpFC = this.getCellByPoint(new Point(x,y));
 				if(_tmpFC != null)
@@ -230,23 +243,23 @@ public class FloorPlan {
 					}
 					if(this.getRobot().getCoordinates().equals(_tmpFC.getCoordinates()))
 					{
-						sb.append("Robot   ");
+						sb.append("Robot (" + _tmpFC.getCoordinates().getX()+"," + _tmpFC.getCoordinates().getY()+")  ");
 					}
 					else
 					{
 						if(_tmpFC.getDirtUnits() == 0)
 						{
-							sb.append("Clean   ");
+							sb.append("Clean (" + x +"," + y +")  ");
 						}
 						else
 						{
-							sb.append("Dirty   ");
+							sb.append("Dirty (" + x +"," + y +")  ");
 						}
 					}
 				}
 				else
 				{
-					sb.append("Close   ");
+					sb.append("Close (" + x +"," + y +")  ");
 				}
 				
 			}
@@ -257,5 +270,7 @@ public class FloorPlan {
 		
 		return sb.toString();
 	}
+
+    
 
 }
