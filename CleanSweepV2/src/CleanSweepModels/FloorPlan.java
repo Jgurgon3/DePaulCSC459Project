@@ -17,15 +17,10 @@ public class FloorPlan {
 
 	private ChargingStation _chargingStation;
 	private Robot _robot;
-	private FloorCell _prevCell = null;
+	private boolean _foundDirtyCell = true;
 	private ArrayList<ArrayList<FloorCell>> _prevBreadCrumbs = new ArrayList<ArrayList<FloorCell>>();
-	
-	
-
 
 	private Map<Point, FloorCell> _data = new HashMap<Point, FloorCell>();
-
-
 
 	//public access methods
 	public int xFloorPlanDim() 
@@ -56,27 +51,21 @@ public class FloorPlan {
 	public FloorPlan ()
 	{
 	}
-	
+	public boolean getFoundDirtyCell()
+	{
+		return this._foundDirtyCell;
+	}
+	public void setFoundDirtyCell(boolean flag)
+	{
+		this._foundDirtyCell = flag;
+	}
 	public void AddCell(FloorCell fc)
 	{
 		Point cellCoordinates = new Point(fc.getCoordinates().getX(), fc.getCoordinates().getY());
 		
 		this._data.put(cellCoordinates,fc);
 	}
-	
-	private boolean isPreviousCell(FloorCell fc)
-	{
-		return fc.equals(this.getPreviousCell());
-	}
-	
-	private void setPreviousCell(FloorCell fc)
-	{
-		this._prevCell = fc;
-	}
-	private FloorCell getPreviousCell()
-	{
-		return this._prevCell;
-	}
+
 	public void addPreviousBreadCrumb(ArrayList<FloorCell> lFc)
 	{
 		this._prevBreadCrumbs.add(lFc);
@@ -122,17 +111,16 @@ public class FloorPlan {
 	public void MoveRobot()
 	{
 		List<FloorCell> movePossiblities = this.getMovePossiblities(this.getCellByPoint(this.getRobot().getCoordinates()));
+		this.setFoundDirtyCell(false);
 		for (final FloorCell cell : movePossiblities) 
 		{
 			if(this.getRobot().CanMove(cell))
 			{			
-				//if(this.isPreviousCell(cell) == false || movePossiblities.size() == 1)
-				//{
-					//this.setPreviousCell(this.getCellByPoint(this.getRobot().getCoordinates()));
 					this.getRobot().Move(cell,true);
 					cell.setVisited();
 					while(!cell.alreadyCleaned())
 					{
+						this.setFoundDirtyCell(true);
 						this.getRobot().Clean(cell);
 						this.AddCell(cell); // this updates the cells attributes.
 					}										
@@ -142,7 +130,6 @@ public class FloorPlan {
 						this.returnToCharger();
 					}
 					break;
-				//}
 			}
 			else
 			{
@@ -216,9 +203,11 @@ public class FloorPlan {
 		}
 		
 		long seed = System.nanoTime();
-		Collections.shuffle(possibleCells, new Random(seed));
-		Collections.sort(possibleCells);
-		
+		if(!_foundDirtyCell)
+		{
+			Collections.shuffle(possibleCells, new Random(seed));
+			Collections.sort(possibleCells);	
+		}
 		return possibleCells;
 		
 	}

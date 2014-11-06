@@ -11,7 +11,7 @@ import XMLParse.FloorCell;
 public class Robot {
 	
 	private Point _coordinates;
-	private double _power = 1500;
+	private double _power = 50;
 	private int _dirtCollected = 0;
 	private int _totalDirtCollected = 0;
 	private boolean _returnToChargerFlag = false;
@@ -121,13 +121,20 @@ public class Robot {
 	public void Move(FloorCell fc,boolean AddToBreadCrumb)
 	{
 		Point currentCoor = this.getCoordinates();
-		if(AddToBreadCrumb) // this means we are moving forward
+		if(AddToBreadCrumb)
+		{	
+			// this means we are moving forward
 			this.addBreadCrumb(this.getFloorPlan().getCellByPoint(currentCoor));
+			this._power -= calculatePowerToMove(fc.getCoordinates());
+		}			
 		else
+		{
 			this.subtractFromBreadCrumbPowerNeeded(fc.getCoordinates());
+			this._power -= 1;
+		}
 		currentCoor.setX(fc.getCoordinates().getX());
 		currentCoor.setY(fc.getCoordinates().getY());
-		this._power -= calculatePowerToMove(fc.getCoordinates());
+		
 		
 		logMove(fc);
 		if (Math.abs(currentCoor.getX() - fc.getCoordinates().getX()) > 1 || Math.abs(currentCoor.getY() - fc.getCoordinates().getY()) > 1)
@@ -144,6 +151,10 @@ public class Robot {
 	}
 	public double calculatePowerToMove(Point point)
 	{
+		if(this.getFloorPlan().getCellByPoint(this.getCoordinates()).alreadyCleaned())
+		{
+			return 1;
+		}
 		return (this.getFloorPlan().getCellByPoint(this.getCoordinates()).getFloorType().getValue() 
 				+ this.getFloorPlan().getCellByPoint(point).getFloorType().getValue())/2;
 	}
