@@ -226,6 +226,10 @@ public class Robot {
 				+ "\nDirt collected: " + Integer.toString(this._totalDirtCollected));
 	}
 
+	public void Move(Point p)
+	{
+		
+	}
 	public Double getPowerForCellClean(FloorCell floorCell)
 		{
 			//1 unit battery for cleaning bare floor 
