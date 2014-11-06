@@ -128,11 +128,6 @@ public class FloorPlan {
 			{			
 				//if(this.isPreviousCell(cell) == false || movePossiblities.size() == 1)
 				//{
-					int x = 10;	
-					if(this.getRobot().getCoordinates().equals(new Point(1,8)))
-					{
-						x++;
-					}
 					//this.setPreviousCell(this.getCellByPoint(this.getRobot().getCoordinates()));
 					this.getRobot().Move(cell,true);
 					cell.setVisited();

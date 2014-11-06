@@ -1,13 +1,14 @@
 package XMLParse;
 
 import java.util.List;
+import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import CleanSweepModels.Point;
 import CleanSweepModels.Types.*;
 
-public class FloorCell{
+public class FloorCell implements Comparable<FloorCell> {
 	 private int xCoor;
 	 private int yCoor;
 	 private FloorTypes _floorType;
@@ -19,11 +20,27 @@ public class FloorCell{
 	 private FloorObstructions _eastObstructions;
 	 private FloorObstructions _westObstructions;
 	 private boolean cleaned = false;
+	 private int _visited = 0;
+	 private long _visitedTime;
 	 
 	    public Boolean alreadyCleaned() 
 	    {
 	    	return cleaned;
 	    }
+	    public void setVisited()
+	    {
+	    	this._visited++;
+	    	this._visitedTime = System.nanoTime();
+	    }
+	    public int getVisited()
+	    {
+	    	return this._visited;
+	    }
+	    public long getVisitedTime()
+	    {
+	    	return this._visitedTime;
+	    }
+	    
 		public void setCleaned(Boolean cleaned) {
 			this.cleaned = cleaned;
 		}
@@ -102,6 +119,11 @@ public class FloorCell{
 	    }
 	    public void Clean()
 	    {
+	    	int x = 10;
+	    	if(this.getCoordinates().equals(new Point(1,8)))
+	    	{
+	    		x++;
+	    	}
 	    	if(this.getDirtUnits() == 0)
 	    		this.setCleaned(true);
 	    	else
@@ -112,6 +134,78 @@ public class FloorCell{
 	    	}	    	
 	    	
 	    }
+	    @Override
+	    public int compareTo(FloorCell  fc)
+        {
+
+            if( fc.alreadyCleaned() && !this.alreadyCleaned())
+            {
+            	return -1;
+            }
+            else if(!fc.alreadyCleaned() && this.alreadyCleaned())
+            {
+            	return 1;
+            }
+            
+            else
+            {         
+            	
+            	if(fc.getVisited() > this.getVisited())
+            	{
+            		return -1;
+            	}
+            	else if(fc.getVisited() < this.getVisited())
+            	{
+            		return 1;
+            	}
+            	else
+            	{
+            		if(fc.getVisitedTime() > this.getVisitedTime())
+            		{
+            			return 1;
+            		}
+            		else if(fc.getVisitedTime() < this.getVisitedTime())
+            		{
+            			return -1;
+            		}
+            		else
+            			return 0;
+            	}
+            		
+//            	int xCharger = 0;
+//            	int yCharger = 0;
+//            	
+//            	int x1 = fc1.getCoordinates().getX();
+//            	int y1 = fc1.getCoordinates().getY();
+//            	
+//            	int x2 = this.getCoordinates().getX();
+//            	int y2 = this.getCoordinates().getY();
+//            	
+//            	double x1Distance = Math.sqrt((x1-xCharger)*(x1-xCharger) + (y1-yCharger)*(y1-yCharger));
+//            	double x2Distance = Math.sqrt((x2-xCharger)*(x2-xCharger) + (y2-yCharger)*(y2-yCharger));
+//            	
+//            	if(x1Distance > x2Distance)
+//            	{
+//            		return 1;
+//            	}
+//            	else if(x1Distance < x2Distance)
+//            		return -1;
+//            	else
+//            	{
+//            		int x = new Random(System.currentTimeMillis()).nextInt();
+//	            	int y = 1;
+//	            	if(x < 0)
+//	            	{
+//	            		y = -1;
+//	            	}
+//	            	y = y*x;
+//	            	
+//	            	return x/(y);
+//            		return 0;
+//            	}
+            	
+            }
+        }
 	    
 
 	    
