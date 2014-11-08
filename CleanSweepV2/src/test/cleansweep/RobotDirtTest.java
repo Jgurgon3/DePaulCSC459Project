@@ -35,7 +35,7 @@ public class RobotDirtTest {
 	@Test
 	public void testStoreMoreDirtYesAtOneUnitLeft() throws ParserConfigurationException, SAXException, IOException  {
 		initRobot(); 
-		for(int i=0;i<49;i++)
+		for(int i=0;i<48;i++)
 		{
 			robot.addToDirtCollected();
 		}

@@ -17,46 +17,44 @@ public class CalculatePowerToMoveTest
 {
 
 	private Robot robot =null;
+	private FloorPlan fp =null;
 	
 	
 	@Test
 	public void testcalculatePowerToMoveHighLow() throws ParserConfigurationException, SAXException, IOException  {
 		robot =null;
 		initRobot();
-		robot.Move(new Point(1, 0));
-		FloorCell fcHigh = robot.getMemory().get(new Point(1, 0));
+		FloorCell fcHigh = fp.getCellByPoint(new Point(1, 0)) ;
 		fcHigh.setFloorType(FloorTypes.HIGH);
-		FloorCell fclow = robot.getMemory().get(new Point(0, 0));
+		robot.Move(fcHigh,true);
+		FloorCell fclow = fp.getCellByPoint(new Point(0, 0)) ;
 		fclow.setFloorType(FloorTypes.LOW);
-
 	    double powerToMove=  robot.calculatePowerToMove(new Point(0, 0));
-  	    assertEquals(2.0, powerToMove,0);
+  	    assertEquals(3.0, powerToMove,0);
 	}
 
 	@Test
 	public void testcalculatePowerToMoveHighHigh() throws ParserConfigurationException, SAXException, IOException  {
 		robot =null;
 		initRobot();
-		robot.Move(new Point(1, 0));
-		FloorCell fcHigh = robot.getMemory().get(new Point(1, 0));
+		FloorCell fcHigh = fp.getCellByPoint(new Point(1, 0)) ;
 		fcHigh.setFloorType(FloorTypes.HIGH);
-		FloorCell fcHigh2 = robot.getMemory().get(new Point(0, 0));
-		fcHigh2.setFloorType(FloorTypes.HIGH);
-
+		robot.Move(fcHigh,true);
+		FloorCell fclow = fp.getCellByPoint(new Point(0, 0)) ;
+		fclow.setFloorType(FloorTypes.HIGH);
 	    double powerToMove=  robot.calculatePowerToMove(new Point(0, 0));
-  	    assertEquals(3.0, powerToMove,0);
+  	    assertEquals(4.0, powerToMove,0);
 	}
 
 	@Test
 	public void testcalculatePowerToMoveHighBare() throws ParserConfigurationException, SAXException, IOException  {
 		robot =null;
 		initRobot();
-		robot.Move(new Point(1, 0));
-		FloorCell fcHigh = robot.getMemory().get(new Point(1, 0));
+		FloorCell fcHigh = fp.getCellByPoint(new Point(1, 0)) ;
 		fcHigh.setFloorType(FloorTypes.HIGH);
-		FloorCell fcbare = robot.getMemory().get(new Point(0, 0));
-		fcbare.setFloorType(FloorTypes.BARE);
-
+		robot.Move(fcHigh,true);
+		FloorCell fclow = fp.getCellByPoint(new Point(0, 0)) ;
+		fclow.setFloorType(FloorTypes.BARE);
 	    double powerToMove=  robot.calculatePowerToMove(new Point(0, 0));
   	    assertEquals(2.0, powerToMove,0);
 	}
@@ -64,12 +62,11 @@ public class CalculatePowerToMoveTest
 	public void testcalculatePowerToMoveBareBare() throws ParserConfigurationException, SAXException, IOException  {
 		robot =null;
 		initRobot();
-		robot.Move(new Point(1, 0));
-		FloorCell fcbare1 = robot.getMemory().get(new Point(1, 0));
-		fcbare1.setFloorType(FloorTypes.BARE);
-		FloorCell fcbare2 = robot.getMemory().get(new Point(0, 0));
-		fcbare2 .setFloorType(FloorTypes.BARE);
-
+		FloorCell fcHigh = fp.getCellByPoint(new Point(1, 0)) ;
+		fcHigh.setFloorType(FloorTypes.BARE);
+		robot.Move(fcHigh,true);
+		FloorCell fclow = fp.getCellByPoint(new Point(0, 0)) ;
+		fclow.setFloorType(FloorTypes.BARE);
 	    double powerToMove=  robot.calculatePowerToMove(new Point(0, 0));
   	    assertEquals(1.0, powerToMove,0);
 	}
@@ -78,12 +75,11 @@ public class CalculatePowerToMoveTest
 	public void testcalculatePowerToMoveLowLow() throws ParserConfigurationException, SAXException, IOException  {
 		robot =null;
 		initRobot();
-		robot.Move(new Point(1, 0));
-		FloorCell fclow1 = robot.getMemory().get(new Point(1, 0));
-		fclow1.setFloorType(FloorTypes.LOW);
-		FloorCell fclow2 = robot.getMemory().get(new Point(0, 0));
-		fclow2  .setFloorType(FloorTypes.LOW);
-
+		FloorCell fcHigh = fp.getCellByPoint(new Point(1, 0)) ;
+		fcHigh.setFloorType(FloorTypes.LOW);
+		robot.Move(fcHigh,true);
+		FloorCell fclow = fp.getCellByPoint(new Point(0, 0)) ;
+		fclow.setFloorType(FloorTypes.LOW);
 	    double powerToMove=  robot.calculatePowerToMove(new Point(0, 0));
   	    assertEquals(2.0, powerToMove,0);
 	}
@@ -92,12 +88,11 @@ public class CalculatePowerToMoveTest
 	public void testcalculatePowerToMoveBareHigh() throws ParserConfigurationException, SAXException, IOException  {
 		robot =null;
 		initRobot();
-		robot.Move(new Point(1, 0));
-		FloorCell fcBare = robot.getMemory().get(new Point(1, 0));
-		fcBare.setFloorType(FloorTypes.BARE);
-		FloorCell fchigh = robot.getMemory().get(new Point(0, 0));
-		fchigh.setFloorType(FloorTypes.HIGH);
-
+		FloorCell fcHigh = fp.getCellByPoint(new Point(1, 0)) ;
+		fcHigh.setFloorType(FloorTypes.BARE);
+		robot.Move(fcHigh,true);
+		FloorCell fclow = fp.getCellByPoint(new Point(0, 0)) ;
+		fclow.setFloorType(FloorTypes.HIGH);
 	    double powerToMove=  robot.calculatePowerToMove(new Point(0, 0));
   	    assertEquals(2.0, powerToMove,0);
 	}
@@ -105,8 +100,9 @@ public class CalculatePowerToMoveTest
 	{
 		if(robot==null)
 		{
-		FloorPlan fp = (XMLParse.ParserFloorPlan.runParser("XMLParse/xml3x3.xml"));
+		fp = (XMLParse.ParserFloorPlan.runParser("XMLParse/xml3x3.xml"));
 		robot=fp.getRobot();
+		
 		}
 		
 	}

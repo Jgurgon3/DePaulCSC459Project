@@ -270,7 +270,7 @@ public class Robot {
 				powerUnit=2.0;
 				break;
 	
-			case 3:
+			case 4:
 				powerUnit=3.0;
 				break;
 		
@@ -302,7 +302,7 @@ public class Robot {
 				powerUnitPrev=1.0;
 				break;
 	
-			case 3:
+			case 4:
 				powerUnitPrev=1.5;
 				break;
 			}
@@ -316,7 +316,7 @@ public class Robot {
 				powerUnitCurrent=1.0;
 				break;
 	
-			case 3:
+			case 4:
 				powerUnitCurrent=1.5;
 				break;
 		
