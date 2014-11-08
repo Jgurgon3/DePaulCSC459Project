@@ -121,6 +121,12 @@ public class Robot {
 	public void Move(FloorCell fc,boolean AddToBreadCrumb)
 	{
 		Point currentCoor = this.getCoordinates();
+		//Change by Pravangsu on Nov 7, 2014, Check should be make before move
+		if (Math.abs(currentCoor.getX() - fc.getCoordinates().getX()) > 1 || Math.abs(currentCoor.getY() - fc.getCoordinates().getY()) > 1)
+			throw new IllegalArgumentException("Attempted to move two cells at once");
+		if (Math.abs(currentCoor.getX() - fc.getCoordinates().getX()) + Math.abs(currentCoor.getY() - fc.getCoordinates().getY()) > 1)
+			throw new IllegalArgumentException("Attempted to move two cells at once (diagonally)");
+
 		if(AddToBreadCrumb && fc.alreadyCleaned() == false)
 		{	
 			// this means we are moving forward
@@ -141,10 +147,6 @@ public class Robot {
 		
 		
 		logMove(fc);
-		if (Math.abs(currentCoor.getX() - fc.getCoordinates().getX()) > 1 || Math.abs(currentCoor.getY() - fc.getCoordinates().getY()) > 1)
-			throw new IllegalArgumentException("Attempted to move two cells at once");
-		if (Math.abs(currentCoor.getX() - fc.getCoordinates().getX()) + Math.abs(currentCoor.getY() - fc.getCoordinates().getY()) > 1)
-			throw new IllegalArgumentException("Attempted to move two cells at once (diagonally)");
 		
 		
 	}
