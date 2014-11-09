@@ -39,7 +39,7 @@ class DrawPanel extends JPanel
 			paintImmediately(0, 0, getWidth(), getHeight());
 			try 
 			{ 
-	            Thread.sleep(100);
+	            Thread.sleep(50);
 	        }
 	        catch (Exception e) 
 			{
@@ -47,6 +47,7 @@ class DrawPanel extends JPanel
 	        }
 			
 		}
+		this._fp.returnToCharger();
 
 	}
 	@Override    

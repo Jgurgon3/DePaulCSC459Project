@@ -146,7 +146,7 @@ public class FloorPlan {
 
 	}
 
-	private void returnToCharger()
+	public void returnToCharger()
 	{
 		for(int i = this.getRobot().getBreadCrumb().size()-1; i>=0;i--)
 		{

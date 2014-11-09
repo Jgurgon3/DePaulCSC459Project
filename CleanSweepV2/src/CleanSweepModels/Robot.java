@@ -160,7 +160,7 @@ public class Robot {
 	{
 		if(this.getFloorPlan().getCellByPoint(this.getCoordinates()).alreadyCleaned())
 		{
-			return 1;
+			return .5;
 		}
 		return (this.getFloorPlan().getCellByPoint(this.getCoordinates()).getFloorType().getValue() 
 				+ this.getFloorPlan().getCellByPoint(point).getFloorType().getValue())/2;
