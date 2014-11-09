@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import junit.framework.TestCase;
+
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -15,10 +17,10 @@ import CleanSweepModels.Point;
 import XMLParse.FloorCell;
 
 
-public class FloorCellTest {
+public class FloorCellTest extends TestCase{
 
 	@Test
-	public void FindFirst() throws ParserConfigurationException, SAXException, IOException {
+	public void testFindFirst() throws ParserConfigurationException, SAXException, IOException {
 		
 	List<FloorCell>floorCellList= populateCell();
 	Point p = new Point(0, 0); 
@@ -29,7 +31,7 @@ public class FloorCellTest {
 
 	}
 	@Test
-	public void FindSecond() throws ParserConfigurationException, SAXException, IOException {
+	public void testFindSecond() throws ParserConfigurationException, SAXException, IOException {
 		
 	List<FloorCell>floorCellList= populateCell();
 	Point p = new Point(1, 0); 
@@ -41,7 +43,7 @@ public class FloorCellTest {
 	}
 	
 	@Test
-	public void FindFloorCellByPoint() throws ParserConfigurationException, SAXException, IOException {
+	public void testFindFloorCellByPoint() throws ParserConfigurationException, SAXException, IOException {
 		
 	List<FloorCell>floorCellList= populateCell();
 	Point p = new Point(1, 0); 
@@ -78,4 +80,34 @@ public class FloorCellTest {
 		return floorCellFlist;
 		
 	}
+	@Test
+	public void testCleanDirt() {
+		FloorCell fc = createFloorCell(0,0);
+		fc.setDirtUnits(2);
+		
+		assertFalse(fc.alreadyCleaned());
+		assertEquals(fc.getDirtUnits(), 2);
+		
+		fc.Clean();
+		
+		assertFalse(fc.alreadyCleaned());
+		
+	}
+	private FloorCell createFloorCell(int x, int y) {
+		FloorCell fc = new FloorCell();
+		fc.setXCoordinates(x);
+		fc.setYCoordinates(y);
+		return fc;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
