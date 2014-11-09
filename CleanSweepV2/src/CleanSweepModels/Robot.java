@@ -127,7 +127,8 @@ public class Robot {
 		if (Math.abs(currentCoor.getX() - fc.getCoordinates().getX()) + Math.abs(currentCoor.getY() - fc.getCoordinates().getY()) > 1)
 			throw new IllegalArgumentException("Attempted to move two cells at once (diagonally)");
 
-		if(AddToBreadCrumb && fc.alreadyCleaned() == false)
+		
+		if(AddToBreadCrumb )//&& fc.alreadyCleaned() == false)
 		{	
 			// this means we are moving forward
 			this.addBreadCrumb(this.getFloorPlan().getCellByPoint(currentCoor));
