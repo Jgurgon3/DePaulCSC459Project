@@ -54,6 +54,28 @@ public class FloorCellTest extends TestCase{
 	assertEquals(0, result.getCoordinates().getY());
 
 	}
+	@Test
+	public void testCleanDirt() {
+		FloorCell fc = createFloorCell(0,0);
+		fc.setDirtUnits(2);
+		
+		assertFalse(fc.alreadyCleaned());
+		assertEquals(fc.getDirtUnits(), 2);
+		
+		fc.Clean();
+		
+		assertFalse(fc.alreadyCleaned());
+		assertSame(fc.getDirtUnits(), 1);
+		
+		fc.Clean();
+		assertTrue(fc.alreadyCleaned());
+		assertSame(fc.getDirtUnits(),0);
+		
+		fc.Clean();
+		assertTrue(fc.alreadyCleaned());
+		assertSame(fc.getDirtUnits(),0);
+		
+	}
 	
 	private List<FloorCell> populateCell()
 	{
@@ -80,19 +102,7 @@ public class FloorCellTest extends TestCase{
 		return floorCellFlist;
 		
 	}
-	@Test
-	public void testCleanDirt() {
-		FloorCell fc = createFloorCell(0,0);
-		fc.setDirtUnits(2);
-		
-		assertFalse(fc.alreadyCleaned());
-		assertEquals(fc.getDirtUnits(), 2);
-		
-		fc.Clean();
-		
-		assertFalse(fc.alreadyCleaned());
-		
-	}
+
 	private FloorCell createFloorCell(int x, int y) {
 		FloorCell fc = new FloorCell();
 		fc.setXCoordinates(x);
@@ -100,14 +110,4 @@ public class FloorCellTest extends TestCase{
 		return fc;
 	}
 }
-
-
-
-
-
-
-
-
-
-
 
