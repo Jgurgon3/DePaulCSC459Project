@@ -11,11 +11,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.xml.sax.SAXException;
 
-import src.main.java.*;
-import src.main.java.CleanSweepModels.*;
-import src.main.java.XMLParse.FloorCell;
-import src.main.java.XMLParse.FloorPlan;
-import src.main.java.XMLParse.ParserFloorPlan;
 
 /*
 

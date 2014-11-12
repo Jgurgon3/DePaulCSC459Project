@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -65,8 +67,7 @@ class DrawPanel extends JPanel
         Image image = null;
         try
         {
-        	//image = ImageIO.read(new File("Robot.png"));
-        	image = ImageIO.read(getClass().getResource("/src/main/java/CleanSweepModels/Robot.png"));
+        	image = ImageIO.read(getClass().getResource("Robot.png"));
         }
         catch(IOException e)
         {
@@ -150,13 +151,15 @@ public class HomeUI {
 
     public static void main(String[] args) {
 
-    	String path = "src/main/java/CleanSweepModels/BigXML.xml";
+    	String path = "BIGxml.xml";
+  
     	try
     	{
-	    	if (args.length > 0) {
-				if (isValidXML(args[0]))
-					path = args[0];
-			}
+	   // 	if (args.length > 0) {
+	   // 		System.out.println("wdf");
+	//			if (isValidXML(args[0]))
+		//			path = args[0];
+		//	}
 	    	
 	    	FloorPlan fp = startRobot(path);
 	    	Robot r  = new Robot(0,0,fp);
@@ -170,13 +173,15 @@ public class HomeUI {
     	catch(Exception exp)
     	{
     		
+    		System.out.println(exp.getMessage());
     	}
 
 		
     }
     public static FloorPlan startRobot(String path) throws ParserConfigurationException, SAXException, IOException {
+    	InputStream in = HomeUI.class.getResourceAsStream(path);
 		FloorPlan fp = (ParserFloorPlan
-				.runParser(path));
+				.runParser(in));
 		
 //		System.out.println(fp.getRobot().toString());
 //		System.out.println(fp.toString());
@@ -189,6 +194,7 @@ public class HomeUI {
 
 	// returns false if not a existing XML file
 	public static boolean isValidXML(String path) throws IOException {
+
 		File f = new File(path);
 		//String workingDir = System.getProperty("user.dir");
 		//File f2 = new File(workingDir + "/" + path);

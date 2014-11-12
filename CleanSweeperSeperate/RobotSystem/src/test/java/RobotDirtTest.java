@@ -9,10 +9,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import src.main.java.*;
-import src.main.java.CleanSweepModels.*;
-import src.main.java.XMLParse.FloorPlan;
-import src.main.java.XMLParse.ParserFloorPlan;
+//import src.main.java.*;
+//import src.main.java.CleanSweepModels.*;
+//import src.main.java.XMLParse.FloorPlan;
+//import src.main.java.XMLParse.ParserFloorPlan;
 
 /*
 

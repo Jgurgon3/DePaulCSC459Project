@@ -1,4 +1,4 @@
-package src.main.java.CleanSweepModels;
+/*package src.main.java.CleanSweepModels;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,16 +8,20 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import src.main.java.*;
-import src.main.java.XMLParse.FloorPlan;
-import src.main.java.XMLParse.ParserFloorPlan;
+
+
+
+
+import src.main.java.XMLParse.*;
+
+
 
 
 public class Home {
 
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException  {
     	
-    	String path = "src/main/java/CleanSweepModels/BigXML.xml";
+    	String path = "C:\\Users\\night_000\\Desktop\\CleanSweeper\\SensorSystem\\src\\main\\java\\XMLParse\\BIGXml.xml";
     	if (args.length > 0) {
 			if (isValidXML(args[0]))
 				path = args[0];
@@ -27,8 +31,7 @@ public class Home {
         
     }
     public static void startRobot(String path) throws ParserConfigurationException, SAXException, IOException {
-		FloorPlan fp = (ParserFloorPlan
-				.runParser(path));
+		FloorPlan fp = (ParserFloorPlan.runParser(path));
 		Robot r = new Robot(0, 0, fp);
 		System.out.println(r.toString());
 		System.out.println(fp.toString());
@@ -65,4 +68,4 @@ public class Home {
 	}
 
 
-}
+}*/

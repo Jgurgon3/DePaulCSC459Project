@@ -1,0 +1,8 @@
+src\main\java\XMLParse\FloorCell.class
+src\main\java\XMLParse\Point.class
+src\main\java\XMLParse\ChargingStation.class
+src\main\java\XMLParse\FloorTypes.class
+src\main\java\XMLParse\FloorObstructions.class
+src\main\java\XMLParse\SAXHandler.class
+src\main\java\XMLParse\FloorPlan.class
+src\main\java\XMLParse\ParserFloorPlan.class
