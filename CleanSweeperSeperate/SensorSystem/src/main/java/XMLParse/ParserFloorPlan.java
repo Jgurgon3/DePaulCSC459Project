@@ -13,13 +13,13 @@ public class ParserFloorPlan {
 
 //	
 		
-		public static FloorPlan runParser(InputStream in) throws ParserConfigurationException, SAXException, IOException {
-			System.out.println("In run parser");
+		public static FloorPlan runParser(String path) throws ParserConfigurationException, SAXException, IOException {
+	
 			SAXParserFactory parserFactor = SAXParserFactory.newInstance();
 			SAXParser parser = parserFactor.newSAXParser();
 			SAXHandler handler = new SAXHandler();
-			//parser.parse(fileName,handler);	
-			parser.parse(in,handler);				
+			//parser.parse(ClassLoader.getSystemResourceAsStream(path),handler); 
+			parser.parse(path,handler);				
 			return handler._fp;
 			
 

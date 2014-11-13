@@ -1,4 +1,4 @@
-/*package src.main.java.CleanSweepModels;
+package src.main.java.CleanSweepModels;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
+
+
 
 
 
@@ -21,13 +23,27 @@ public class Home {
 
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException  {
     	
-    	String path = "C:\\Users\\night_000\\Desktop\\CleanSweeper\\SensorSystem\\src\\main\\java\\XMLParse\\BIGXml.xml";
-    	if (args.length > 0) {
-			if (isValidXML(args[0]))
-				path = args[0];
-		}
+    	String path = "BIGxml.xml";
+    	  
+    	try
+    	{
+	    	if (args.length > 0) {
 
-		startRobot(path);
+				if (isValidXML(args[0]))
+					path = args[0];
+				else {
+					System.out.println("Invalid file path. Path must be to a valid XML file");
+					System.exit(0);
+				}
+			}
+	    	
+	    	startRobot(path);
+    	}
+	    	catch(Exception exp)
+	    	{
+	    		
+	    		System.out.println(exp.getMessage());
+	    	}
         
     }
     public static void startRobot(String path) throws ParserConfigurationException, SAXException, IOException {
@@ -68,4 +84,4 @@ public class Home {
 	}
 
 
-}*/
+}

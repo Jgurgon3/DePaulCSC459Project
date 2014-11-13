@@ -159,14 +159,19 @@ public class HomeUI {
   
     	try
     	{
-	   // 	if (args.length > 0) {
-	   // 		System.out.println("wdf");
-	//			if (isValidXML(args[0]))
-		//			path = args[0];
-		//	}
+	    	if (args.length > 0) {
+
+				if (isValidXML(args[0]))
+					path = args[0];
+				else {
+					System.out.println("Invalid file path. Path must be to a valid XML file");
+					System.exit(0);
+				}
+			}
 	    	
 	    	FloorPlan fp = startRobot(path);
 	    	Robot r  = new Robot(0,0,fp);
+	    	
 	        SwingUtilities.invokeLater(new Runnable() {
 	            public void run() {
 	            	HomeUI ex = new HomeUI(fp,r);
@@ -183,9 +188,8 @@ public class HomeUI {
 		
     }
     public static FloorPlan startRobot(String path) throws ParserConfigurationException, SAXException, IOException {
-    	InputStream in = HomeUI.class.getResourceAsStream(path);
 		FloorPlan fp = (ParserFloorPlan
-				.runParser(in));
+				.runParser(path));
 		
 //		System.out.println(fp.getRobot().toString());
 //		System.out.println(fp.toString());
@@ -200,8 +204,6 @@ public class HomeUI {
 	public static boolean isValidXML(String path) throws IOException {
 
 		File f = new File(path);
-		//String workingDir = System.getProperty("user.dir");
-		//File f2 = new File(workingDir + "/" + path);
 		       
 		if (f.exists() && !f.isDirectory()) {
 			// check if XML

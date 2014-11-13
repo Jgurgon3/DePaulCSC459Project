@@ -1,5 +1,5 @@
 package src.test.java;
-/*
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import org.xml.sax.SAXException;
 
 
 import src.main.java.CleanSweepModels.*;
-import src.main.java.XMLParse.FloorCell;
+import src.main.java.XMLParse.*;
 
 
 
@@ -103,12 +103,6 @@ public class FloorCellTest extends TestCase{
 		return fc;
 	}
 }
-
-
-
-
-*/
-
 
 
 

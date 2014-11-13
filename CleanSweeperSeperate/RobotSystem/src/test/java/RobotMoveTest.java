@@ -11,8 +11,13 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.xml.sax.SAXException;
 
+import src.main.java.CleanSweepModels.Robot;
+import src.main.java.XMLParse.FloorCell;
+import src.main.java.XMLParse.FloorPlan;
+import src.main.java.XMLParse.ParserFloorPlan;
 
-/*
+
+
 
 public class RobotMoveTest {
 	@Rule
@@ -72,9 +77,9 @@ public class RobotMoveTest {
 	{
 		if(robot==null)
 		{
-			FloorPlan fp = (ParserFloorPlan.runParser("src/main/java/CleanSweepModels/xml3x3.xml"));
-			robot=fp.getRobot();
+			FloorPlan fp = (ParserFloorPlan.runParser("xml3x3.xml"));
+			robot=new Robot(0,0,fp);
 		}
 
 	}
-}*/
+}

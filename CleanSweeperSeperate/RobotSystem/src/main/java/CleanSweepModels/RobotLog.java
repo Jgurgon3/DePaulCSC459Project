@@ -2,6 +2,11 @@ package src.main.java.CleanSweepModels;
 
 import java.util.Calendar;
 import java.util.List;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -46,5 +51,25 @@ public class RobotLog {
 		for (String s : _log) {
 			System.out.println(s);
 		}
+		writeLog();
+		
+	}
+	public void writeLog() {
+		//write to file
+				try {
+				    File f = new File("RobotLog.txt");
+				    if (!f.exists()) {
+			            f.createNewFile();
+			        }
+				    FileWriter fw = new FileWriter(f.getAbsoluteFile());
+			        BufferedWriter bw = new BufferedWriter(fw);
+
+			        for(String s : _log) {
+			            bw.write(s + System.getProperty("line.separator")); 
+			        }
+			        bw.close();
+				} catch(Exception ex) {
+				    ex.printStackTrace();
+				}
 	}
 }
