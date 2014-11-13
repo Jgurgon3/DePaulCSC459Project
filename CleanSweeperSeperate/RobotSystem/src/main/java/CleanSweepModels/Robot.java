@@ -27,7 +27,7 @@ public class Robot {
 	private FloorPlan _floorPlan;
 	private HashMap<Point, FloorCell> _memory = new HashMap<Point, FloorCell>();
 	private RobotLog _log = new RobotLog();
-	private int _breadcrumbPowerNeeded = 0;
+	private double _breadcrumbPowerNeeded = 0;
 	private final int maxAllowableDirt = 50;
 	private ArrayList<FloorCell> _breadCrumb = new ArrayList<FloorCell>();
 	
@@ -80,9 +80,7 @@ public class Robot {
 			System.out.println(this.toString());
 		}
 		resetBreadCrumbPowerNeeded();
-		ChargeAndEmpty();
-		
-		
+		ChargeAndEmpty();		
 	}
 	private FloorPlan getFloorPlan()
 	{
@@ -90,8 +88,7 @@ public class Robot {
 	}
 	private void addBreadCrumb(FloorCell fc)
 	{
-		this._breadCrumb.add(fc);
-			addToBreadCrumbPowerNeeded(fc.getCoordinates());
+		this._breadCrumb.add(fc);			
 	}
 	public ArrayList<FloorCell> getBreadCrumb()
 	{
@@ -117,7 +114,7 @@ public class Robot {
 	{
 		this._breadcrumbPowerNeeded -= this.calculatePowerToMove(point);
 	}
-	public int getBreadCrumbPowerNeeded()
+	public double getBreadCrumbPowerNeeded()
 	{
 		return this._breadcrumbPowerNeeded;
 	}
@@ -137,6 +134,11 @@ public class Robot {
 	}
 	public double getPower()
 	{
+		int x;
+		if(this._power < 0)
+		{
+			x = 10;
+		}
 		return this._power;
 	}
 	
@@ -185,22 +187,19 @@ public class Robot {
 		if (Math.abs(currentCoor.getX() - fc.getCoordinates().getX()) + Math.abs(currentCoor.getY() - fc.getCoordinates().getY()) > 1)
 			throw new IllegalArgumentException("Attempted to move two cells at once (diagonally)");
 
+		this._power -= calculatePowerToMove(fc.getCoordinates());
 		
 		if(AddToBreadCrumb )//&& fc.alreadyCleaned() == false)
 		{	
 			// this means we are moving forward
 			this.addBreadCrumb(this.getFloorPlan().getCellByPoint(currentCoor));
-			this._power -= calculatePowerToMove(fc.getCoordinates());
+			this.addToBreadCrumbPowerNeeded(fc.getCoordinates());
 		}
 		else
 		{
-			
-			this._power -= 1;
-			if(AddToBreadCrumb == false)
-			{
-				this.subtractFromBreadCrumbPowerNeeded(fc.getCoordinates());
-			}
+			this.subtractFromBreadCrumbPowerNeeded(fc.getCoordinates());
 		}
+		
 		currentCoor.setX(fc.getCoordinates().getX());
 		currentCoor.setY(fc.getCoordinates().getY());
 		
@@ -216,7 +215,7 @@ public class Robot {
 	}
 	public double calculatePowerToMove(Point point)
 	{
-		if(this.getFloorPlan().getCellByPoint(this.getCoordinates()).alreadyCleaned())
+		if(this.getFloorPlan().getCellByPoint(point).alreadyCleaned())
 		{
 			return .5;
 		}
