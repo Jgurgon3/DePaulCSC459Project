@@ -1,5 +1,6 @@
 package src.main.java.XMLParse;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -216,16 +217,25 @@ public class FloorCell implements Comparable<FloorCell> {
 	    return "x:"+ xCoor+"   "+"y:"+yCoor +"   "+"surface:"+this._floorType.name() +"   "+"path:"+pathSensor+"   "+"dirt:"+dirtUnits+"   "+"chargingStation:"+chargingStation;
 	  }	
 	 
-	  public static Predicate<FloorCell> FindByCordinate(Point searchPoint) {
-	        return p -> (p.getCoordinates().getX()==searchPoint.getX() &&   p.getCoordinates().getY()==searchPoint.getY());
-	    } 
+	  
+	  public static Predicate<FloorCell> FindByCordinate(Point searchPoint, List<FloorCell> floorList) {
+//		  final List<FloorCell> selection = new ArrayList<FloorCell>();
+		  Predicate<FloorCell> cell2 = null;
+		  for(FloorCell cell : floorList){
+		  if(cell.getCoordinates().getX()==searchPoint.getX() &&   cell.getCoordinates().getY()==searchPoint.getY())
+			  cell2 = (Predicate<FloorCell>) cell; 
+		  } 
+		 
+		return cell2;
+	  }
+	  
 	  public static List<FloorCell> filterFloorCell (List<FloorCell> floorcells, Predicate<FloorCell> predicate) {
 		  List<FloorCell> lst =floorcells.stream().filter( predicate ).collect(Collectors.<FloorCell>toList()); 
 	        return lst;
 	    }
 	  
 	  public static FloorCell FindFloorCell (List<FloorCell> floorList,Point p ) {
-			List<FloorCell> floorCellFlistresult = (List<FloorCell>) FloorCell.filterFloorCell(floorList,FloorCell.FindByCordinate(p) );
+			List<FloorCell> floorCellFlistresult = (List<FloorCell>) FloorCell.filterFloorCell(floorList,FloorCell.FindByCordinate(p, floorList) );
 			if(floorCellFlistresult!=null && floorCellFlistresult.size()>0)
 			{
 				return floorCellFlistresult.get(0);

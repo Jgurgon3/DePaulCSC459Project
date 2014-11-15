@@ -169,8 +169,8 @@ public class HomeUI {
 				}
 			}
 	    	
-	    	FloorPlan fp = startRobot(path);
-	    	Robot r  = new Robot(0,0,fp);
+	    	final FloorPlan fp = startRobot(path);
+	    	final Robot r  = new Robot(0,0,fp);
 	    	
 	        SwingUtilities.invokeLater(new Runnable() {
 	            public void run() {
