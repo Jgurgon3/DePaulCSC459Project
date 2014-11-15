@@ -195,7 +195,7 @@ public class FloorCell implements Comparable<FloorCell> {
 //            		return -1;
 //            	else
 //            	{
-//            		int x = new Random(System.currentTimeMillis()).nextInt();
+//            		int z = new Random(System.currentTimeMillis()).nextInt();
 //	            	int y = 1;
 //	            	if(x < 0)
 //	            	{
