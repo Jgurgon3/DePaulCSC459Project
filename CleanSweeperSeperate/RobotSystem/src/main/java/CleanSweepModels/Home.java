@@ -1,4 +1,4 @@
-package RobotSystem.src.main.java.CleanSweepModels;
+package src.main.java.CleanSweepModels;
 
 
 import java.io.File;
