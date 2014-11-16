@@ -28,7 +28,7 @@
       <configuration>
         <archive>
           <manifest>
-            <mainClass>src.main.java.CleanSweepModels.HomeUI</mainClass>
+           
           </manifest>
         </archive>
         <descriptorRefs>
@@ -52,7 +52,7 @@
 		
 					<manifest>
       
-            <mainClass>src.main.java.CleanSweepModels.HomeUI</mainClass>
+           
 </manifest>
 				</archive>
 				</configuration>

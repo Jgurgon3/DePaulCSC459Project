@@ -32,9 +32,7 @@
 </goals>
 </execution>
 </executions>
-<configuration>
-<mainClass>src.main.java.CleanSweepModels.HomeUI</mainClass>
-</configuration>
+
 </plugin>
 	</plugins>
   </build>
