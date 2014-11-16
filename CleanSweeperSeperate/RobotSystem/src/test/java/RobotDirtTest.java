@@ -9,12 +9,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-//import src.main.java.*;
-//import src.main.java.CleanSweepModels.*;
-//import src.main.java.XMLParse.FloorPlan;
-//import src.main.java.XMLParse.ParserFloorPlan;
+import src.main.java.*;
+import src.main.java.CleanSweepModels.*;
+import src.main.java.XMLParse.FloorPlan;
+import src.main.java.XMLParse.ParserFloorPlan;
 
-/*
+
 
 public class RobotDirtTest {
 
@@ -30,6 +30,7 @@ public class RobotDirtTest {
 	    Boolean powerToClean=  robot.canStoreMoreDirt();
   	    assertEquals(true, powerToClean);
 	}
+
 
 	@Test
 	public void testStoreMoreDirtYesAtZero() throws ParserConfigurationException, SAXException, IOException  {
@@ -63,9 +64,9 @@ public class RobotDirtTest {
 	{
 		if(robot==null)
 		{
-		FloorPlan fp = (ParserFloorPlan.runParser("src/main/java/CleanSweepModels/xml3x3.xml"));
-		robot=fp.getRobot();
+		FloorPlan fp = (ParserFloorPlan.runParser("xml3x3.xml"));
+		robot=new Robot(0,0,fp);
 		}
 		
 	}
-}*/
+}
