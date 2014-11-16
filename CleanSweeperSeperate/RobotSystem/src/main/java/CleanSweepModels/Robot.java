@@ -31,21 +31,17 @@ public class Robot {
 	private final int maxAllowableDirt = 50;
 	private ArrayList<FloorCell> _breadCrumb = new ArrayList<FloorCell>();
 	
-	public Point getCoordinates()
-	{
+	public Point getCoordinates() {
 		return this._coordinates;
 	}
-	public void MoveRobot()
-	{
-		if(_floorPlan.floorPlanIsCleaned())
-		{
+	public void MoveRobot() {
+		if(_floorPlan.floorPlanIsCleaned()) {
 			returnToCharger();
 			return;
 		}
 		List<FloorCell> movePossiblities = this.getMovePossiblities(this._floorPlan.getCellByPoint(getCoordinates()));
 		_floorPlan.setFoundDirtyCell(false);
-		for (final FloorCell cell : movePossiblities) 
-		{
+		for (final FloorCell cell : movePossiblities)  		{
 			if(CanMove(cell))
 			{			
 					this.Move(cell,true);
@@ -72,8 +68,7 @@ public class Robot {
 		}
 
 	}
-	public void returnToCharger()
-	{
+	public void returnToCharger() {
 		for(int i = getBreadCrumb().size()-1; i>=0;i--)
 		{
 			Move(getBreadCrumb().get(i),false);
@@ -82,58 +77,45 @@ public class Robot {
 		resetBreadCrumbPowerNeeded();
 		ChargeAndEmpty();		
 	}
-	private FloorPlan getFloorPlan()
-	{
+	private FloorPlan getFloorPlan() {
 		return this._floorPlan;
 	}
-	private void addBreadCrumb(FloorCell fc)
-	{
+	private void addBreadCrumb(FloorCell fc) {
 		this._breadCrumb.add(fc);			
 	}
-	public ArrayList<FloorCell> getBreadCrumb()
-	{
+	public ArrayList<FloorCell> getBreadCrumb() {
 		return this._breadCrumb;
 	}
-	public void addToDirtCollected()
-	{
+	public void addToDirtCollected() {
 		this._dirtCollected++;
 	}
-	public int getDirtCollected()
-	{
+	public int getDirtCollected() {
 		return this._dirtCollected;
 	}
-	public void resetBreadCrumbPowerNeeded()
-	{
+	public void resetBreadCrumbPowerNeeded() {
 		this._breadcrumbPowerNeeded = 0;
 	}
-	private void addToBreadCrumbPowerNeeded(Point point)
-	{
+	private void addToBreadCrumbPowerNeeded(Point point) {
 		this._breadcrumbPowerNeeded += this.calculatePowerToMove(point);
 	}
-	public void subtractFromBreadCrumbPowerNeeded(Point point)
-	{
+	public void subtractFromBreadCrumbPowerNeeded(Point point) {
 		this._breadcrumbPowerNeeded -= this.calculatePowerToMove(point);
 	}
-	public double getBreadCrumbPowerNeeded()
-	{
+	public double getBreadCrumbPowerNeeded() {
 		return this._breadcrumbPowerNeeded;
 	}
-	private void setFloorPlan(FloorPlan fp)
-	{
+	private void setFloorPlan(FloorPlan fp) {
 		this._floorPlan = fp;
 	}
-	public boolean getReturnToChargerFlag()
-	{
+	public boolean getReturnToChargerFlag() {
 		return this._returnToChargerFlag;
 	}
-	private void setReturnToChargerFlag(boolean bool)
-	{
+	private void setReturnToChargerFlag(boolean bool) {
 		if (bool)
 			_log.addLog(LogActivityTypes.RETURNTOCHARGER, "Returning to charger station");
 		this._returnToChargerFlag = bool;
 	}
-	public double getPower()
-	{
+	public double getPower() {
 		int x;
 		if(this._power < 0)
 		{
@@ -142,8 +124,7 @@ public class Robot {
 		return this._power;
 	}
 	
-	public void ChargeAndEmpty()
-	{
+	public void ChargeAndEmpty() {
 		this._power = 50.0;
 		this._totalDirtCollected += this._dirtCollected;
 		this._dirtCollected = 0;
@@ -151,52 +132,47 @@ public class Robot {
 		this._breadCrumb.clear();
 	}
 
-	private void addChargerToBreadCrumb()
-	{
+	private void addChargerToBreadCrumb() {
 		this.addBreadCrumb(this.getFloorPlan().getCellByPoint(new Point(0,0)));
 	}
-	public boolean CanClean(Point point)
-	{
+	public boolean CanClean(Point point) {
 		return this.hasEnoughPower(point) && canStoreMoreDirt();
 	}
-	public void Clean(FloorCell fc)
-	{
-		if(this.getCoordinates().equals(fc.getCoordinates())) // only clean cells that we are currently at
-		{
+	public void Clean(FloorCell fc) {
+		if(this.getCoordinates().equals(fc.getCoordinates())) {// only clean cells that we are currently at {
 			fc.Clean();	
 			this.addToDirtCollected();
 			_log.addLog(LogActivityTypes.CLEANED, "Cleaned unit of dirt at: " + fc.getCoordinates().toString() + " with floor type " + fc.getFloorType().name());
 		}
 	}
-	public boolean CanMove(FloorCell fc)
-	{
-		if(!this.getReturnToChargerFlag() && hasEnoughPower(fc.getCoordinates()))
-		{
+	public boolean CanMove(FloorCell fc) {
+		if(!this.getReturnToChargerFlag() && hasEnoughPower(fc.getCoordinates())) {
 			return true;
 		}
 		else
 			return false;
 		
 	}
-	public void Move(FloorCell fc,boolean AddToBreadCrumb)
-	{
+	public void Move(FloorCell fc,boolean AddToBreadCrumb) {
 		Point currentCoor = this.getCoordinates();
 		//Change by Pravangsu on Nov 7, 2014, Check should be make before move
-		if (Math.abs(currentCoor.getX() - fc.getCoordinates().getX()) > 1 || Math.abs(currentCoor.getY() - fc.getCoordinates().getY()) > 1)
+		if (Math.abs(currentCoor.getX() - fc.getCoordinates().getX()) > 1 || 
+				Math.abs(currentCoor.getY() - fc.getCoordinates().getY()) > 1) {
 			throw new IllegalArgumentException("Attempted to move two cells at once");
-		if (Math.abs(currentCoor.getX() - fc.getCoordinates().getX()) + Math.abs(currentCoor.getY() - fc.getCoordinates().getY()) > 1)
+		}
+		if (Math.abs(currentCoor.getX() - fc.getCoordinates().getX()) + 
+				Math.abs(currentCoor.getY() - fc.getCoordinates().getY()) > 1) {
 			throw new IllegalArgumentException("Attempted to move two cells at once (diagonally)");
-
+		}
 		this._power -= calculatePowerToMove(fc.getCoordinates());
 		
-		if(AddToBreadCrumb )//&& fc.alreadyCleaned() == false)
-		{	
+		if(AddToBreadCrumb ) {//&& fc.alreadyCleaned() == false)
+		
 			// this means we are moving forward
 			this.addBreadCrumb(this.getFloorPlan().getCellByPoint(currentCoor));
 			this.addToBreadCrumbPowerNeeded(fc.getCoordinates());
 		}
-		else
-		{
+		else {
 			this.subtractFromBreadCrumbPowerNeeded(fc.getCoordinates());
 		}
 		
@@ -295,8 +271,10 @@ public class Robot {
 
 	    Iterator<Point> iterator = _memory.keySet().iterator();  
 	    
-	    if (!iterator.hasNext())
+	    if (!iterator.hasNext()) {
 	    	System.out.println("Clean sweep memory is empty");
+	    	
+	    }
 	    
 	    while (iterator.hasNext()) {  
 	       Point key = iterator.next();  
@@ -350,9 +328,9 @@ public class Robot {
 			//2 The cell is covered in low-pile carpet.
 			//4 The cell is covered in high-pile carpet.
 	
-			if(floorCell.alreadyCleaned() == true)
+			if(floorCell.alreadyCleaned() == true) {
 				return 0.0;  //No power required to clean, just move to next cell. May be way back to cleaning after charge
-			
+			}
 			Double powerUnit =0.0;
 			int floorTypes =floorCell.getFloorType().getValue();
 			
@@ -378,9 +356,9 @@ public class Robot {
 			//2 unit of power for moving between bare floor to high pile carpet floor
 			//2.5 unit of power for) moving between low pile carpet floor to high pile carpet floor 
 			//3 unit of power for moving between high pile carpet floor to high pile carpet floor
-			if(prevCell==null)
+			if(prevCell==null) {
 				return 0.0; // When we are at cell zero we need not move , just celan it
-			else {
+			} else {
 			Double powerUnitPrev =0.0;
 			Double powerUnitCurrent =0.0;
 			

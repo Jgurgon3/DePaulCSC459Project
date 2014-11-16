@@ -12,7 +12,7 @@ public class Home {
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException  {
     	
     	String path = "BIGxml.xml";
-    	  
+    	boolean error = false;  
     	try{
 	    	if (args.length > 0) {
 
@@ -20,14 +20,14 @@ public class Home {
 					path = args[0];
 				else {
 					System.out.println("Invalid file path. Path must be to a valid XML file");
-					System.exit(0);
+					error=true;
 				}
 			}
-	    	
-	    	startRobot(path);
+	    	if(!error){ 
+	    		startRobot(path);
+	    	}
     	}
 	    	catch(Exception exp) {
-	    		
 	    		System.out.println(exp.getMessage());
 	    	}
         

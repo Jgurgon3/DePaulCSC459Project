@@ -189,20 +189,20 @@ public class HomeUI {
 
 
     public static void main(String[] args) {
-
+    	boolean error = false;
     	String path = "BIGxml.xml";
   
     	try {
 	    	if (args.length > 0) {
 
-				if (isValidXML(args[0]))
+				if (isValidXML(args[0])) {
 					path = args[0];
-				else {
+				} else {
 					System.out.println("Invalid file path. Path must be to a valid XML file");
-					System.exit(0);
+					error = true;
 				}
 			}
-	    	
+	    	if (!error) {
 	    	final FloorPlan fp = startRobot(path);
 	    	final Robot r  = new Robot(0,0,fp);
 	    	
@@ -211,6 +211,8 @@ public class HomeUI {
 	            	HomeUI ex = new HomeUI(fp,r);
 	            }
 	        });
+	        
+	    	}
 	        
     	}
     	catch(Exception exp)

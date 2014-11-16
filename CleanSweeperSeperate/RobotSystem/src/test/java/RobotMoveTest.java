@@ -17,9 +17,6 @@ import src.main.java.XMLParse.FloorCell;
 import src.main.java.XMLParse.FloorPlan;
 import src.main.java.XMLParse.ParserFloorPlan;
 
-
-
-
 public class RobotMoveTest {
 	@Rule
     public ExpectedException exception = ExpectedException.none();
@@ -74,10 +71,8 @@ public class RobotMoveTest {
 
 		}
 	
-	private void initRobot()throws ParserConfigurationException, SAXException,IOException 
-	{
-		if(robot==null)
-		{
+	private void initRobot()throws ParserConfigurationException, SAXException,IOException  {
+		if(robot==null) {
 			FloorPlan fp = (ParserFloorPlan.runParser("xml3x3.xml"));
 			robot=new Robot(0,0,fp);
 		}
