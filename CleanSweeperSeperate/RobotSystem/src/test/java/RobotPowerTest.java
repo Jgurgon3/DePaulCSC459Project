@@ -9,15 +9,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-//import src.main.java.*;
-//import src.main.java.CleanSweepModels.*;
-//import src.main.java.XMLParse.FloorCell;
-//import src.main.java.XMLParse.FloorPlan;
-//import src.main.java.XMLParse.FloorTypes;
-//import src.main.java.XMLParse.ParserFloorPlan;
+
+import src.main.java.CleanSweepModels.*;
+import src.main.java.XMLParse.*;
 
 
-/*
+
+
 
 public class RobotPowerTest {
 
@@ -66,7 +64,6 @@ public class RobotPowerTest {
 	//fc1.setYCoordinates(0);
 	fc1.setFloorType(FloorTypes.BARE);
 	int size=  robot.getMemory().size();
-	System.out.println(size);
 	FloorCell fc2 =new FloorCell();
 	fc2.setFloorType(FloorTypes.BARE);
 	
@@ -139,13 +136,11 @@ public class RobotPowerTest {
 	assertEquals(3, powerToMove,0);
 	}
 
-	private void initRobot()throws ParserConfigurationException, SAXException,IOException 
-	{
-		if(robot==null)
-		{
-		FloorPlan fp = (ParserFloorPlan.runParser("src/main/java/CleanSweepModels/xml3x3.xml"));
-		robot=fp.getRobot();
+	private void initRobot()throws ParserConfigurationException, SAXException,IOException  {
+		if(robot==null) {
+		FloorPlan fp = (ParserFloorPlan.runParser("xml3x3.xml"));
+		robot=new Robot(0,0,fp);
 		}
 		
 	}
-}*/
+}

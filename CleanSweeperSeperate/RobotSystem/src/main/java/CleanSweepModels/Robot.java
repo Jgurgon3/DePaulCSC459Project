@@ -213,58 +213,53 @@ public class Robot {
 		_memory.put(fc.getCoordinates(), fc);
 		_log.addLog(LogActivityTypes.MOVE, "Robot moved to cell: " + fc.getCoordinates().toString());
 	}
-	public double calculatePowerToMove(Point point)
-	{
-		if(this.getFloorPlan().getCellByPoint(point).alreadyCleaned())
-		{
+	public double calculatePowerToMove(Point point){
+		
+		if(this.getFloorPlan().getCellByPoint(point).alreadyCleaned()){
 			return .5;
 		}
 		return (this.getFloorPlan().getCellByPoint(this.getCoordinates()).getFloorType().getValue() 
 				+ this.getFloorPlan().getCellByPoint(point).getFloorType().getValue())/2;
 	}
-	private ArrayList<FloorCell> getMovePossiblities(FloorCell fc)
-	{
+	private ArrayList<FloorCell> getMovePossiblities(FloorCell fc){
+		
 		ArrayList<FloorCell> possibleCells = new ArrayList<>();
 		
-		if(fc != null)
-		{
-			if(fc.getWestObstructions() == FloorObstructions.OPEN)
-			{
+		if(fc != null) {
+			
+			if(fc.getWestObstructions() == FloorObstructions.OPEN) {
+				
 				FloorCell possibleCell = getFloorPlan().getCellByPoint(new Point(getCoordinates().getX()-1,getCoordinates().getY()));
-				if(fc != null)
-				{
+				if(fc != null) {
 					possibleCells.add(possibleCell);
 				}
 			}
-			if(fc.getEastObstructions() == FloorObstructions.OPEN)
-			{
+			if(fc.getEastObstructions() == FloorObstructions.OPEN) {
+				
 				FloorCell possibleCell = getFloorPlan().getCellByPoint(new Point(getCoordinates().getX()+1,this.getCoordinates().getY()));
-				if(fc != null)
-				{
+				if(fc != null){
+					
 					possibleCells.add(possibleCell);
 				}
 				
 			}
-			if(fc.getNorthObstructions() == FloorObstructions.OPEN)
-			{
+			if(fc.getNorthObstructions() == FloorObstructions.OPEN) {
+				
 				FloorCell possibleCell = getFloorPlan().getCellByPoint(new Point(getCoordinates().getX(),getCoordinates().getY()+1));
-				if(fc != null)
-				{
+				if(fc != null) {
 					possibleCells.add(possibleCell);
 				}
 			}
 			
-			if(fc.getSouthObstructions() == FloorObstructions.OPEN)
-			{
+			if(fc.getSouthObstructions() == FloorObstructions.OPEN) {
+				
 				FloorCell possibleCell = getFloorPlan().getCellByPoint(new Point(getCoordinates().getX(),getCoordinates().getY()-1));
-				if(fc != null)
-				{
+				if(fc != null) {
 					possibleCells.add(possibleCell);
 				}
 			}
 			long seed = System.nanoTime();
-			if(!_floorPlan.getFoundDirtyCell())
-			{
+			if(!_floorPlan.getFoundDirtyCell()) {
 				Collections.shuffle(possibleCells, new Random(seed));
 				Collections.sort(possibleCells);	
 			}
@@ -273,9 +268,7 @@ public class Robot {
 		return possibleCells;
 	}
 		
-	public Robot(int xCoor,int yCoor,FloorPlan fp)
-	{
-		
+	public Robot(int xCoor,int yCoor,FloorPlan fp) {
 		Point p = new Point(xCoor, yCoor);
 		
 		this.setFloorPlan(fp);
@@ -288,8 +281,7 @@ public class Robot {
 		
 		this._coordinates = p;
 		this.addChargerToBreadCrumb();
-		while(this.CanClean(p) && !this.getFloorPlan().getCellByPoint(p).alreadyCleaned())
-		{
+		while(this.CanClean(p) && !this.getFloorPlan().getCellByPoint(p).alreadyCleaned()) {
 			this.Clean(this.getFloorPlan().getCellByPoint(p));
 			this.getFloorPlan().AddCell(this.getFloorPlan().getCellByPoint(p)); // this updates the cells attributes.
 		}	
@@ -318,46 +310,38 @@ public class Robot {
 	public void dumpLog() {
 		_log.dumpLog();
 	}
-	private boolean hasEnoughPower(Point point)
-	{
+	private boolean hasEnoughPower(Point point) {
 		double powerToMove = calculatePowerToMove(point);
 		double forecastedPowerLeft = this.getPower() - powerToMove;
 		if(forecastedPowerLeft > this.getBreadCrumbPowerNeeded()){
 			this.setReturnToChargerFlag(false);
 			return true;
 		}
-		else
-		{
+		else {
 			this.setReturnToChargerFlag(true);
 			return false;
 		}
 	}
-	public boolean canStoreMoreDirt()
-	{
-		if(this.getDirtCollected() < this.maxAllowableDirt)
-		{
+	public boolean canStoreMoreDirt() {
+		if(this.getDirtCollected() < this.maxAllowableDirt) {
 			return true;
 		}
-		else
-		{
+		else {
 			this.setReturnToChargerFlag(true);
 			return false;
 		}
 	}
 	
-	public String toString()
-	{
+	public String toString() {
 		return ("Coordinates of Robot: (" + Integer.toString(this.getCoordinates().getX()) + "," 
 				+ Integer.toString(this.getCoordinates().getY()) + ")\nRobot power: " + this.getPower()
 				+ "\nDirt collected: " + Integer.toString(this._totalDirtCollected));
 	}
 
-	public void Move(Point p)
-	{
+	public void Move(Point p) {
 		
 	}
-	public Double getPowerForCellClean(FloorCell floorCell)
-		{
+	public Double getPowerForCellClean(FloorCell floorCell) {
 			//1 unit battery for cleaning bare floor 
 			//2 unit battery for cleaning low pile carpet floor 
 			//3 unit battery for cleaning high pile carpet floor 
@@ -372,8 +356,7 @@ public class Robot {
 			Double powerUnit =0.0;
 			int floorTypes =floorCell.getFloorType().getValue();
 			
-			switch(floorTypes)
-			{
+			switch(floorTypes) {
 			case 1:
 				powerUnit=1.0;
 				break;
@@ -389,8 +372,7 @@ public class Robot {
 			return powerUnit;
 		}
 		
-		public Double getPowerForCellMoving(FloorCell floorCell ,FloorCell prevCell )
-		{
+		public Double getPowerForCellMoving(FloorCell floorCell ,FloorCell prevCell ) {
 			// 1 unit of power for moving between bare floors to bare floor 
 			//1.5 unit of power for moving between bare floor to low pile carpet floor
 			//2 unit of power for moving between bare floor to high pile carpet floor
@@ -398,14 +380,13 @@ public class Robot {
 			//3 unit of power for moving between high pile carpet floor to high pile carpet floor
 			if(prevCell==null)
 				return 0.0; // When we are at cell zero we need not move , just celan it
-			else
-			{
+			else {
 			Double powerUnitPrev =0.0;
 			Double powerUnitCurrent =0.0;
 			
 			int floorTypes =prevCell.getFloorType().getValue();
-			switch(floorTypes)
-			{
+			switch(floorTypes) {
+			
 			case 1:
 				powerUnitPrev=.5;
 				break;
@@ -418,8 +399,8 @@ public class Robot {
 				break;
 			}
 			int floorTypes2 =floorCell.getFloorType().getValue();;
-			switch(floorTypes2)
-			{
+			switch(floorTypes2) {
+			
 			case 1:
 				powerUnitCurrent=.5;
 				break;
