@@ -1,26 +1,11 @@
 package src.main.java.CleanSweepModels;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.xml.sax.SAXException;
-
-
-
-
-
-
-
-
-
 import src.main.java.XMLParse.*;
-
-
-
 
 public class Home {
 
@@ -28,8 +13,7 @@ public class Home {
     	
     	String path = "BIGxml.xml";
     	  
-    	try
-    	{
+    	try{
 	    	if (args.length > 0) {
 
 				if (isValidXML(args[0]))
@@ -42,8 +26,7 @@ public class Home {
 	    	
 	    	startRobot(path);
     	}
-	    	catch(Exception exp)
-	    	{
+	    	catch(Exception exp) {
 	    		
 	    		System.out.println(exp.getMessage());
 	    	}
@@ -55,8 +38,7 @@ public class Home {
 		System.out.println(r.toString());
 		System.out.println(fp.toString());
 
-		while(fp.floorPlanIsCleaned() == false)
-    	{
+		while(fp.floorPlanIsCleaned() == false) {
     		r.MoveRobot();
 
     	}
