@@ -5,13 +5,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -21,9 +18,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Base64Data;
-
-import src.main.java.*;
 import src.main.java.XMLParse.FloorCell;
 import src.main.java.XMLParse.FloorPlan;
 import src.main.java.XMLParse.FloorTypes;
