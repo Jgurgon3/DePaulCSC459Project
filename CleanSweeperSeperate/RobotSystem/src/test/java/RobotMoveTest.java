@@ -12,7 +12,6 @@ import org.junit.rules.ExpectedException;
 import org.xml.sax.SAXException;
 
 import src.main.java.CleanSweepModels.*;
-import src.main.java.CleanSweepModels.Robot;
 import src.main.java.XMLParse.FloorCell;
 import src.main.java.XMLParse.FloorPlan;
 import src.main.java.XMLParse.ParserFloorPlan;
@@ -67,9 +66,100 @@ public class RobotMoveTest {
 		fc.setXCoordinates(2);
 		fc.setYCoordinates(0);
 		robot.Move(fc,true);
-		
-
 		}
+	
+	@Test
+	public void testMoveToChargerOneCellMove() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		FloorCell fc = new FloorCell() ;
+		fc.setXCoordinates(1);
+		fc.setYCoordinates(0);
+		robot.Move(fc,true);
+		robot.ChargeAndEmpty();
+		assertEquals(50, robot.getPower(),0);
+		//assertEquals(0, robot.getDirtCollected(),0);
+		
+		}
+
+	@Test
+	public void testMoveToChargertwoCellMove() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		FloorCell fc = new FloorCell() ;
+		fc.setXCoordinates(1);
+		fc.setYCoordinates(0);
+		robot.Move(fc,true);
+		FloorCell fc2 = new FloorCell() ;
+		fc2.setXCoordinates(2);
+		fc2.setYCoordinates(0);
+		robot.Move(fc2,true);
+		robot.ChargeAndEmpty();
+		assertEquals(50, robot.getPower(),0);
+
+		
+		}
+	
+	@Test
+	public void testEmptyBinCleanOneCell() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		FloorCell fc = new FloorCell() ;
+		fc.setXCoordinates(1);
+		fc.setYCoordinates(0);
+		robot.Move(fc,true);
+		robot.ChargeAndEmpty();
+		assertEquals(0, robot.getDirtCollected(),0);
+		}
+
+	@Test
+	public void testEmptyBinCleanMoreCell() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		FloorCell fc = new FloorCell() ;
+		fc.setXCoordinates(1);
+		fc.setYCoordinates(0);
+		robot.Move(fc,true);
+		
+		FloorCell fc2 = new FloorCell() ;
+		fc2.setXCoordinates(2);
+		fc2.setYCoordinates(0);
+		robot.Move(fc2,true);
+
+		robot.ChargeAndEmpty();
+		assertEquals(0, robot.getDirtCollected(),0);
+		}
+
+	@Test
+	public void testResetBreadCrumbPowerNeededCleanMoreCell() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		FloorCell fc = new FloorCell() ;
+		fc.setXCoordinates(1);
+		fc.setYCoordinates(0);
+		robot.Move(fc,true);
+		
+		FloorCell fc2 = new FloorCell() ;
+		fc2.setXCoordinates(2);
+		fc2.setYCoordinates(0);
+		robot.Move(fc2,true);
+
+		robot.resetBreadCrumbPowerNeeded();
+		assertEquals(0.0, robot.getBreadCrumbPowerNeeded(),0);
+		}
+	
+	@Test
+	public void testresetBreadCrumbPowerNeededCleanOneCell() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		FloorCell fc = new FloorCell() ;
+		fc.setXCoordinates(1);
+		fc.setYCoordinates(0);
+		robot.Move(fc,true);
+		robot.resetBreadCrumbPowerNeeded();
+		assertEquals(0.0, robot.getBreadCrumbPowerNeeded(),0);
+		}
+	
 	
 	private void initRobot()throws ParserConfigurationException, SAXException,IOException  {
 		if(robot==null) {
