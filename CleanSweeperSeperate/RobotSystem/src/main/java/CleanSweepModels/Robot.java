@@ -77,7 +77,7 @@ public class Robot {
 		resetBreadCrumbPowerNeeded();
 		ChargeAndEmpty();		
 	}
-	private FloorPlan getFloorPlan() {
+	public FloorPlan getFloorPlan() {
 		return this._floorPlan;
 	}
 	private void addBreadCrumb(FloorCell fc) {
@@ -95,7 +95,7 @@ public class Robot {
 	public void resetBreadCrumbPowerNeeded() {
 		this._breadcrumbPowerNeeded = 0;
 	}
-	private void addToBreadCrumbPowerNeeded(Point point) {
+	public void addToBreadCrumbPowerNeeded(Point point) {
 		this._breadcrumbPowerNeeded += this.calculatePowerToMove(point);
 	}
 	public void subtractFromBreadCrumbPowerNeeded(Point point) {
