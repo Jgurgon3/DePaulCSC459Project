@@ -14,7 +14,9 @@ import org.xml.sax.SAXException;
 import src.main.java.CleanSweepModels.*;
 import src.main.java.XMLParse.FloorCell;
 import src.main.java.XMLParse.FloorPlan;
+import src.main.java.XMLParse.FloorTypes;
 import src.main.java.XMLParse.ParserFloorPlan;
+import src.main.java.XMLParse.Point;
 
 public class RobotMoveTest {
 	@Rule
@@ -160,7 +162,177 @@ public class RobotMoveTest {
 		assertEquals(0.0, robot.getBreadCrumbPowerNeeded(),0);
 		}
 	
+	@Test
+	public void testAddToBreadCrumbPowerNeededHighCarpet() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		Point p= new Point(0, 1);
+		FloorCell fcHigh = robot.getFloorPlan().getCellByPoint(p);
+		fcHigh.setFloorType(FloorTypes.HIGH);
+		fcHigh.setCleaned(false);
+		robot.addToBreadCrumbPowerNeeded(p);
+		assertEquals(3, robot.getBreadCrumbPowerNeeded(),0);
+		}
+	@Test
+	public void testAddToBreadCrumbPowerNeededLawCarpet() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		Point p= new Point(0, 1);
+		FloorCell fcHigh = robot.getFloorPlan().getCellByPoint(p);
+		fcHigh.setFloorType(FloorTypes.LOW);
+		fcHigh.setCleaned(false);
+		robot.addToBreadCrumbPowerNeeded(p);
+		assertEquals(2, robot.getBreadCrumbPowerNeeded(),0);
+		}
 	
+	@Test
+	public void testAddToBreadCrumbPowerNeededBare() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		Point p= new Point(0, 1);
+		FloorCell fcHigh = robot.getFloorPlan().getCellByPoint(p);
+		fcHigh.setFloorType(FloorTypes.BARE);
+		fcHigh.setCleaned(false);
+		robot.addToBreadCrumbPowerNeeded(p);
+		assertEquals(1, robot.getBreadCrumbPowerNeeded(),0);
+		}
+	
+	@Test
+	public void testAddToBreadCrumbPowerNeededHighBare() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		Point p= new Point(0, 1);
+		FloorCell fcHigh = robot.getFloorPlan().getCellByPoint(p);
+		fcHigh.setFloorType(FloorTypes.HIGH);
+		fcHigh.setCleaned(false);
+		robot.Move(p);
+		robot.addToBreadCrumbPowerNeeded(p);
+		
+		Point p2= new Point(0, 2);
+		FloorCell fcBare = robot.getFloorPlan().getCellByPoint(p2);
+		fcBare.setFloorType(FloorTypes.BARE);
+		fcBare.setCleaned(false);
+		robot.addToBreadCrumbPowerNeeded(p2);
+		assertEquals(4, robot.getBreadCrumbPowerNeeded(),0);
+		}
+
+	@Test
+	public void testAddToBreadCrumbPowerNeededHighLow() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		Point p= new Point(0, 1);
+		FloorCell fcHigh = robot.getFloorPlan().getCellByPoint(p);
+		fcHigh.setFloorType(FloorTypes.HIGH);
+		fcHigh.setCleaned(false);
+		robot.Move(p);
+		robot.addToBreadCrumbPowerNeeded(p);
+		
+		Point p2= new Point(0, 2);
+		FloorCell fclow = robot.getFloorPlan().getCellByPoint(p2);
+		fclow.setFloorType(FloorTypes.LOW);
+		fclow.setCleaned(false);
+		robot.addToBreadCrumbPowerNeeded(p2);
+		assertEquals(5, robot.getBreadCrumbPowerNeeded(),0);
+		}
+
+	@Test
+	public void testAddToBreadCrumbPowerNeededHighHigh() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		Point p= new Point(0, 1);
+		FloorCell fcHigh = robot.getFloorPlan().getCellByPoint(p);
+		fcHigh.setFloorType(FloorTypes.HIGH);
+		fcHigh.setCleaned(false);
+		robot.Move(p);
+		robot.addToBreadCrumbPowerNeeded(p);
+		
+		Point p2= new Point(0, 2);
+		FloorCell fcHigh2 = robot.getFloorPlan().getCellByPoint(p2);
+		fcHigh2.setFloorType(FloorTypes.HIGH);
+		fcHigh2.setCleaned(false);
+		robot.addToBreadCrumbPowerNeeded(p2);
+		assertEquals(6, robot.getBreadCrumbPowerNeeded(),0);
+		}
+	
+
+	@Test
+	public void testAddToBreadCrumbPowerNeededLowLow() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		Point p= new Point(0, 1);
+		FloorCell fcLow = robot.getFloorPlan().getCellByPoint(p);
+		fcLow.setFloorType(FloorTypes.LOW);
+		fcLow.setCleaned(false);
+		robot.Move(p);
+		robot.addToBreadCrumbPowerNeeded(p);
+		
+		Point p2= new Point(0, 2);
+		FloorCell fcLow2 = robot.getFloorPlan().getCellByPoint(p2);
+		fcLow2.setFloorType(FloorTypes.LOW);
+		fcLow2.setCleaned(false);
+		robot.addToBreadCrumbPowerNeeded(p2);
+		assertEquals(4, robot.getBreadCrumbPowerNeeded(),0);
+		}
+
+
+	@Test
+	public void testAddToBreadCrumbPowerNeededBareBare() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		Point p= new Point(0, 1);
+		FloorCell fcBare = robot.getFloorPlan().getCellByPoint(p);
+		fcBare.setFloorType(FloorTypes.BARE);
+		fcBare.setCleaned(false);
+		robot.Move(p);
+		robot.addToBreadCrumbPowerNeeded(p);
+		
+		Point p2= new Point(0, 2);
+		FloorCell fcBare2 = robot.getFloorPlan().getCellByPoint(p2);
+		fcBare2.setFloorType(FloorTypes.BARE);
+		fcBare2.setCleaned(false);
+		robot.addToBreadCrumbPowerNeeded(p2);
+		assertEquals(2, robot.getBreadCrumbPowerNeeded(),0);
+		}
+	
+
+	@Test
+	public void testAddToBreadCrumbPowerNeededBareLow() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		Point p= new Point(0, 1);
+		FloorCell fcBare = robot.getFloorPlan().getCellByPoint(p);
+		fcBare.setFloorType(FloorTypes.BARE);
+		fcBare.setCleaned(false);
+		robot.Move(p);
+		robot.addToBreadCrumbPowerNeeded(p);
+		
+		Point p2= new Point(0, 2);
+		FloorCell fclow = robot.getFloorPlan().getCellByPoint(p2);
+		fclow.setFloorType(FloorTypes.LOW);
+		fclow.setCleaned(false);
+		robot.addToBreadCrumbPowerNeeded(p2);
+		assertEquals(3, robot.getBreadCrumbPowerNeeded(),0);
+		}
+
+	@Test
+	public void testAddToBreadCrumbPowerNeededBareHigh() throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException  {
+		robot =null;
+		initRobot(); 
+		Point p= new Point(0, 1);
+		FloorCell fcBare = robot.getFloorPlan().getCellByPoint(p);
+		fcBare.setFloorType(FloorTypes.BARE);
+		fcBare.setCleaned(false);
+		robot.Move(p);
+		robot.addToBreadCrumbPowerNeeded(p);
+		
+		Point p2= new Point(0, 2);
+		FloorCell fcHigh = robot.getFloorPlan().getCellByPoint(p2);
+		fcHigh.setFloorType(FloorTypes.HIGH);
+		fcHigh.setCleaned(false);
+		robot.addToBreadCrumbPowerNeeded(p2);
+		assertEquals(4, robot.getBreadCrumbPowerNeeded(),0);
+		}
+
 	private void initRobot()throws ParserConfigurationException, SAXException,IOException  {
 		if(robot==null) {
 			FloorPlan fp = (ParserFloorPlan.runParser("xml3x3.xml"));
