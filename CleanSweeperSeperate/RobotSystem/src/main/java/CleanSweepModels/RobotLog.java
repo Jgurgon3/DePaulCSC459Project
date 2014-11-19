@@ -11,65 +11,69 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class RobotLog {
-	
+
 	public enum LogActivityTypes {
-	    MOVE ("MOVE"),
-	    WAKEUP ("WAKE UP"),
-	    OUTOFPOWER ("OUT OF POWER"),
-	    NOTENOUGHPOWER ("NOT ENOUGH POWER"),
-	    CLEANED ("CLEANED"),
-	    RETURNTOCHARGER("RETURNING TO CHARGER");
+		MOVE("MOVE"), WAKEUP("WAKE UP"), OUTOFPOWER("OUT OF POWER"), NOTENOUGHPOWER(
+				"NOT ENOUGH POWER"), CLEANED("CLEANED"), RETURNTOCHARGER(
+				"RETURNING TO CHARGER");
 
-	    private final String name;       
+		private final String name;
 
-	    private LogActivityTypes(String s) {
-	        name = s;
-	    }
+		private LogActivityTypes(String s) {
+			name = s;
+		}
 
-	    public boolean equalsName(String otherName){
-	        return (otherName == null)? false:name.equals(otherName);
-	    }
+		public boolean equalsName(String otherName) {
+			return (otherName == null) ? false : name.equals(otherName);
+		}
 
-	    public String toString(){
-	       return name;
-	    }
+		public String toString() {
+			return name;
+		}
 
 	}
-	 private List<String> _log = new ArrayList<String>();
+
+	private List<String> _log = new ArrayList<String>();
+
 	public RobotLog() {
-		
+
 	}
+
 	public void addLog(LogActivityTypes type, String action) {
-		String now = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
-		
+		String now = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+				.format(Calendar.getInstance().getTime());
+
 		_log.add(now + " - " + type + " - " + action);
 	}
+
 	public void clearLog() {
 		_log.clear();
 	}
+
 	public void dumpLog() {
 		for (String s : _log) {
 			System.out.println(s);
 		}
 		writeLog();
-		
-	}
-	public void writeLog() {
-		//write to file
-				try {
-				    File f = new File("RobotLog.txt");
-				    if (!f.exists()) {
-			            f.createNewFile();
-			        }
-				    FileWriter fw = new FileWriter(f.getAbsoluteFile());
-			        BufferedWriter bw = new BufferedWriter(fw);
 
-			        for(String s : _log) {
-			            bw.write(s + System.getProperty("line.separator")); 
-			        }
-			        bw.close();
-				} catch(Exception ex) {
-				    ex.printStackTrace();
-				}
+	}
+
+	public void writeLog() {
+		// write to file
+		try {
+			File f = new File("RobotLog.txt");
+			if (!f.exists()) {
+				f.createNewFile();
+			}
+			FileWriter fw = new FileWriter(f.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+
+			for (String s : _log) {
+				bw.write(s + System.getProperty("line.separator"));
+			}
+			bw.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }
