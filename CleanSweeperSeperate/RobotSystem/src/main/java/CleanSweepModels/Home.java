@@ -32,7 +32,7 @@ public class Home {
 				startRobot(path);
 			}
 		} catch (Exception exp) {
-            logger.log(Level.SEVERE, exp.getMessage());
+            logger.log(Level.SEVERE, "Error starting robot with log", exp);
 		}
 
 	}

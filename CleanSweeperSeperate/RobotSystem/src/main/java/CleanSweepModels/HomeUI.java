@@ -93,7 +93,7 @@ class DrawPanel extends JPanel {
 			try {
 				Thread.sleep(50);
 			} catch (Exception e) {
-                logger.log(Level.SEVERE, e.getMessage());
+                logger.log(Level.SEVERE, "Error starting animation", e);
 			}
 
 		}
@@ -222,7 +222,7 @@ public class HomeUI {
 
 		} catch (Exception exp) {
 
-            logger.log(Level.SEVERE, exp.getMessage());
+            logger.log(Level.SEVERE, "Error starting robot with file", exp);
 		}
 
 	}

@@ -4,9 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -76,7 +74,7 @@ public class RobotLog {
 			}
 			bw.close();
 		} catch (Exception ex) {
-            logger.log(Level.SEVERE, ex.getMessage());
+            logger.log(Level.SEVERE, "Error writing to log file", ex);
 		}
 	}
 }

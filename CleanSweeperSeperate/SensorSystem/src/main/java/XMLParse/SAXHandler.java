@@ -10,7 +10,7 @@ public class SAXHandler extends DefaultHandler {
 	List<FloorCell> floorCellList = new ArrayList<>();
 	FloorCell floorCell = null;
 	String content = null;
-	FloorPlan _fp = new FloorPlan(); // this may change
+	FloorPlan fp = new FloorPlan(); // this may change
 
 	@Override
 	// Triggered when the start of tag is found.
@@ -39,12 +39,12 @@ public class SAXHandler extends DefaultHandler {
 					.toString(attributes.getValue("ps").charAt(2))));
 			floorCell.setSouthObstructions(FloorObstructions.setValue(Character
 					.toString(attributes.getValue("ps").charAt(3))));
-			this._fp.AddCell(floorCell);
+			this.fp.AddCell(floorCell);
 			// moved below so robot can store cell in memory when instantiated
 			if (Integer.parseInt(attributes.getValue("cs").trim()) == 1) {
 				int xCoor = Integer.parseInt(attributes.getValue("xs").trim());
 				int yCoor = Integer.parseInt(attributes.getValue("ys").trim());
-				this._fp.setChargingStation();
+				this.fp.setChargingStation();
 			}
 			break;
 		}

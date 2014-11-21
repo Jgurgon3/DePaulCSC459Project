@@ -1,24 +1,18 @@
 package src.main.java.XMLParse;
 
-import src.main.java.XMLParse.Point;
 //import src.main.java.CleanSweepModels.Robot;
 //import src.main.java.CleanSweepModels.Types.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.lang.StringBuilder;
+        import java.util.HashMap;
+        import java.util.Map;
 
 public class FloorPlan {
 
 	private ChargingStation _chargingStation;
 
-	private boolean _foundDirtyCell = true;
-	private ArrayList<ArrayList<FloorCell>> _prevBreadCrumbs = new ArrayList<ArrayList<FloorCell>>();
+	private boolean foundDirtyCell = true;
+	private ArrayList<ArrayList<FloorCell>> prevBreadCrumbs = new ArrayList<ArrayList<FloorCell>>();
 
 	private Map<Point, FloorCell> _data = new HashMap<Point, FloorCell>();
 
@@ -47,11 +41,11 @@ public class FloorPlan {
 	}
 
 	public boolean getFoundDirtyCell() {
-		return this._foundDirtyCell;
+		return this.foundDirtyCell;
 	}
 
 	public void setFoundDirtyCell(boolean flag) {
-		this._foundDirtyCell = flag;
+		this.foundDirtyCell = flag;
 	}
 
 	public void AddCell(FloorCell fc) {
@@ -62,11 +56,11 @@ public class FloorPlan {
 	}
 
 	public void addPreviousBreadCrumb(ArrayList<FloorCell> lFc) {
-		this._prevBreadCrumbs.add(lFc);
+		this.prevBreadCrumbs.add(lFc);
 	}
 
 	public ArrayList<ArrayList<FloorCell>> getPreviousBreadCrumb() {
-		return this._prevBreadCrumbs;
+		return this.prevBreadCrumbs;
 	}
 
 	public Map<Point, FloorCell> getFloorPlanData() {

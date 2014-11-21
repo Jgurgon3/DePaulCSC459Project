@@ -1,8 +1,5 @@
 package src.main.java.XMLParse;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FloorCell implements Comparable<FloorCell> {
 	private int xCoor;
 	private int yCoor;
@@ -10,10 +7,10 @@ public class FloorCell implements Comparable<FloorCell> {
 	private String pathSensor;
 	private int dirtUnits;
 	private int chargingStation;
-	private FloorObstructions _northObstructions;
-	private FloorObstructions _southObstructions;
-	private FloorObstructions _eastObstructions;
-	private FloorObstructions _westObstructions;
+	private FloorObstructions northObstructions;
+	private FloorObstructions southObstructions;
+	private FloorObstructions eastObstructions;
+	private FloorObstructions westObstructions;
 	private boolean cleaned = false;
 	private int _visited = 0;
 	private long _visitedTime;
@@ -84,35 +81,35 @@ public class FloorCell implements Comparable<FloorCell> {
 	}
 
 	public FloorObstructions getNorthObstructions() {
-		return this._northObstructions;
+		return this.northObstructions;
 	}
 
 	public FloorObstructions getSouthObstructions() {
-		return this._southObstructions;
+		return this.southObstructions;
 	}
 
 	public FloorObstructions getEastObstructions() {
-		return this._eastObstructions;
+		return this.eastObstructions;
 	}
 
 	public FloorObstructions getWestObstructions() {
-		return this._westObstructions;
+		return this.westObstructions;
 	}
 
 	public void setNorthObstructions(FloorObstructions val) {
-		this._northObstructions = val;
+		this.northObstructions = val;
 	}
 
 	public void setSouthObstructions(FloorObstructions val) {
-		this._southObstructions = val;
+		this.southObstructions = val;
 	}
 
 	public void setEastObstructions(FloorObstructions val) {
-		this._eastObstructions = val;
+		this.eastObstructions = val;
 	}
 
 	public void setWestObstructions(FloorObstructions val) {
-		this._westObstructions = val;
+		this.westObstructions = val;
 	}
 
 	public void Clean() {

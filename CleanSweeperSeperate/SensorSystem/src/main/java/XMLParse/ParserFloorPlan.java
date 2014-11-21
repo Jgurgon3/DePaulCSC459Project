@@ -1,7 +1,6 @@
 package src.main.java.XMLParse;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -21,7 +20,7 @@ public class ParserFloorPlan {
 		SAXHandler handler = new SAXHandler();
 		// parser.parse(ClassLoader.getSystemResourceAsStream(path),handler);
 		parser.parse(path, handler);
-		return handler._fp;
+		return handler.fp;
 
 	}
 
