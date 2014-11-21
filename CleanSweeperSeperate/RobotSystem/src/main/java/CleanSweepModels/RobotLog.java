@@ -9,8 +9,11 @@ import java.io.FileWriter;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RobotLog {
+    private final static Logger logger = Logger.getLogger(DrawPanel.class.getName());
 
 	public enum LogActivityTypes {
 		MOVE("MOVE"), WAKEUP("WAKE UP"), OUTOFPOWER("OUT OF POWER"), NOTENOUGHPOWER(
@@ -73,7 +76,7 @@ public class RobotLog {
 			}
 			bw.close();
 		} catch (Exception ex) {
-			ex.printStackTrace();
+            logger.log(Level.SEVERE, ex.getMessage());
 		}
 	}
 }

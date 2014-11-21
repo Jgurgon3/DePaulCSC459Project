@@ -2,13 +2,16 @@ package src.main.java.CleanSweepModels;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import src.main.java.XMLParse.*;
 
 public class Home {
+    private final static Logger logger = Logger.getLogger(Home.class.getName());
 
-	public static void main(String[] args) throws IOException,
+    public static void main(String[] args) throws IOException,
 			ParserConfigurationException, SAXException {
 
 		String path = "BIGxml.xml";
@@ -16,8 +19,9 @@ public class Home {
 		try {
 			if (args.length > 0) {
 
-				if (isValidXML(args[0]))
+				if (isValidXML(args[0])) {
 					path = args[0];
+				}
 				else {
 					System.out
 							.println("Invalid file path. Path must be to a valid XML file");
@@ -28,7 +32,7 @@ public class Home {
 				startRobot(path);
 			}
 		} catch (Exception exp) {
-			System.out.println(exp.getMessage());
+            logger.log(Level.SEVERE, exp.getMessage());
 		}
 
 	}
@@ -65,8 +69,9 @@ public class Home {
 				}
 			}
 			return false;
-		} else
+		} else {
 			return false;
+		}
 	}
 
 }

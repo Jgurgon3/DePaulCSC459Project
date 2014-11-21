@@ -25,7 +25,7 @@ public class Robot {
 	private HashMap<Point, FloorCell> _memory = new HashMap<Point, FloorCell>();
 	private RobotLog _log = new RobotLog();
 	private double _breadcrumbPowerNeeded = 0;
-	private final int maxAllowableDirt = 50;
+	private final static int maxAllowableDirt = 50;
 	private ArrayList<FloorCell> _breadCrumb = new ArrayList<FloorCell>();
 
 	public Point getCoordinates() {
@@ -119,9 +119,10 @@ public class Robot {
 	}
 
 	private void setReturnToChargerFlag(boolean bool) {
-		if (bool)
+		if (bool) {
 			_log.addLog(LogActivityTypes.RETURNTOCHARGER,
 					"Returning to charger station");
+		}
 		this._returnToChargerFlag = bool;
 	}
 

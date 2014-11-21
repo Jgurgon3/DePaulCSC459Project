@@ -120,12 +120,14 @@ public class FloorCell implements Comparable<FloorCell> {
 		if (this.getCoordinates().equals(new Point(1, 8))) {
 			x++;
 		}
-		if (this.getDirtUnits() == 0)
-			this.setCleaned(true);
+		if (this.getDirtUnits() == 0) {
+            this.setCleaned(true);
+        }
 		else {
 			this.setDirtUnits(this.getDirtUnits() - 1);
-			if (this.getDirtUnits() == 0)
-				this.setCleaned(true);
+			if (this.getDirtUnits() == 0) {
+                this.setCleaned(true);
+            }
 		}
 
 	}
@@ -138,9 +140,7 @@ public class FloorCell implements Comparable<FloorCell> {
 			return 1;
 		}
 
-		else {
-
-			if (fc.getVisited() > this.getVisited()) {
+		else { if (fc.getVisited() > this.getVisited()) {
 				return -1;
 			} else if (fc.getVisited() < this.getVisited()) {
 				return 1;
@@ -149,8 +149,9 @@ public class FloorCell implements Comparable<FloorCell> {
 					return -1;
 				} else if (fc.getVisitedTime() < this.getVisitedTime()) {
 					return -1;
-				} else
-					return 0;
+				} else {
+                    return 0;
+                }
 			}
 
 		}
