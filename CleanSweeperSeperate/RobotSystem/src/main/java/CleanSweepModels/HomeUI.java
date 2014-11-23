@@ -9,6 +9,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -182,7 +183,9 @@ class DrawPanel extends JPanel {
 
 public class HomeUI {
     private final static Logger logger = Logger.getLogger(HomeUI.class.getName());
+    private final static Scanner in = new Scanner(System.in);
 	public HomeUI(FloorPlan fp, Robot r) {
+
 		JFrame mainFrame = new JFrame();
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setSize(600, 600);
@@ -191,41 +194,56 @@ public class HomeUI {
 		mainFrame.add(dp);
 		mainFrame.setVisible(true);
 		dp.runAnimation();
+
+        System.out.println("Press enter to obtain log dump");
+        in.nextLine();
+        r.dumpLog();
+
 	}
 
 	public static void main(String[] args) {
-		boolean error = false;
-		String path = "BIGxml.xml";
+        boolean error = false;
+        String path = "BIGxml.xml";
 
-		try {
-			if (args.length > 0) {
 
-				if (isValidXML(args[0])) {
-					path = args[0];
-				} else {
-					System.out
-							.println("Invalid file path. Path must be to a valid XML file");
-					error = true;
-				}
-			}
-			if (!error) {
-				final FloorPlan fp = startRobot(path);
-				final Robot r = new Robot(0, 0, fp);
+        try {
+            if (args.length > 0) {
 
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						HomeUI ex = new HomeUI(fp, r);
-					}
-				});
+                if (isValidXML(args[0])) {
+                    path = args[0];
+                } else {
+                    System.out
+                            .println("Invalid file path. Path must be to a valid XML file");
+                    error = true;
+                }
+            } else {
+                System.out.println("Enter a valid Floor Path XML File");
 
-			}
+                path = in.nextLine();
+                if (!isValidXML(path)) {
+                    error = true;
+                    System.out.println("Invalid XML file path");
+                }
+            }
+            if (!error) {
+                final FloorPlan fp = startRobot(path);
+                final Robot r = new Robot(0, 0, fp);
 
-		} catch (Exception exp) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        HomeUI ex = new HomeUI(fp, r);
+                    }
+                });
+
+            }
+
+
+        } catch (Exception exp) {
 
             logger.log(Level.SEVERE, "Error starting robot with file", exp);
-		}
+        }
 
-	}
+    }
 
 	public static FloorPlan startRobot(String path)
 			throws ParserConfigurationException, SAXException, IOException {
