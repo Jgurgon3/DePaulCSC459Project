@@ -1,6 +1,8 @@
-C:\Users\Jim\workspace\CleanSweeperSeperate1\CleanSweeperSeperate\RobotSystem\src\main\java\CleanSweepModels\RobotLog.java
-C:\Users\Jim\workspace\CleanSweeperSeperate1\CleanSweeperSeperate\RobotSystem\src\main\java\CleanSweepModels\Home.java
-C:\Users\Jim\workspace\CleanSweeperSeperate1\CleanSweeperSeperate\RobotSystem\src\main\java\CleanSweepModels\HomeUI.java
-C:\Users\Jim\workspace\CleanSweeperSeperate1\CleanSweeperSeperate\RobotSystem\src\main\java\service\PowerService.java
-C:\Users\Jim\workspace\CleanSweeperSeperate1\CleanSweeperSeperate\RobotSystem\src\main\java\service\RouteService.java
-C:\Users\Jim\workspace\CleanSweeperSeperate1\CleanSweeperSeperate\RobotSystem\src\main\java\CleanSweepModels\Robot.java
+C:\Users\Jim\workspace\CleanSweeperSeperate1\CleanSweeperSeperate\SensorSystem\src\main\java\XMLParse\FloorObstructions.java
+C:\Users\Jim\workspace\CleanSweeperSeperate1\CleanSweeperSeperate\SensorSystem\src\main\java\XMLParse\ParserFloorPlan.java
+C:\Users\Jim\workspace\CleanSweeperSeperate1\CleanSweeperSeperate\SensorSystem\src\main\java\XMLParse\Point.java
+C:\Users\Jim\workspace\CleanSweeperSeperate1\CleanSweeperSeperate\SensorSystem\src\main\java\XMLParse\SAXHandler.java
+C:\Users\Jim\workspace\CleanSweeperSeperate1\CleanSweeperSeperate\SensorSystem\src\main\java\XMLParse\FloorCell.java
+C:\Users\Jim\workspace\CleanSweeperSeperate1\CleanSweeperSeperate\SensorSystem\src\main\java\XMLParse\ChargingStation.java
+C:\Users\Jim\workspace\CleanSweeperSeperate1\CleanSweeperSeperate\SensorSystem\src\main\java\XMLParse\FloorPlan.java
+C:\Users\Jim\workspace\CleanSweeperSeperate1\CleanSweeperSeperate\SensorSystem\src\main\java\XMLParse\FloorTypes.java
