@@ -7,6 +7,12 @@ To run the application:
 From Command Line:
 java -cp ".;.\RobotSystem-0.0.1-SNAPSHOT.jar;.\SensorSystem-0.0.1-SNAPSHOT.jar" src.main.java.CleanSweepModels.HomeUI
 
+From CMD
+java -cp .;RobotSystem-0.0.1-SNAPSHOT.jar;SensorSystem-0.0.1-SNAPSHOT.jar" src.main.java.CleanSweepModels.HomeUI
+
+
+For non GUI version replace HomeUI with Home
+
 
 -	 Enter xml file location
 
